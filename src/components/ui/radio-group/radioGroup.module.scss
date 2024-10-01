@@ -1,0 +1,140 @@
+button {
+  all: unset;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.RadioGroupRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+
+  .RadioGroupItem {
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+
+    background-color: var(--color-dark-900);
+    border: 2px solid var(--color-light-100);
+    border-radius: 100%;
+
+    &:hover {
+      background-color: var(--color-dark-500);
+      box-shadow: 0 0 0 6px var(--color-dark-500);
+    }
+
+    &:focus {
+      background-color: var(--color-dark-700);
+      box-shadow: 0 0 0 6px var(--color-dark-700);
+    }
+
+    &:active {
+      background-color: var(--color-dark-300);
+      box-shadow: 0 0 0 6px var(--color-dark-300);
+    }
+
+    &:disabled {
+      border: 2px solid var(--color-light-300);
+    }
+
+    &:disabled:hover {
+      box-shadow: none;
+    }
+
+    .RadioGroupIndicator {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+      height: 100%;
+
+      &::after {
+        content: '';
+
+        display: block;
+
+        width: 12px;
+        height: 12px;
+
+        background-color: var(--color-light-100);
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .RadioGroupItem:disabled {
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+
+    background-color: var(--color-dark-900);
+    border: 2px solid var(--color-dark-300);
+    border-radius: 100%;
+
+    .RadioGroupIndicator {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+      height: 100%;
+
+      &::after {
+        content: '';
+
+        display: block;
+
+        width: 12px;
+        height: 12px;
+
+        background-color: var(--color-dark-300);
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .Label {
+    cursor: pointer;
+
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    padding-left: 15px;
+
+    font-size: 15px;
+    line-height: 1;
+    color: white;
+  }
+
+  .LabelColorDisabled {
+    color: var(--color-dark-300);
+  }
+}
+
+.errorMsg {
+  position: absolute;
+  bottom: -27px;
+  left: 10px;
+
+  display: none;
+
+  width: 300px;
+  height: var(--font-size-m);
+  margin: 4px 0;
+
+  font-size: var(--font-size-xs);
+  color: var(--color-danger-500);
+
+  &.show {
+    display: block;
+  }
+}

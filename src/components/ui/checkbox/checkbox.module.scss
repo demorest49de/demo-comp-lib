@@ -1,0 +1,94 @@
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxShadow {
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease;
+}
+
+.shadowEnabled {
+  box-shadow: 0 0 0 7px var(--color-dark-100);
+}
+
+.checkboxShadow:hover {
+  box-shadow: 0 0 0 7px var(--color-dark-300);
+}
+
+.checkboxShadowNoHover:hover {
+  box-shadow: unset;
+}
+
+.checkboxShadow:focus {
+  box-shadow: 0 0 0 7px var(--color-dark-500);
+}
+
+.checkboxShadowNoFocus:focus {
+  box-shadow: unset;
+}
+
+.checkboxRoot {
+  all: unset;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+
+  background-color: var(--color-light-100);
+  border-radius: 2px;
+}
+
+.checkboxRoot:disabled {
+  background-color: var(--color-dark-100);
+}
+
+.checkboxUnchecked {
+  box-sizing: border-box;
+  background-color: var(--color-dark-900);
+  border: 2px solid var(--color-light-500);
+}
+
+.checkboxIndicator {
+  padding-top: 3px;
+  color: var(--color-dark-900);
+}
+
+.checkboxLabel {
+  cursor: pointer;
+
+  padding-left: 8px;
+
+  font-family: Inter, serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--color-light-100);
+}
+
+.checkboxLabelDisabled {
+  cursor: default;
+  color: var(--color-light-900);
+}
+
+.checkboxRoot.error {
+  border-color: var(--color-danger-500);
+}
+
+.errorMsg {
+  height: var(--font-size-m);
+  margin: 4px 0;
+
+  font-size: var(--font-size-xs);
+  color: var(--color-danger-500);
+
+  visibility: hidden;
+
+  &.show {
+    height: auto;
+    visibility: visible;
+  }
+}

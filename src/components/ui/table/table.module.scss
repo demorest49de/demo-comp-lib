@@ -1,0 +1,45 @@
+.root {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.head {
+  background-color: var(--color-dark-500);
+}
+
+.body {
+  > .row {
+    border-bottom: 1px solid var(--color-dark-500);
+
+    &:hover {
+      background-color: var(--color-dark-700);
+      transition: 0.3s;
+    }
+  }
+}
+
+.headerCell {
+  user-select: none;
+  padding: 12px 24px;
+  text-align: left;
+}
+
+.headerCellSorting {
+  cursor: pointer;
+  background-color: var(--color-dark-300);
+  transition: 0.3s;
+}
+
+.cell {
+  cursor: default;
+  padding: 12px 24px;
+  word-break: break-word;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  padding-top: 69px;
+  color: var(--color-dark-100);
+}

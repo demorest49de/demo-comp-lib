@@ -1,0 +1,102 @@
+{
+  "name": "@demorest49de/ui-kit",
+  "private": false,
+  "version": "0.0.38",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build & tsc",
+    "format": "prettier --write src",
+    "lint": "eslint src --ext .jsx,.js,.tsx,.ts  --no-error-on-unmatched-pattern --fix && stylelint --fix src/{,*/}*.{scss,css} --allow-empty-input",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "rename-icons": "node scripts/rename-icons.cjs",
+    "replace-colors": "node scripts/replace-colors.cjs",
+    "generate-icons": "pnpm run rename-icons && npx @svgr/cli --out-dir src/assets/components --jsx-runtime automatic --typescript --ref --memo --icon -- src/assets/svg && pnpm run replace-colors && pnpm run format && pnpm run lint"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "dist/style.css"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.0.20",
+    "@fontsource/inter": "^5.0.20",
+    "@headlessui-float/react": "^0.15.0",
+    "@headlessui/react": "^2.1.8",
+    "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-checkbox": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-icons": "^1.3.0",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-popover": "^1.1.1",
+    "@radix-ui/react-radio-group": "^1.2.0",
+    "@radix-ui/react-scroll-area": "^1.1.0",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
+    "date-fns": "^3.6.0",
+    "lucide-react": "^0.446.0",
+    "react": "^18.3.1",
+    "react-datepicker": "4.18.0",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.2",
+    "sass": "^1.77.8",
+    "stylelint": "^16.8.1",
+    "tailwind-merge": "^2.4.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^2.0.2",
+    "@it-incubator/prettier-config": "^0.1.2",
+    "@it-incubator/stylelint-config": "^2.0.0",
+    "@ladle/react": "^4.1.0",
+    "@storybook/addon-actions": "^8.3.4",
+    "@storybook/addon-essentials": "^8.3.4",
+    "@storybook/addon-interactions": "^8.3.4",
+    "@storybook/addon-links": "^8.3.4",
+    "@storybook/addon-onboarding": "^8.3.4",
+    "@storybook/blocks": "^8.3.4",
+    "@storybook/react": "^8.3.4",
+    "@storybook/react-vite": "^8.3.4",
+    "@storybook/test": "^8.3.4",
+    "@storybook/theming": "^8.3.4",
+    "@types/node": "^22.1.0",
+    "@types/react": "^18.3.3",
+    "@types/react-datepicker": "^4.15.0",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
+    "@typescript-eslint/parser": "^7.15.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "eslint-plugin-storybook": "^0.9.0",
+    "postcss": "^8.4.41",
+    "prettier": "^3.3.3",
+    "storybook": "^8.3.4",
+    "tailwindcss": "^3.4.8",
+    "typescript": "5.4.2",
+    "vite": "^5.3.4",
+    "vite-plugin-dts": "4.0.0-beta.2"
+  }
+}
