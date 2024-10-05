@@ -40,6 +40,7 @@ export type ComboboxProps<T> = {
     portal?: boolean
     showClearButton?: boolean
     value: T | null
+    onInputClick: () =>  void
 }
 
 export const Combobox = <T extends number | string>({
@@ -58,9 +59,9 @@ export const Combobox = <T extends number | string>({
                                                         portal = true,
                                                         showClearButton = true,
                                                         value,
+                                                        onInputClick
                                                     }: ComboboxProps<T>) => {
-
-
+//     ()=>{console.log('clicked!')}
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = showClearButton && !!value
 
@@ -127,6 +128,7 @@ export const Combobox = <T extends number | string>({
                                 displayValue={getDisplayingValue}
                                 onChange={inputChangeHandler}
                                 placeholder={placeholder}
+                                onClick={onInputClick}
                             />
 
                             <div className={classNames.button}>
