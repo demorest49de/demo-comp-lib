@@ -5,7 +5,6 @@ import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {FormCombobox} from './form-combobox'
-import {Button} from "../../button/button"
 import {useState} from "react";
 
 const options = [
@@ -160,11 +159,9 @@ const options2 = [
 
 const FakeForm = () => {
 
-    const [valueCountry, setValueCountry] = useState<string | number | null>(null)
-    const [inputValueCountry, setInputValueCountry] = useState('')
+    const [valueCountry, setValueCountry] = useState<string | null>(null)
 
-    const [valueCity, setValueCity] = useState<string | number | null>(null)
-    const [inputValueCity, setInputValueCity] = useState('')
+    const [valueCity, setValueCity] = useState<string | null>(null)
 
     const FormSchema = z.object({
         country: z.string({message: 'This field is required'}),
@@ -181,17 +178,36 @@ const FakeForm = () => {
         console.log(data)
     }
 
+    const h2Styles: React.CSSProperties =  {textAlign: 'center'}
+    const formStyles = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        gap: "10px"
+    };
+
     return (
         <>
-            <h2 style={{margin: '10px 180px'}}>Form</h2>
-            <form onSubmit={handleSubmit(handleSubmitHandler)}>
+            <h2 style={h2Styles}>Form</h2>
+            <form style={formStyles} onSubmit={handleSubmit(handleSubmitHandler)}>
+
                 <FormCombobox
+                    control={control}
+                    name={'country'}
                     value={valueCountry}
-                    inputValue={inputValueCountry} control={control} name={'country'} options={options} onChange={setValueCountry}
-                              onInputChange={setInputValueCountry}/>
-                <FormCombobox value={valueCity} inputValue={inputValueCity} control={control} name={'city'} options={options2} onChange={setValueCity}
-                              onInputChange={setInputValueCity}/>
-                <Button>Submit</Button>
+                    options={options}
+                    setValue={setValueCountry}
+                    onInputClick={() => {
+                    }}
+                />
+                <FormCombobox
+                    control={control}
+                    name={'city'}
+                    value={valueCity}
+                    options={options2}
+                    setValue={setValueCity}
+                    onInputClick={() => {
+                    }}
+                />
             </form>
         </>
     )

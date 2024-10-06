@@ -3,43 +3,49 @@ import {ReactNode} from "react";
 import {Combobox, ComboboxOptionProps} from "@/components/ui/combobox";
 
 export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
-    control: Control<TFieldValues>,
-    name: Path<TFieldValues>,
+    control: Control<TFieldValues>
+    name: Path<TFieldValues>
+    options: ComboboxOptionProps<T>[]
+    value: T | null,
+    setValue: (value: T | null) => void
+    onInputClick: () => void
+    fullWidth?: boolean
+
+    inputValue?: string
+    onInputChange?: (value: string) => void
+
     rules?: UseControllerProps<TFieldValues>['rules']
     shouldUnregister?: boolean
+
+    onClear?: () => void
+    placeholder?: string
+
     isAsync?: boolean
     isLoading?: boolean
-    label?: ReactNode
-    placeholder?: string
-    options: ComboboxOptionProps<T>[]
     disabled?: boolean
+    errorMessage?: string
+    label?: ReactNode
     portal?: boolean
     showClearButton?: boolean
-    inputValue: string
-    onChange: (value: T | null) => void
-    onInputChange: (value: string) => void
-    value: T | null,
-    onInputClick: () => void
 }
 
 
-export const FormCombobox = <TFieldValues extends FieldValues, T extends string | number>({
-                                                                                              control,
-                                                                                              value,
-                                                                                              name,
-                                                                                              rules,
-                                                                                              shouldUnregister,
-                                                                                              disabled,
-                                                                                              inputValue,
-                                                                                              onChange,
-                                                                                              onInputChange,
-                                                                                              options,
-                                                                                              onInputClick,
-                                                                                              ...comboboxProps
-                                                                                          }: FormComboboxProps<TFieldValues, T>) => {
+export const FormCombobox = <TFieldValues extends FieldValues, T extends string>({
+                                                                                     control,
+                                                                                     name,
+                                                                                     options,
+                                                                                     value,
+                                                                                     setValue,
+                                                                                     onInputClick,
+                                                                                     fullWidth = true,
+                                                                                     rules,
+                                                                                     shouldUnregister,
+                                                                                     disabled,
+                                                                                     ...comboboxProps
+                                                                                 }: FormComboboxProps<TFieldValues, T>) => {
     const {
-        field,
-        fieldState: {error},
+        // field,
+        // fieldState: {error},
     } = useController({
         control,
         name,
@@ -47,20 +53,23 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string 
         shouldUnregister,
         disabled,
     })
+
+    const fullWidthStyle = {width: `100%`}
+
     return (
-        <Combobox
-            {...
-                {
-                    inputValue,
-                    onChange,
-                    onInputChange,
-                    name,
-                    value,
-                    options,
-                    onInputClick,
-                    ...comboboxProps,
+        <div style={fullWidth ? fullWidthStyle : {}}>
+            <Combobox
+                {...
+                    {
+                        name,
+                        options,
+                        value,
+                        setValue,
+                        onInputClick,
+                        ...comboboxProps,
+                    }
                 }
-            }
-        />
+            />
+        </div>
     )
 }

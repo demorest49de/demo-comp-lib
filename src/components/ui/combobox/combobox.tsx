@@ -1,4 +1,4 @@
-import {ChangeEvent, Fragment, MouseEventHandler, ReactNode} from 'react'
+import {ChangeEvent, Fragment, MouseEventHandler, ReactNode, useState} from 'react'
 
 import {Close, ArrowIosDownOutline} from '../../../assets/components'
 import {ScrollAreaComponent} from '../../ui/scroll/scrollArea'
@@ -11,57 +11,55 @@ import {clsx} from 'clsx'
 import selectStyle from './select.module.scss'
 import s from './combobox.module.scss'
 
-export type ComboboxOptionProps<T> = {
-    label: string
+export type ComboboxOptionProps<T = string> = {
+    label: T
     value: T
 }
 
 export type ComboboxProps<T> = {
-    // todo ???
-    isAsync?: boolean
-    isLoading?: boolean
 
-    // todo name для формы
-    name?: string
-    disabled?: boolean
-    errorMessage?: string
-    // todo уже сохраненное значение от пользователя (по-умолчанию передается "")
-    inputValue: string
-    label?: ReactNode
-
-    // todo функция для выбора новой опции
-    onChange: (value: T | null) => void
-    onClear?: () => void
-    onInputChange: (value: string) => void
-
+    name: string
     options: ComboboxOptionProps<T>[]
+    value: T | null
+    setValue: (value: T | null) => void
+    onInputClick: () =>  void
+
+    //todo необязательные + удалить ненужные
+    inputValue?: string
+    onInputChange?: (value: string) => void
+
+    // todo функция для выбора новой опции: нужна если опция была уже выбрана
+    onClear?: () => void
     placeholder?: string
 
+
+    isAsync?: boolean
+    isLoading?: boolean
+    disabled?: boolean
+    errorMessage?: string
+    label?: ReactNode
     portal?: boolean
     showClearButton?: boolean
-    value: T | null
-    onInputClick: () =>  void
 }
 
-export const Combobox = <T extends number | string>({
-                                                        disabled = false,
-                                                        errorMessage,
-                                                        inputValue,
+export const Combobox = <T extends string>({
+                                                        name,
+                                                        options,
+                                                        value,
+                                                        setValue: onChange,
+                                                        onInputClick,
+                                                        onClear,
+                                                        placeholder,
                                                         isAsync,
                                                         isLoading,
+                                                        disabled = false,
+                                                        errorMessage,
                                                         label,
-                                                        name,
-                                                        onChange,
-                                                        onClear,
-                                                        onInputChange,
-                                                        options,
-                                                        placeholder,
                                                         portal = true,
                                                         showClearButton = true,
-                                                        value,
-                                                        onInputClick
                                                     }: ComboboxProps<T>) => {
-//     ()=>{console.log('clicked!')}
+
+    const [inputValue, setInputValue] = useState('')
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = showClearButton && !!value
 
@@ -70,11 +68,11 @@ export const Combobox = <T extends number | string>({
         if (e.currentTarget.value === '') {
             onChange(null)
         }
-        onInputChange(e.currentTarget.value)
+        setInputValue(e.currentTarget.value)
     }
 
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
-        onInputChange('')
+        setInputValue('')
         onChange(null)
     }
 
@@ -101,7 +99,7 @@ export const Combobox = <T extends number | string>({
         label: s.label,
     }
 
-    const getDisplayingValue = (value: number | string) =>
+    const getDisplayingValue = (value: string) =>
         options?.find(option => option.value === value)?.label || ''
 
     return (

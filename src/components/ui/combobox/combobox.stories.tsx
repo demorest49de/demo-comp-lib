@@ -49,24 +49,24 @@ export default {
 
 export const Simple = {
     args: {
+        name: 'country',
+        label: 'Select country',
         options,
-        label: 'label',
-        placeholder: 'select country...',
     },
 
     render: (args: ComboboxProps<string>) => {
+
         const [value, setValue] = useState<string | null>(null)
-        const [inputValue, setInputValue] = useState('')
+
 
         return (
             <>
-                <div style={{width: 200}}>
+                <div>
                     <Combobox
                         {...args}
-                        inputValue={inputValue}
-                        onChange={setValue}
-                        onInputChange={setInputValue}
                         value={value}
+                        setValue={setValue}
+                        onInputClick={()=>{console.log('onInputClicked!')}}
                     />
                 </div>
                 <div>Selected value: {value}</div>
