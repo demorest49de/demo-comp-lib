@@ -1,45 +1,54 @@
 import {useState} from 'react'
-
 import {Meta} from '@storybook/react'
 import {Combobox, ComboboxProps} from "./combobox";
+import { v4 as uuidv4 } from 'uuid';
 
-const options = [
+export type optionType = {
+    value: string
+    label: string
+    id: string
+}
+
+const options: optionType[] = [
     {
         label: 'Apple',
         value: 'apple',
+        id: uuidv4()
     },
     {
         label: 'Banana',
         value: 'banana',
+        id: uuidv4()
     },
     {
         label: 'Blueberry',
         value: 'blueberry',
+        id: uuidv4()
     },
-    {
-        label: 'Grapes',
-        value: 'grapes',
-    },
-    {
-        label: 'Pineapple',
-        value: 'pineapple',
-    },
-    {
-        label: 'Cherry',
-        value: 'cherry',
-    },
-    {
-        label: 'Grapefruit',
-        value: 'grapefruit',
-    },
-    {
-        label: 'Lemon',
-        value: 'lemon',
-    },
-    {
-        label: 'Mango',
-        value: 'mango',
-    },
+    // {
+    //     label: 'Grapes',
+    //     value: 'grapes',
+    // },
+    // {
+    //     label: 'Pineapple',
+    //     value: 'pineapple',
+    // },
+    // {
+    //     label: 'Cherry',
+    //     value: 'cherry',
+    // },
+    // {
+    //     label: 'Grapefruit',
+    //     value: 'grapefruit',
+    // },
+    // {
+    //     label: 'Lemon',
+    //     value: 'lemon',
+    // },
+    // {
+    //     label: 'Mango',
+    //     value: 'mango',
+    // },
 ]
 
 export default {
