@@ -15,7 +15,6 @@ import s from './combobox.module.scss'
 export type ComboboxOptionProps<T = string> = {
     label: T
     value: { id: number, name: string }
-
 }
 
 export type ComboboxProps<T> = {
