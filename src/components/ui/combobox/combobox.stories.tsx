@@ -1,29 +1,35 @@
 import {useState} from 'react'
 import {Meta} from '@storybook/react'
-import {Combobox, ComboboxProps} from "./combobox";
-import { v4 as uuidv4 } from 'uuid';
+import {Combobox, ComboboxOptionProps, ComboboxProps} from "./combobox";
+import {v4 as uuidv4} from 'uuid';
 
 export type optionType = {
-    value: string
     label: string
-    id: string
+    value: { id: number, name: string }
+    // id: number
 }
 
 const options: optionType[] = [
     {
         label: 'Apple',
-        value: 'apple',
-        id: uuidv4()
+        value: {
+            id: 1,
+            name: 'apple',
+        }
     },
     {
         label: 'Banana',
-        value: 'banana',
-        id: uuidv4()
+        value: {
+            name: 'banana',
+            id: 2
+        }
     },
     {
         label: 'Blueberry',
-        value: 'blueberry',
-        id: uuidv4()
+        value: {
+            name: 'blueberry',
+            id: 3
+        }
     },
     // {
     //     label: 'Grapes',
@@ -66,7 +72,9 @@ export const Simple = {
     render: (args: ComboboxProps<string>) => {
 
         const [value, setValue] = useState<string | null>(null)
-
+        const [valueForCity, setValueForCity]
+            = useState<ComboboxOptionProps<string> | null>(null)
+        console.log(' valueForCity: ', valueForCity);
 
         return (
             <>
@@ -75,7 +83,10 @@ export const Simple = {
                         {...args}
                         value={value}
                         setValue={setValue}
-                        onInputClick={()=>{console.log('onInputClicked!')}}
+                        setCountryForCity={setValueForCity}
+                        onInputClick={() => {
+                            console.log('onInputClicked!')
+                        }}
                     />
                 </div>
                 <div>Selected value: {value}</div>

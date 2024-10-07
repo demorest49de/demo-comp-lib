@@ -1,19 +1,21 @@
-import {ChangeEvent, Fragment, MouseEventHandler, ReactNode, useState} from 'react'
+import {ChangeEvent, Dispatch, Fragment, MouseEventHandler, ReactNode, SetStateAction, useState} from 'react'
+import {Combobox as ComboboxUI} from '@headlessui/react'
 
 import {Close, ArrowIosDownOutline} from '../../../assets/components'
 import {ScrollAreaComponent} from '../../ui/scroll/scrollArea'
 import {Spinner} from "../spinner/spinner"
 import {Label} from '../label'
-import {Combobox as ComboboxHeadlessUI} from '@headlessui/react'
 import {Float} from '@headlessui-float/react'
 import {clsx} from 'clsx'
 
 import selectStyle from './select.module.scss'
 import s from './combobox.module.scss'
 
+
 export type ComboboxOptionProps<T = string> = {
     label: T
-    value: T
+    value: { id: number, name: string }
+    // id: number
 }
 
 export type ComboboxProps<T> = {
@@ -22,7 +24,9 @@ export type ComboboxProps<T> = {
     options: ComboboxOptionProps<T>[]
     value: T | null
     setValue: (value: T | null) => void
-    onInputClick: () =>  void
+    onInputClick: () => void
+    // setCountryForCity: (option: ComboboxOptionProps | undefined | null) => void
+    setCountryForCity:  Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>;
 
     //todo необязательные + удалить ненужные
     inputValue?: string
@@ -43,33 +47,36 @@ export type ComboboxProps<T> = {
 }
 
 export const Combobox = <T extends string>({
-                                                        name,
-                                                        options,
-                                                        value,
-                                                        setValue: onChange,
-                                                        onInputClick,
-                                                        onClear,
-                                                        placeholder,
-                                                        isAsync,
-                                                        isLoading,
-                                                        disabled = false,
-                                                        errorMessage,
-                                                        label,
-                                                        portal = true,
-                                                        showClearButton = true,
-                                                    }: ComboboxProps<T>) => {
+                                               name,
+                                               options,
+                                               value,
+                                               setValue: onChange,
+                                               setCountryForCity,
+                                               onInputClick,
+                                               onClear,
+                                               placeholder,
+                                               isAsync,
+                                               isLoading,
+                                               disabled = false,
+                                               errorMessage,
+                                               label,
+                                               portal = true,
+                                               showClearButton = true,
+                                           }: ComboboxProps<T>) => {
 
     const [inputValue, setInputValue] = useState('')
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = showClearButton && !!value
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
         console.log(' e.currentTarget.value: ', e.currentTarget.value);
         if (e.currentTarget.value === '') {
             onChange(null)
         }
         setInputValue(e.currentTarget.value)
     }
+
 
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
         setInputValue('')
@@ -99,11 +106,23 @@ export const Combobox = <T extends string>({
         label: s.label,
     }
 
-    const getDisplayingValue = (value: string) =>
-        options?.find(option => option.value === value)?.label || ''
+    // const getDisplayingValue = (optionValue: ComboboxOptionProps) => {
+    //     console.log('optionValue: ', optionValue);
+    //     // options?.find(option => option.id === optionValue.id)?.label || ''
+    //
+    //     return optionValue?.label
+    // }
+
+    const getDisplayingValue = (optionValue: string) => {
+        console.log('optionValue: ', optionValue);
+        const optionResult =
+            options?.find(option => option.value.name === optionValue)
+        setCountryForCity(optionResult || null)
+        return optionResult?.label || ""
+    }
 
     return (
-        <ComboboxHeadlessUI
+        <ComboboxUI
             {
                 ...{
                     disabled,
@@ -119,9 +138,9 @@ export const Combobox = <T extends string>({
             <Float adaptiveWidth as={'div'} floatingAs={Fragment} placement={'bottom'} portal={portal}>
                 <div className={classNames.box}>
                     <Label label={label} className={classNames.label}>
-                        <ComboboxHeadlessUI.Button as={'div'}>
+                        <ComboboxUI.Button as={'div'}>
 
-                            <ComboboxHeadlessUI.Input
+                            <ComboboxUI.Input
                                 className={classNames.input}
                                 displayValue={getDisplayingValue}
                                 onChange={inputChangeHandler}
@@ -137,7 +156,7 @@ export const Combobox = <T extends string>({
                                     <Spinner className={""}/>
                                 </div>
                             )}
-                        </ComboboxHeadlessUI.Button>
+                        </ComboboxUI.Button>
                     </Label>
                     {isClearButtonVisible && (
                         <div className={classNames.clearButton} onClick={onClear ?? handleClearButtonClicked}>
@@ -146,25 +165,25 @@ export const Combobox = <T extends string>({
                     )}
                 </div>
 
-                <ComboboxHeadlessUI.Options as={'div'} className={classNames.content}>
+                <ComboboxUI.Options as={'div'} className={classNames.content}>
                     <ScrollAreaComponent>
                         <div className={classNames.optionsBlock}>{
                             filteredOptions.map(option => (
-                                <ComboboxHeadlessUI.Option
+                                <ComboboxUI.Option
                                     as={'button'}
                                     className={classNames.item}
-                                    key={option.value}
+                                    key={option.value.id}
                                     type={'button'}
-                                    value={option.value}
+                                    value={option.value.name}
                                 >
                                     <span>{option.label}</span>
-                                </ComboboxHeadlessUI.Option>
+                                </ComboboxUI.Option>
                             ))}
                         </div>
                     </ScrollAreaComponent>
-                </ComboboxHeadlessUI.Options>
+                </ComboboxUI.Options>
             </Float>
             <>{showError && <span className={s.errorMessage}>{errorMessage}</span>}</>
-        </ComboboxHeadlessUI>
+        </ComboboxUI>
     )
 }
