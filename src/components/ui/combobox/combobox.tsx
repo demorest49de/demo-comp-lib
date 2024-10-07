@@ -15,7 +15,7 @@ import s from './combobox.module.scss'
 export type ComboboxOptionProps<T = string> = {
     label: T
     value: { id: number, name: string }
-    // id: number
+
 }
 
 export type ComboboxProps<T> = {
@@ -25,7 +25,6 @@ export type ComboboxProps<T> = {
     value: T | null
     setValue: (value: T | null) => void
     onInputClick: () => void
-    // setCountryForCity: (option: ComboboxOptionProps | undefined | null) => void
     setCountryForCity:  Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>;
 
     //todo необязательные + удалить ненужные
@@ -106,12 +105,6 @@ export const Combobox = <T extends string>({
         label: s.label,
     }
 
-    // const getDisplayingValue = (optionValue: ComboboxOptionProps) => {
-    //     console.log('optionValue: ', optionValue);
-    //     // options?.find(option => option.id === optionValue.id)?.label || ''
-    //
-    //     return optionValue?.label
-    // }
 
     const getDisplayingValue = (optionValue: string) => {
         console.log('optionValue: ', optionValue);

@@ -1,7 +1,6 @@
 import {useState} from 'react'
 import {Meta} from '@storybook/react'
 import {Combobox, ComboboxOptionProps, ComboboxProps} from "./combobox";
-import {v4 as uuidv4} from 'uuid';
 
 export type optionType = {
     label: string
