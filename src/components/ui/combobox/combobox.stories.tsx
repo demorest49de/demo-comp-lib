@@ -6,7 +6,6 @@ import {v4 as uuidv4} from 'uuid';
 export type optionType = {
     label: string
     value: { id: number, name: string }
-    // id: number
 }
 
 const options: optionType[] = [
