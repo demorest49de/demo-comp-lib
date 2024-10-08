@@ -6,154 +6,54 @@ import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {FormCombobox} from './form-combobox'
 import {useState} from "react";
+import {optionType} from "../../combobox/combobox.stories";
+import {ComboboxOptionProps} from "../../combobox";
 
-const options = [
+const options: optionType[] = [
     {
         label: 'Apple',
-        value: 'apple',
+        value: {
+            id: 1,
+            name: 'apple',
+        }
     },
     {
         label: 'Banana',
-        value: 'banana',
+        value: {
+            name: 'banana',
+            id: 2
+        }
     },
     {
         label: 'Blueberry',
-        value: 'blueberry',
-    },
-    {
-        label: 'Grapes',
-        value: 'grapes',
-    },
-    {
-        label: 'Pineapple',
-        value: 'pineapple',
-    },
-    {
-        label: 'Cherry',
-        value: 'cherry',
-    },
-    {
-        label: 'Grapefruit',
-        value: 'grapefruit',
-    },
-    {
-        label: 'Lemon',
-        value: 'lemon',
-    },
-    {
-        label: 'Mango',
-        value: 'mango',
-    },
-    {
-        label: 'Apple',
-        value: 'apple',
-    },
-    {
-        label: 'Banana',
-        value: 'banana',
-    },
-    {
-        label: 'Blueberry',
-        value: 'blueberry',
-    },
-    {
-        label: 'Grapes',
-        value: 'grapes',
-    },
-    {
-        label: 'Pineapple',
-        value: 'pineapple',
-    },
-    {
-        label: 'Cherry',
-        value: 'cherry',
-    },
-    {
-        label: 'Grapefruit',
-        value: 'grapefruit',
-    },
-    {
-        label: 'Lemon',
-        value: 'lemon',
-    },
-    {
-        label: 'Mango',
-        value: 'mango',
+        value: {
+            name: 'blueberry',
+            id: 3
+        }
     },
 ]
 
-const options2 = [
+const options2: optionType[] = [
     {
         label: 'Apple',
-        value: 'apple',
+        value: {
+            id: 1,
+            name: 'apple',
+        }
     },
     {
         label: 'Banana',
-        value: 'banana',
+        value: {
+            name: 'banana',
+            id: 2
+        }
     },
     {
         label: 'Blueberry',
-        value: 'blueberry',
-    },
-    {
-        label: 'Grapes',
-        value: 'grapes',
-    },
-    {
-        label: 'Pineapple',
-        value: 'pineapple',
-    },
-    {
-        label: 'Cherry',
-        value: 'cherry',
-    },
-    {
-        label: 'Grapefruit',
-        value: 'grapefruit',
-    },
-    {
-        label: 'Lemon',
-        value: 'lemon',
-    },
-    {
-        label: 'Mango',
-        value: 'mango',
-    },
-    {
-        label: 'Apple',
-        value: 'apple',
-    },
-    {
-        label: 'Banana',
-        value: 'banana',
-    },
-    {
-        label: 'Blueberry',
-        value: 'blueberry',
-    },
-    {
-        label: 'Grapes',
-        value: 'grapes',
-    },
-    {
-        label: 'Pineapple',
-        value: 'pineapple',
-    },
-    {
-        label: 'Cherry',
-        value: 'cherry',
-    },
-    {
-        label: 'Grapefruit',
-        value: 'grapefruit',
-    },
-    {
-        label: 'Lemon',
-        value: 'lemon',
-    },
-    {
-        label: 'Mango',
-        value: 'mango',
+        value: {
+            name: 'blueberry',
+            id: 3
+        }
     },
 ]
 
@@ -162,6 +62,15 @@ const FakeForm = () => {
     const [valueCountry, setValueCountry] = useState<string | null>(null)
 
     const [valueCity, setValueCity] = useState<string | null>(null)
+
+
+    const [dataForCountry, setGetDataForCountry]
+        = useState<ComboboxOptionProps<string> | null>(null)
+    console.log(' dataForCountry: ', dataForCountry);
+
+    const [dataForCity, setGetDataForCity]
+        = useState<ComboboxOptionProps<string> | null>(null)
+    console.log(' dataForCity: ', dataForCity);
 
     const FormSchema = z.object({
         country: z.string({message: 'This field is required'}),
@@ -198,6 +107,7 @@ const FakeForm = () => {
                     setValue={setValueCountry}
                     onInputClick={() => {
                     }}
+                    getDataForCombobox={setGetDataForCountry}
                 />
                 <FormCombobox
                     control={control}
@@ -207,6 +117,7 @@ const FakeForm = () => {
                     setValue={setValueCity}
                     onInputClick={() => {
                     }}
+                    getDataForCombobox={setGetDataForCity}
                 />
             </form>
         </>

@@ -1,5 +1,5 @@
 import {Control, FieldValues, Path, useController, UseControllerProps} from 'react-hook-form'
-import {ReactNode} from "react";
+import {Dispatch, ReactNode, SetStateAction} from "react";
 import {Combobox, ComboboxOptionProps} from "@/components/ui/combobox";
 
 export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
@@ -9,14 +9,12 @@ export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
     value: T | null,
     setValue: (value: T | null) => void
     onInputClick: () => void
+    getDataForCombobox:  Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>;
     fullWidth?: boolean
-
     inputValue?: string
     onInputChange?: (value: string) => void
-
     rules?: UseControllerProps<TFieldValues>['rules']
     shouldUnregister?: boolean
-
     onClear?: () => void
     placeholder?: string
 
@@ -29,7 +27,6 @@ export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
     showClearButton?: boolean
 }
 
-
 export const FormCombobox = <TFieldValues extends FieldValues, T extends string>({
                                                                                      control,
                                                                                      name,
@@ -41,6 +38,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                                                                                      rules,
                                                                                      shouldUnregister,
                                                                                      disabled,
+                                                                                     getDataForCombobox,
                                                                                      ...comboboxProps
                                                                                  }: FormComboboxProps<TFieldValues, T>) => {
     const {
@@ -66,6 +64,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                         value,
                         setValue,
                         onInputClick,
+                        getDataForCombobox,
                         ...comboboxProps,
                     }
                 }

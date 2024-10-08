@@ -24,7 +24,8 @@ export type ComboboxProps<T> = {
     value: T | null
     setValue: (value: T | null) => void
     onInputClick: () => void
-    setCountryForCity:  Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>;
+
+    getDataForCombobox:  Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>;
 
     //todo необязательные + удалить ненужные
     inputValue?: string
@@ -49,7 +50,7 @@ export const Combobox = <T extends string>({
                                                options,
                                                value,
                                                setValue: onChange,
-                                               setCountryForCity,
+                                               getDataForCombobox,
                                                onInputClick,
                                                onClear,
                                                placeholder,
@@ -109,7 +110,7 @@ export const Combobox = <T extends string>({
         console.log('optionValue: ', optionValue);
         const optionResult =
             options?.find(option => option.value.name === optionValue)
-        setCountryForCity(optionResult || null)
+        getDataForCombobox(optionResult || null)
         return optionResult?.label || ""
     }
 

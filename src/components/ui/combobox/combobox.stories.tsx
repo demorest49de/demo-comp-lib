@@ -29,30 +29,6 @@ const options: optionType[] = [
             id: 3
         }
     },
-    // {
-    //     label: 'Grapes',
-    //     value: 'grapes',
-    // },
-    // {
-    //     label: 'Pineapple',
-    //     value: 'pineapple',
-    // },
-    // {
-    //     label: 'Cherry',
-    //     value: 'cherry',
-    // },
-    // {
-    //     label: 'Grapefruit',
-    //     value: 'grapefruit',
-    // },
-    // {
-    //     label: 'Lemon',
-    //     value: 'lemon',
-    // },
-    // {
-    //     label: 'Mango',
-    //     value: 'mango',
-    // },
 ]
 
 export default {
@@ -81,7 +57,7 @@ export const Simple = {
                         {...args}
                         value={value}
                         setValue={setValue}
-                        setCountryForCity={setValueForCity}
+                        getDataForCombobox={setValueForCity}
                         onInputClick={() => {
                             console.log('onInputClicked!')
                         }}
