@@ -8,6 +8,7 @@ import {FormCombobox} from './form-combobox'
 import {useState} from "react";
 import {optionType} from "../../combobox/combobox.stories";
 import {ComboboxOptionProps} from "../../combobox";
+import {Button} from "../../button/button";
 
 const options: optionType[] = [
     {
@@ -87,7 +88,7 @@ const FakeForm = () => {
         console.log(data)
     }
 
-    const h2Styles: React.CSSProperties =  {textAlign: 'center'}
+    const h2Styles: React.CSSProperties = {textAlign: 'center'}
     const formStyles = {
         display: 'flex',
         justifyContent: 'space-between',
@@ -119,6 +120,7 @@ const FakeForm = () => {
                     }}
                     getDataForCombobox={setGetDataForCity}
                 />
+                <Button>submit</Button>
             </form>
         </>
     )

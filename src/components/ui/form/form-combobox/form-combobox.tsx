@@ -42,8 +42,8 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                                                                                      ...comboboxProps
                                                                                  }: FormComboboxProps<TFieldValues, T>) => {
     const {
-        // field,
-        // fieldState: {error},
+        field,
+        fieldState: {error},
     } = useController({
         control,
         name,
@@ -61,13 +61,15 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                     {
                         name,
                         options,
-                        value,
                         setValue,
                         onInputClick,
                         getDataForCombobox,
                         ...comboboxProps,
                     }
                 }
+                {...field}
+                errorMessage={error?.message}
+                value={field.value ?? ''}
             />
         </div>
     )
