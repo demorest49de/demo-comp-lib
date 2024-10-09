@@ -74,10 +74,15 @@ export const Combobox = <T extends string>({
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = showClearButton && !!value
 
+
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
         setInputValue('')
         onChange()
     }
+
+    // if(!value){
+    //     options = []
+    // }
 
     const filteredOptions =
         inputValue === '' && !isAsync
@@ -86,10 +91,24 @@ export const Combobox = <T extends string>({
                 option.label.toLowerCase().includes(inputValue.toLowerCase())
             )
 
+    const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.currentTarget.value as T | ''
+        console.log(e.currentTarget.value)
+        setInputValue(newValue)
+        onChange();
+
+        // if (newValue === '') {
+            // onChange(null)
+        // } else {
+            // onChange(newValue as T)
+        // }
+    }
+    
     const getDisplayingValue = (optionValue: string) => {
         console.log(' optionValue: ', optionValue);
         const optionResult = options?.find(option => option.value.name === optionValue)
         getDataForCombobox(optionResult || null)
+        console.log(' optionResult: ', optionResult);
         return optionResult?.label || ''
     }
 
@@ -129,7 +148,7 @@ export const Combobox = <T extends string>({
                             <ComboboxUI.Input
                                 className={classNames.input}
                                 displayValue={getDisplayingValue}
-                                onChange={onChange}
+                                onChange={inputChangeHandler}
                                 placeholder={placeholder}
                                 onClick={onInputClick}
                                 onBlur={onBlur}
