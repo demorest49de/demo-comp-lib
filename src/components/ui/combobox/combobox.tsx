@@ -28,17 +28,10 @@ export type ComboboxOptionProps<T = string> = {
 export type ComboboxProps<T> = {
     name: string
     options: ComboboxOptionProps<T>[]
-    // value: T | null
-    // setValue: (value: T | null) => void
     onInputClick: () => void
     onChange: () => void
     getDataForCombobox: Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>
 
-    //todo необязательные + удалить ненужные
-    // inputValue?: string
-    // onInputChange?: (value: string) => void
-
-    // todo функция для выбора новой опции: нужна если опция была уже выбрана
     onClear?: () => void
     placeholder?: string
 
@@ -50,7 +43,6 @@ export type ComboboxProps<T> = {
     portal?: boolean
     showClearButton?: boolean
     value: string
-    // defaultValue?: string
 }
 import {FixedSizeList as List} from 'react-window'
 
@@ -65,7 +57,6 @@ export const Combobox = <T extends string>({
                                                placeholder,
                                                isAsync,
                                                isLoading,
-                                               disabled = false,
                                                errorMessage,
                                                label,
                                                portal = true,
@@ -73,7 +64,7 @@ export const Combobox = <T extends string>({
                                                onBlur,
                                                ref,
                                                value,
-                                               // defaultValue,
+                                               disabled,
                                                ...comboboxProps
                                            }: ComboboxProps<T> & {
     onBlur?: FocusEventHandler<HTMLInputElement>
@@ -127,7 +118,6 @@ export const Combobox = <T extends string>({
     return (
         <ComboboxUI
             {...{disabled, name, onChange}}
-            // value={value ?? ''}
             {...comboboxProps}
             as={'div'}
             className={classNames.root}
@@ -143,8 +133,8 @@ export const Combobox = <T extends string>({
                                 placeholder={placeholder}
                                 onClick={onInputClick}
                                 onBlur={onBlur}
-                                // defaultValue={getDisplayingValue(defaultValue || value)}
                                 value={value}
+                                disabled={disabled}
                                 ref={ref}
                             />
                             <div className={classNames.button}>
