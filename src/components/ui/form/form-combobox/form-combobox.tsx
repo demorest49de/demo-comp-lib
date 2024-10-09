@@ -58,17 +58,19 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
             <Combobox
                 name={name}
                 options={options}
-                value={fieldValue ?? value ?? ("" as T | null)}
-                setValue={newValue => {
-                    onChange(newValue) // Обновляем значение через useController
-                    setValue(newValue) // Обновляем локальное значение
-                }}
+                // value={fieldValue ?? value ?? ("" as T | null)}
+                // setValue={newValue => {
+                //     onChange(newValue) // Обновляем значение через useController
+                //     setValue(newValue) // Обновляем локальное значение
+                // }}
+                onChange={onChange}
                 onInputClick={onInputClick}
                 getDataForCombobox={getDataForCombobox}
                 errorMessage={error?.message}
                 {...comboboxProps}
                 onBlur={onBlur} // Добавляем onBlur для корректной работы с валидацией
                 ref={ref} // Добавляем ref для интеграции с react-hook-form
+                value={fieldValue}
             />
         </div>
     )

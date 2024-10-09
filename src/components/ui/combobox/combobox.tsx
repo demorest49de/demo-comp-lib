@@ -8,14 +8,14 @@ import {
     SetStateAction,
     useState,
 } from 'react'
-import { Combobox as ComboboxUI } from '@headlessui/react'
+import {Combobox as ComboboxUI} from '@headlessui/react'
 
-import { Close, ArrowIosDownOutline } from '../../../assets/components'
-import { ScrollAreaComponent } from '../../ui/scroll/scrollArea'
-import { Spinner } from '../spinner/spinner'
-import { Label } from '../label'
-import { Float } from '@headlessui-float/react'
-import { clsx } from 'clsx'
+import {Close, ArrowIosDownOutline} from '../../../assets/components'
+import {ScrollAreaComponent} from '../../ui/scroll/scrollArea'
+import {Spinner} from '../spinner/spinner'
+import {Label} from '../label'
+import {Float} from '@headlessui-float/react'
+import {clsx} from 'clsx'
 
 import selectStyle from './select.module.scss'
 import s from './combobox.module.scss'
@@ -28,15 +28,15 @@ export type ComboboxOptionProps<T = string> = {
 export type ComboboxProps<T> = {
     name: string
     options: ComboboxOptionProps<T>[]
-    value: T | null
-    setValue: (value: T | null) => void
+    // value: T | null
+    // setValue: (value: T | null) => void
     onInputClick: () => void
-
+    onChange: () => void
     getDataForCombobox: Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>
 
     //todo необязательные + удалить ненужные
-    inputValue?: string
-    onInputChange?: (value: string) => void
+    // inputValue?: string
+    // onInputChange?: (value: string) => void
 
     // todo функция для выбора новой опции: нужна если опция была уже выбрана
     onClear?: () => void
@@ -49,15 +49,18 @@ export type ComboboxProps<T> = {
     label?: ReactNode
     portal?: boolean
     showClearButton?: boolean
+    value: string
+
 }
-import { FixedSizeList as List } from 'react-window'
+import {FixedSizeList as List} from 'react-window'
 
 
 export const Combobox = <T extends string>({
                                                name,
                                                options,
-                                               value,
-                                               setValue: onChange,
+                                               // value,
+                                               // setValue: onChange,
+                                               onChange,
                                                getDataForCombobox,
                                                onInputClick,
                                                onClear,
@@ -71,28 +74,31 @@ export const Combobox = <T extends string>({
                                                showClearButton = true,
                                                onBlur,
                                                ref,
+                                               value,
+                                               ...comboboxProps
                                            }: ComboboxProps<T> & {
     onBlur?: FocusEventHandler<HTMLInputElement>
     ref?: React.Ref<HTMLInputElement>
 }) => {
     const [inputValue, setInputValue] = useState<string>('')
     const showError = !!errorMessage && errorMessage.length > 0
+    // const isClearButtonVisible = showClearButton && !!value
     const isClearButtonVisible = showClearButton && !!value
 
-    const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.currentTarget.value as T | ''
-        setInputValue(newValue)
-
-        if (newValue === '') {
-            onChange(null)
-        } else {
-            onChange(newValue as T)
-        }
-    }
+    // const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    //     const newValue = e.currentTarget.value as T | ''
+    //     setInputValue(newValue)
+    //
+    //     if (newValue === '') {
+    //         onChange(null)
+    //     } else {
+    //         onChange(newValue as T)
+    //     }
+    // }
 
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
         setInputValue('')
-        onChange(null)
+        onChange()
     }
 
     const filteredOptions =
@@ -130,8 +136,9 @@ export const Combobox = <T extends string>({
 
     return (
         <ComboboxUI
-            {...{ disabled, name, onChange }}
+            {...{disabled, name, onChange}}
             value={value ?? ''}
+            {...comboboxProps}
             as={'div'}
             className={classNames.root}
         >
@@ -142,25 +149,25 @@ export const Combobox = <T extends string>({
                             <ComboboxUI.Input
                                 className={classNames.input}
                                 displayValue={getDisplayingValue}
-                                onChange={inputChangeHandler}
+                                onChange={onChange}
                                 placeholder={placeholder}
                                 onClick={onInputClick}
                                 onBlur={onBlur}
                                 ref={ref}
                             />
                             <div className={classNames.button}>
-                                <ArrowIosDownOutline className={classNames.icon} />
+                                <ArrowIosDownOutline className={classNames.icon}/>
                             </div>
                             {isLoading && (
                                 <div className={classNames.spinner}>
-                                    <Spinner />
+                                    <Spinner/>
                                 </div>
                             )}
                         </ComboboxUI.Button>
                     </Label>
                     {isClearButtonVisible && (
                         <div className={classNames.clearButton} onClick={onClear ?? handleClearButtonClicked}>
-                            <Close />
+                            <Close/>
                         </div>
                     )}
                 </div>
@@ -172,7 +179,7 @@ export const Combobox = <T extends string>({
                             itemSize={itemHeight}
                             width="100%"
                         >
-                            {({ index, style }) => {
+                            {({index, style}) => {
                                 const option = filteredOptions[index]
                                 return (
                                     <ComboboxUI.Option
@@ -182,7 +189,8 @@ export const Combobox = <T extends string>({
                                         type={'button'}
                                         value={option?.value.name}
                                         style={style} // Стилизация каждого элемента через react-window
-                                        onClick={() => onChange(option?.label as T)}
+                                        // onClick={() => onChange(option?.label as T)}
+                                        onClick={onChange}
                                     >
                                         <span>{option?.label}</span>
                                     </ComboboxUI.Option>
