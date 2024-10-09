@@ -5,7 +5,7 @@ import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {FormCombobox} from './form-combobox'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {optionType} from "../../combobox/combobox.stories";
 import {ComboboxOptionProps} from "../../combobox";
 import {Button} from "../../button/button";
@@ -60,18 +60,14 @@ const options2: optionType[] = [
 
 const FakeForm = () => {
 
-    const [valueCountry, setValueCountry] = useState<string | null>(null)
-
-    const [valueCity, setValueCity] = useState<string | null>(null)
-
 
     const [dataForCountry, setGetDataForCountry]
         = useState<ComboboxOptionProps<string> | null>(null)
-    console.log(' dataForCountry: ', dataForCountry);
+
 
     const [dataForCity, setGetDataForCity]
         = useState<ComboboxOptionProps<string> | null>(null)
-    console.log(' dataForCity: ', dataForCity);
+    
 
     const FormSchema = z.object({
         country: z.string({message: 'This field is required'}),
@@ -79,10 +75,16 @@ const FakeForm = () => {
     })
     type FormValues = z.infer<typeof FormSchema>
 
-    const {control, handleSubmit, clearErrors} = useForm<FormValues>({
+    const {reset ,control, handleSubmit} = useForm<FormValues>({
         resolver: zodResolver(FormSchema),
         defaultValues: {},
     })
+    useEffect(() => {
+        reset({
+            city: 'Apple',
+            country: 'Banana',
+        })
+    }, [reset])
 
     const handleSubmitHandler = (data: FormValues) => {
         console.log(data)
@@ -103,9 +105,7 @@ const FakeForm = () => {
                 <FormCombobox
                     control={control}
                     name={'country'}
-                    value={valueCountry}
                     options={options}
-                    setValue={setValueCountry}
                     onInputClick={() => {
                     }}
                     getDataForCombobox={setGetDataForCountry}
@@ -113,9 +113,7 @@ const FakeForm = () => {
                 <FormCombobox
                     control={control}
                     name={'city'}
-                    value={valueCity}
                     options={options2}
-                    setValue={setValueCity}
                     onInputClick={() => {
                     }}
                     getDataForCombobox={setGetDataForCity}
