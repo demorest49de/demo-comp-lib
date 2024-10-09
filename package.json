@@ -1,7 +1,7 @@
 {
   "name": "@demorest49de/ui-kit",
   "private": false,
-  "version": "0.0.43",
+  "version": "0.0.44",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -51,6 +51,7 @@
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
+    "@types/react-window": "^1.8.8",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
@@ -59,6 +60,7 @@
     "react-datepicker": "4.18.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.2",
+    "react-window": "^1.8.10",
     "sass": "^1.77.8",
     "stylelint": "^16.8.1",
     "tailwind-merge": "^2.4.0",

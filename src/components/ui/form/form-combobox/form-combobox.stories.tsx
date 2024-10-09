@@ -79,7 +79,7 @@ const FakeForm = () => {
     })
     type FormValues = z.infer<typeof FormSchema>
 
-    const {control, handleSubmit} = useForm<FormValues>({
+    const {control, handleSubmit, clearErrors} = useForm<FormValues>({
         resolver: zodResolver(FormSchema),
         defaultValues: {},
     })

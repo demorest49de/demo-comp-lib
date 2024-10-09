@@ -1,31 +1,38 @@
-import {ChangeEvent, Dispatch, Fragment, MouseEventHandler, ReactNode, SetStateAction, useState} from 'react'
-import {Combobox as ComboboxUI} from '@headlessui/react'
+import {
+    ChangeEvent,
+    Dispatch,
+    FocusEventHandler,
+    Fragment,
+    MouseEventHandler,
+    ReactNode,
+    SetStateAction,
+    useState,
+} from 'react'
+import { Combobox as ComboboxUI } from '@headlessui/react'
 
-import {Close, ArrowIosDownOutline} from '../../../assets/components'
-import {ScrollAreaComponent} from '../../ui/scroll/scrollArea'
-import {Spinner} from "../spinner/spinner"
-import {Label} from '../label'
-import {Float} from '@headlessui-float/react'
-import {clsx} from 'clsx'
+import { Close, ArrowIosDownOutline } from '../../../assets/components'
+import { ScrollAreaComponent } from '../../ui/scroll/scrollArea'
+import { Spinner } from '../spinner/spinner'
+import { Label } from '../label'
+import { Float } from '@headlessui-float/react'
+import { clsx } from 'clsx'
 
 import selectStyle from './select.module.scss'
 import s from './combobox.module.scss'
 
-
 export type ComboboxOptionProps<T = string> = {
     label: T
-    value: { id: number, name: string }
+    value: { id: number; name: string }
 }
 
 export type ComboboxProps<T> = {
-
     name: string
     options: ComboboxOptionProps<T>[]
     value: T | null
     setValue: (value: T | null) => void
     onInputClick: () => void
 
-    getDataForCombobox:  Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>;
+    getDataForCombobox: Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>
 
     //todo необязательные + удалить ненужные
     inputValue?: string
@@ -35,7 +42,6 @@ export type ComboboxProps<T> = {
     onClear?: () => void
     placeholder?: string
 
-
     isAsync?: boolean
     isLoading?: boolean
     disabled?: boolean
@@ -44,6 +50,8 @@ export type ComboboxProps<T> = {
     portal?: boolean
     showClearButton?: boolean
 }
+import { FixedSizeList as List } from 'react-window'
+
 
 export const Combobox = <T extends string>({
                                                name,
@@ -61,21 +69,26 @@ export const Combobox = <T extends string>({
                                                label,
                                                portal = true,
                                                showClearButton = true,
-                                           }: ComboboxProps<T>) => {
-
-    const [inputValue, setInputValue] = useState('')
+                                               onBlur,
+                                               ref,
+                                           }: ComboboxProps<T> & {
+    onBlur?: FocusEventHandler<HTMLInputElement>
+    ref?: React.Ref<HTMLInputElement>
+}) => {
+    const [inputValue, setInputValue] = useState<string>('')
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = showClearButton && !!value
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.currentTarget.value as T | ''
+        setInputValue(newValue)
 
-        console.log(' e.currentTarget.value: ', e.currentTarget.value);
-        if (e.currentTarget.value === '') {
+        if (newValue === '') {
             onChange(null)
+        } else {
+            onChange(newValue as T)
         }
-        setInputValue(e.currentTarget.value)
     }
-
 
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
         setInputValue('')
@@ -85,7 +98,15 @@ export const Combobox = <T extends string>({
     const filteredOptions =
         inputValue === '' && !isAsync
             ? options
-            : options.filter(option => option.label.toLowerCase().includes(inputValue.toLowerCase()))
+            : options.filter(option =>
+                option.label.toLowerCase().includes(inputValue.toLowerCase())
+            )
+
+    const getDisplayingValue = (optionValue: string) => {
+        const optionResult = options?.find(option => option.value.name === optionValue)
+        getDataForCombobox(optionResult || null)
+        return optionResult?.label || ''
+    }
 
     const classNames = {
         box: s.box,
@@ -93,10 +114,7 @@ export const Combobox = <T extends string>({
         clearButton: s.clearButton,
         content: clsx(selectStyle.content, filteredOptions.length === 0 && s.empty),
         icon: clsx(s.icon),
-        input: clsx(
-            s.input,
-            showError && s.error,
-        ),
+        input: clsx(s.input, showError && s.error),
         errorMessage: clsx(showError && s.errorMessage),
         item: selectStyle.item,
         optionsBlock: selectStyle.optionsBlock,
@@ -105,78 +123,76 @@ export const Combobox = <T extends string>({
         label: s.label,
     }
 
-
-    const getDisplayingValue = (optionValue: string) => {
-        console.log('optionValue: ', optionValue);
-        const optionResult =
-            options?.find(option => option.value.name === optionValue)
-        getDataForCombobox(optionResult || null)
-        return optionResult?.label || ""
-    }
+    // Определяем высоту одного элемента списка
+    const itemHeight = 40
+    // Устанавливаем высоту окна, чтобы было видно, например, 5 элементов
+    const listHeight = Math.min(filteredOptions.length * itemHeight, 200)
 
     return (
         <ComboboxUI
-            {
-                ...{
-                    disabled,
-                    name,
-                    onChange,
-                    value,
-                }
-            }
+            {...{ disabled, name, onChange }}
+            value={value ?? ''}
             as={'div'}
             className={classNames.root}
         >
-
             <Float adaptiveWidth as={'div'} floatingAs={Fragment} placement={'bottom'} portal={portal}>
                 <div className={classNames.box}>
                     <Label label={label} className={classNames.label}>
                         <ComboboxUI.Button as={'div'}>
-
                             <ComboboxUI.Input
                                 className={classNames.input}
                                 displayValue={getDisplayingValue}
                                 onChange={inputChangeHandler}
                                 placeholder={placeholder}
                                 onClick={onInputClick}
+                                onBlur={onBlur}
+                                ref={ref}
                             />
-
                             <div className={classNames.button}>
-                                <ArrowIosDownOutline className={classNames.icon}/>
+                                <ArrowIosDownOutline className={classNames.icon} />
                             </div>
                             {isLoading && (
                                 <div className={classNames.spinner}>
-                                    <Spinner className={""}/>
+                                    <Spinner />
                                 </div>
                             )}
                         </ComboboxUI.Button>
                     </Label>
                     {isClearButtonVisible && (
                         <div className={classNames.clearButton} onClick={onClear ?? handleClearButtonClicked}>
-                            <Close/>
+                            <Close />
                         </div>
                     )}
                 </div>
-
                 <ComboboxUI.Options as={'div'} className={classNames.content}>
                     <ScrollAreaComponent>
-                        <div className={classNames.optionsBlock}>{
-                            filteredOptions.map(option => (
-                                <ComboboxUI.Option
-                                    as={'button'}
-                                    className={classNames.item}
-                                    key={option.value.id}
-                                    type={'button'}
-                                    value={option.value.name}
-                                >
-                                    <span>{option.label}</span>
-                                </ComboboxUI.Option>
-                            ))}
-                        </div>
+                        <List
+                            height={listHeight}
+                            itemCount={filteredOptions.length}
+                            itemSize={itemHeight}
+                            width="100%"
+                        >
+                            {({ index, style }) => {
+                                const option = filteredOptions[index]
+                                return (
+                                    <ComboboxUI.Option
+                                        as={'button'}
+                                        className={classNames.item}
+                                        key={option?.value.id}
+                                        type={'button'}
+                                        value={option?.value.name}
+                                        style={style} // Стилизация каждого элемента через react-window
+                                        onClick={() => onChange(option?.label as T)}
+                                    >
+                                        <span>{option?.label}</span>
+                                    </ComboboxUI.Option>
+                                )
+                            }}
+                        </List>
                     </ScrollAreaComponent>
                 </ComboboxUI.Options>
             </Float>
-            <>{showError && <span className={s.errorMessage}>{errorMessage}</span>}</>
+            {showError && <span className={s.errorMessage}>{errorMessage}</span>}
         </ComboboxUI>
     )
 }
