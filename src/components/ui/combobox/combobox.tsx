@@ -72,8 +72,6 @@ export const Combobox = <T extends string>({
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = !!value
 
-    console.log(' isClearButtonVisible: ', isClearButtonVisible);
-
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
 
         setValue(name, null)
@@ -85,12 +83,6 @@ export const Combobox = <T extends string>({
             ? options.filter(option =>
                 option.label?.toLowerCase().includes(value?.toLowerCase()))
             : options
-
-
-    console.log(' options: ', options);
-    console.log(' isAsync: ', isAsync);
-    console.log(' value: ', value);
-    console.log(' filteredOptions: ', filteredOptions);
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.currentTarget.value as T | ''
@@ -130,7 +122,6 @@ export const Combobox = <T extends string>({
     const listHeight = Math.min(filteredOptions.length * itemHeight, 200)
 
 
-    console.log(' value: ', value);
     return (
         <ComboboxUI
             {...{disabled, name, onChange}}

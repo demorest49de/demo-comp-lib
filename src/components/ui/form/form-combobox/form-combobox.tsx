@@ -47,7 +47,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
         shouldUnregister,
         disabled,
     })
-    console.log('fieldValue', fieldValue)
+
 
     const fullWidthStyle = {width: '100%'}
 
