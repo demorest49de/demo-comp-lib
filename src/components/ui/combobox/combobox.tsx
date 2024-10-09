@@ -32,7 +32,6 @@ export type ComboboxProps<T, TFieldValues extends FieldValues> = {
     setValue: (name: Path<TFieldValues>, value: string | null) => void;
     getDataForCombobox: Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>
 
-    onClear?: () => void
     placeholder?: string
 
     isAsync?: boolean
@@ -41,7 +40,6 @@ export type ComboboxProps<T, TFieldValues extends FieldValues> = {
     errorMessage?: string
     label?: ReactNode
     portal?: boolean
-    showClearButton?: boolean
     value: string
 }
 import {FixedSizeList as List} from 'react-window'
@@ -54,14 +52,12 @@ export const Combobox = <T extends string>({
                                                onChange,
                                                getDataForCombobox,
                                                onInputClick,
-                                               onClear,
                                                placeholder,
                                                isAsync,
                                                isLoading,
                                                errorMessage,
                                                label,
                                                portal = true,
-                                               showClearButton = true,
                                                onBlur,
                                                ref,
                                                value,
@@ -72,12 +68,14 @@ export const Combobox = <T extends string>({
     onBlur?: FocusEventHandler<HTMLInputElement>
     ref?: React.Ref<HTMLInputElement>
 }) => {
-    // const [inputValue, setInputValue] = useState<string>('')
+    
     const showError = !!errorMessage && errorMessage.length > 0
-    const isClearButtonVisible = showClearButton && !!value
+    const isClearButtonVisible = !!value
 
+    console.log(' isClearButtonVisible: ', isClearButtonVisible);
 
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
+
         setValue(name, null)
         onChange(null)
     }
@@ -151,7 +149,7 @@ export const Combobox = <T extends string>({
                                 placeholder={placeholder}
                                 onClick={onInputClick}
                                 onBlur={onBlur}
-                                value={value}
+                                value={value || ""}
                                 disabled={disabled}
                                 ref={ref}
                             />
@@ -166,7 +164,7 @@ export const Combobox = <T extends string>({
                         </ComboboxUI.Button>
                     </Label>
                     {isClearButtonVisible && (
-                        <div className={classNames.clearButton} onClick={onClear ?? handleClearButtonClicked}>
+                        <div className={classNames.clearButton} onClick={handleClearButtonClicked}>
                             <Close/>
                         </div>
                     )}

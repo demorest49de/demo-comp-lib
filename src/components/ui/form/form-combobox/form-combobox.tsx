@@ -21,7 +21,6 @@ export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
     errorMessage?: string
     label?: ReactNode
     portal?: boolean
-    showClearButton?: boolean
     setValue: (name: keyof TFieldValues, value: T | string | null) => void;
 }
 
