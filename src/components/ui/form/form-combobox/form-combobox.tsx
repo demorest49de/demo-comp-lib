@@ -22,7 +22,7 @@ export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
     label?: ReactNode
     portal?: boolean
     showClearButton?: boolean
-    defaultValue?: string
+    // defaultValue?: string
 }
 
 export const FormCombobox = <TFieldValues extends FieldValues, T extends string>({
@@ -35,7 +35,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                                                                                      shouldUnregister,
                                                                                      disabled,
                                                                                      getDataForCombobox,
-                                                                                     defaultValue,
+                                                                                     // defaultValue,
                                                                                      ...comboboxProps
                                                                                  }: FormComboboxProps<TFieldValues, T>) => {
     const {
@@ -47,7 +47,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
         rules,
         shouldUnregister,
         disabled,
-        defaultValue: defaultValue as PathValue<TFieldValues, Path<TFieldValues>>
+        // defaultValue: '' as PathValue<TFieldValues, Path<TFieldValues>>
     })
     console.log('fieldValue', fieldValue)
 
@@ -66,7 +66,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                 onBlur={onBlur} // Добавляем onBlur для корректной работы с валидацией
                 ref={ref} // Добавляем ref для интеграции с react-hook-form
                 value={fieldValue}
-                defaultValue={defaultValue}
+                // defaultValue={defaultValue}
             />
         </div>
     )

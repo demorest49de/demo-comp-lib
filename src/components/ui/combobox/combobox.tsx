@@ -50,7 +50,7 @@ export type ComboboxProps<T> = {
     portal?: boolean
     showClearButton?: boolean
     value: string
-    defaultValue?: string
+    // defaultValue?: string
 }
 import {FixedSizeList as List} from 'react-window'
 
@@ -73,7 +73,7 @@ export const Combobox = <T extends string>({
                                                onBlur,
                                                ref,
                                                value,
-                                               defaultValue,
+                                               // defaultValue,
                                                ...comboboxProps
                                            }: ComboboxProps<T> & {
     onBlur?: FocusEventHandler<HTMLInputElement>
@@ -127,7 +127,7 @@ export const Combobox = <T extends string>({
     return (
         <ComboboxUI
             {...{disabled, name, onChange}}
-                     value={value ?? 'asdfadsf'}
+            // value={value ?? ''}
             {...comboboxProps}
             as={'div'}
             className={classNames.root}
@@ -143,7 +143,7 @@ export const Combobox = <T extends string>({
                                 placeholder={placeholder}
                                 onClick={onInputClick}
                                 onBlur={onBlur}
-                                defaultValue={getDisplayingValue(defaultValue || value)}
+                                // defaultValue={getDisplayingValue(defaultValue || value)}
                                 value={value}
                                 ref={ref}
                             />

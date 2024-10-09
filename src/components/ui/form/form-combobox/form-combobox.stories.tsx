@@ -67,7 +67,7 @@ const FakeForm = () => {
 
     const [dataForCity, setGetDataForCity]
         = useState<ComboboxOptionProps<string> | null>(null)
-    
+
 
     const FormSchema = z.object({
         country: z.string({message: 'This field is required'}),
@@ -81,8 +81,8 @@ const FakeForm = () => {
     })
     useEffect(() => {
         reset({
-            city: 'Apple',
-            country: 'Banana',
+            country: 'martishka1',
+            city: 'martishka2',
         })
     }, [reset])
 
