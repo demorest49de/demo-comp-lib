@@ -75,14 +75,14 @@ const FakeForm = () => {
     })
     type FormValues = z.infer<typeof FormSchema>
 
-    const {reset ,control, handleSubmit} = useForm<FormValues>({
+    const {reset, setValue ,control, handleSubmit} = useForm<FormValues>({
         resolver: zodResolver(FormSchema),
         defaultValues: {},
     })
     useEffect(() => {
         reset({
-            country: 'martishka1',
-            city: 'martishka2',
+            country: 'Apple',
+            city: 'Banana',
         })
     }, [reset])
 
@@ -96,7 +96,7 @@ const FakeForm = () => {
         justifyContent: 'space-between',
         gap: "10px"
     };
-
+    
     return (
         <>
             <h2 style={h2Styles}>Form</h2>
@@ -109,6 +109,7 @@ const FakeForm = () => {
                     onInputClick={() => {
                     }}
                     getDataForCombobox={setGetDataForCountry}
+                    setValue={(value)=> setValue('country', value)}
                 />
                 <FormCombobox
                     control={control}
@@ -117,6 +118,7 @@ const FakeForm = () => {
                     onInputClick={() => {
                     }}
                     getDataForCombobox={setGetDataForCity}
+                    setValue={(value)=> setValue('city', value)}
                 />
                 <Button>submit</Button>
             </form>

@@ -1,4 +1,4 @@
-import {Control, FieldValues, Path, PathValue, useController, UseControllerProps} from 'react-hook-form'
+import {Control, FieldValues, Path, useController, UseControllerProps} from 'react-hook-form'
 import {Dispatch, ReactNode, SetStateAction} from 'react'
 import {Combobox, ComboboxOptionProps} from '@/components/ui/combobox'
 
@@ -22,6 +22,7 @@ export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
     label?: ReactNode
     portal?: boolean
     showClearButton?: boolean
+    setValue: (name: keyof TFieldValues, value: T | string | null) => void;
 }
 
 export const FormCombobox = <TFieldValues extends FieldValues, T extends string>({
@@ -30,6 +31,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                                                                                      options,
                                                                                      onInputClick,
                                                                                      fullWidth = true,
+                                                                                     setValue,
                                                                                      rules,
                                                                                      shouldUnregister,
                                                                                      disabled,
@@ -64,6 +66,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                 ref={ref} // Добавляем ref для интеграции с react-hook-form
                 value={fieldValue}
                 disabled={disabled}
+                setValue={setValue}
             />
         </div>
     )

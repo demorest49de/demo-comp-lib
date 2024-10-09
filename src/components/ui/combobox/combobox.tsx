@@ -6,7 +6,6 @@ import {
     MouseEventHandler,
     ReactNode,
     SetStateAction,
-    useState,
 } from 'react'
 import {Combobox as ComboboxUI} from '@headlessui/react'
 
@@ -25,11 +24,12 @@ export type ComboboxOptionProps<T = string> = {
     value: { id: number; name: string }
 }
 
-export type ComboboxProps<T> = {
-    name: string
+export type ComboboxProps<T, TFieldValues extends FieldValues> = {
+    name: Path<TFieldValues>
     options: ComboboxOptionProps<T>[]
     onInputClick: () => void
-    onChange: () => void
+    onChange: (value: T | null) => void
+    setValue: (name: Path<TFieldValues>, value: string | null) => void;
     getDataForCombobox: Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>
 
     onClear?: () => void
@@ -45,6 +45,7 @@ export type ComboboxProps<T> = {
     value: string
 }
 import {FixedSizeList as List} from 'react-window'
+import {FieldValues, Path} from "react-hook-form";
 
 
 export const Combobox = <T extends string>({
@@ -65,50 +66,48 @@ export const Combobox = <T extends string>({
                                                ref,
                                                value,
                                                disabled,
+                                               setValue,
                                                ...comboboxProps
-                                           }: ComboboxProps<T> & {
+                                           }: ComboboxProps<T, FieldValues> & {
     onBlur?: FocusEventHandler<HTMLInputElement>
     ref?: React.Ref<HTMLInputElement>
 }) => {
-    const [inputValue, setInputValue] = useState<string>('')
+    // const [inputValue, setInputValue] = useState<string>('')
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = showClearButton && !!value
 
 
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
-        setInputValue('')
-        onChange()
+        setValue(name, null)
+        onChange(null)
     }
 
-    // if(!value){
-    //     options = []
-    // }
-
     const filteredOptions =
-        inputValue === '' && !isAsync
-            ? options
-            : options.filter(option =>
-                option.label.toLowerCase().includes(inputValue.toLowerCase())
-            )
+        value && !isAsync
+            ? options.filter(option =>
+                option.label?.toLowerCase().includes(value?.toLowerCase()))
+            : options
+
+
+    console.log(' options: ', options);
+    console.log(' isAsync: ', isAsync);
+    console.log(' value: ', value);
+    console.log(' filteredOptions: ', filteredOptions);
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.currentTarget.value as T | ''
-        console.log(e.currentTarget.value)
-        setInputValue(newValue)
-        onChange();
+        setValue(name, newValue || null)
 
-        // if (newValue === '') {
-            // onChange(null)
-        // } else {
-            // onChange(newValue as T)
-        // }
+        if (newValue === '') {
+            onChange(null)
+        } else {
+            onChange(newValue as T)
+        }
     }
-    
+
     const getDisplayingValue = (optionValue: string) => {
-        console.log(' optionValue: ', optionValue);
         const optionResult = options?.find(option => option.value.name === optionValue)
         getDataForCombobox(optionResult || null)
-        console.log(' optionResult: ', optionResult);
         return optionResult?.label || ''
     }
 
@@ -190,8 +189,7 @@ export const Combobox = <T extends string>({
                                         type={'button'}
                                         value={option?.value.name}
                                         style={style} // Стилизация каждого элемента через react-window
-                                        // onClick={() => onChange(option?.label as T)}
-                                        onClick={onChange}
+                                        onClick={() => onChange(option?.label as T)}
                                     >
                                         <span>{option?.label}</span>
                                     </ComboboxUI.Option>
