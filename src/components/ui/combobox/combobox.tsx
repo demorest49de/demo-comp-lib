@@ -42,6 +42,7 @@ export type ComboboxProps<T, TFieldValues extends FieldValues> = {
   portal?: boolean
   value: string
   onBlur?: () => void
+  requestItemOnKeyDown?: () => void
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, FieldValues>>(
@@ -61,6 +62,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       value,
       disabled,
       setValue,
+      requestItemOnKeyDown,
       ...comboboxProps
     },
     ref
@@ -132,9 +134,16 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                   onClick={onInputClick}
                   value={value || ''}
                   disabled={disabled}
+                  //todo поправить
                   onDoubleClick={e => {
                     const input = e.currentTarget
                     input.select()
+                  }}
+                  onKeyDown={e => {
+                    if (e.key === 'ArrowDown') {
+                      console.log('Arrow down key pressed')
+                      requestItemOnKeyDown && requestItemOnKeyDown()
+                    }
                   }}
                   ref={ref}
                 />
