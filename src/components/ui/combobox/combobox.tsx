@@ -123,7 +123,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
         <Float adaptiveWidth as={'div'} floatingAs={Fragment} placement={'bottom'} portal={portal}>
           <div className={classNames.box}>
             <Label label={label} className={classNames.label}>
-              <ComboboxUI.Button as={'div'}>
+              <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
                 <ComboboxUI.Input
                   className={classNames.input}
                   displayValue={getDisplayingValue}
@@ -132,8 +132,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                   onClick={onInputClick}
                   value={value || ''}
                   disabled={disabled}
-                  onDoubleClick={() => {
-                    console.log(`!!!`)
+                  onDoubleClick={e => {
+                    const input = e.currentTarget
+                    input.select()
                   }}
                   ref={ref}
                 />
