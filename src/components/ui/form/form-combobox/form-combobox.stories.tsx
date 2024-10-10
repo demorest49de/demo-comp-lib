@@ -10,7 +10,7 @@ import { optionType } from '../../combobox/combobox.stories'
 import { ComboboxOptionProps } from '../../combobox'
 import { Button } from '../../button/button'
 
-const options: optionType[] = [
+const options1: optionType[] = [
   {
     label: 'Apple',
     value: {
@@ -59,6 +59,10 @@ const options2: optionType[] = [
 ]
 
 const FakeForm = () => {
+  const [countriesValues, setCountriesValues] = useState<optionType[]>(options1)
+
+  const [citiesValues, setCitiesValues] = useState<optionType[] | null>(options2)
+
   const [dataForCountry, setGetDataForCountry] = useState<ComboboxOptionProps<string> | null>(null)
 
   const [dataForCity, setGetDataForCity] = useState<ComboboxOptionProps<string> | null>(null)
@@ -69,13 +73,22 @@ const FakeForm = () => {
   })
   type FormValues = z.infer<typeof FormSchema>
 
-  const { reset, setValue, control, handleSubmit } = useForm<FormValues>({
+  const { reset, setValue, control, handleSubmit, watch } = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {},
   })
+
+  const countryValue = watch('country')
+  useEffect(() => {
+    if (!countryValue) {
+      setValue('city', '') // Очистка значения city
+      setCitiesValues(null) // Также очищаем список городов, если необходимо
+    }
+  }, [countryValue, setValue])
+
   useEffect(() => {
     reset({
-      country: 'Apple',
+      country: '',
       city: '',
     })
   }, [reset])
@@ -98,7 +111,7 @@ const FakeForm = () => {
         <FormCombobox
           control={control}
           name={'country'}
-          options={options}
+          options={options1}
           onInputClick={() => {}}
           getDataForCombobox={setGetDataForCountry}
           setValue={value => setValue('country', value)}
@@ -111,7 +124,8 @@ const FakeForm = () => {
           onInputClick={() => {}}
           getDataForCombobox={setGetDataForCity}
           setValue={value => setValue('city', value)}
-          isLoading={true}
+          disabled={!countryValue}
+          isLoading={false}
         />
         <Button>submit</Button>
       </form>
