@@ -35,6 +35,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                                                                                      shouldUnregister,
                                                                                      disabled,
                                                                                      getDataForCombobox,
+                                                                                     isLoading,
                                                                                      ...comboboxProps
                                                                                  }: FormComboboxProps<TFieldValues, T>) => {
     const {
@@ -66,6 +67,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
                 value={fieldValue}
                 disabled={disabled}
                 setValue={setValue}
+                isLoading={isLoading}
             />
         </div>
     )
