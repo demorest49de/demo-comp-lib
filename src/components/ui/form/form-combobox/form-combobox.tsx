@@ -22,7 +22,7 @@ export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
   label?: ReactNode
   portal?: boolean
   setValue: (name: keyof TFieldValues, value: T | string | null) => void
-  requestItemOnKeyDown: () => void
+  requestItemOnKeyDown?: () => void
 }
 
 export const FormCombobox = <TFieldValues extends FieldValues, T extends string>({
