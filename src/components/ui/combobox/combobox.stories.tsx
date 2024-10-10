@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useRef, useState} from 'react'
 import {Meta} from '@storybook/react'
 import {Combobox, ComboboxOptionProps, ComboboxProps} from "./combobox";
 import {FieldValues} from "react-hook-form";
@@ -36,53 +36,57 @@ export default {
     component: Combobox,
     title: 'Components/Combobox',
 } satisfies Meta<typeof Combobox>
-
-export const Simple = {
-    args: {
-        name: 'country',
-        label: 'Select country',
-        options,
-    },
-
-    render: (args: ComboboxProps<string, FieldValues>) => {
-
-        const [value, setValue] = useState<string | null>(null)
-        const [valueForCity, setValueForCity]
-            = useState<ComboboxOptionProps<string> | null>(null)
-
-
-        return (
-            <>
-                <div>
-                    <Combobox
-                        {...args}
-                        value={value || ""}
-                        setValue={setValue}
-                        getDataForCombobox={setValueForCity}
-                        onInputClick={() => {
-
-                        }}
-                    />
-                </div>
-                <div>Selected value: {value}</div>
-            </>
-        )
-    },
-}
-
-export const SimpleWithLabelDisabled = {
-    ...Simple,
-    args: {
-        ...Simple.args,
-        label: 'Some label',
-        disabled: true
-    },
-}
-
-export const WithError = {
-    ...Simple,
-    args: {
-        ...Simple.args,
-        errorMessage: 'Сообщение об ошибке',
-    },
-}
+//
+// export const Simple = {
+//     args: {
+//         name: 'country',
+//         label: 'Select country',
+//         options,
+//     },
+//
+//     // render: (args: ComboboxProps<string, FieldValues>) => {
+//     //
+//     //     const [value, setValue] =
+//     //         useState<{ name: string, value: string | null} | null>({name: 'country', value: null})
+//     //     const [valueForCity, setValueForCity]
+//     //         = useState<ComboboxOptionProps<string> | null>(null)
+//     //     const refValue = useRef<HTMLInputElement>(null)
+// //todo поправить типизацию  и сторис в целом поправить
+//
+//         return (
+//             <>
+//                 <div>
+//                     {/*<Combobox*/}
+//                     {/*    {...args}*/}
+//                     {/*     onChange={(value)=>{console.log(value)}}*/}
+//                     {/*     value={value || ""}*/}
+//                     {/*     setValue={(value)=> setValue('country', 'город')}*/}
+//                     {/*    getDataForCombobox={setValueForCity}*/}
+//                     {/*    onInputClick={() => {*/}
+//                     {/*        console.log(`clicked!!!`)*/}
+//                     {/*    }}*/}
+//                     {/*    ref={refValue}*/}
+//                     {/*/>*/}
+//                 </div>
+//                 {/*<div>Selected value: {value}</div>*/}
+//             </>
+//         )
+//     },
+// }
+//
+// export const SimpleWithLabelDisabled = {
+//     ...Simple,
+//     args: {
+//         ...Simple.args,
+//         label: 'Some label',
+//         disabled: true
+//     },
+// }
+//
+// export const WithError = {
+//     ...Simple,
+//     args: {
+//         ...Simple.args,
+//         errorMessage: 'Сообщение об ошибке',
+//     },
+// }
