@@ -39,20 +39,20 @@ const options2: optionType[] = [
     label: 'Apple',
     value: {
       id: 1,
-      name: 'apple',
+      name: 'Apple',
     },
   },
   {
     label: 'Banana',
     value: {
-      name: 'banana',
+      name: 'Banana',
       id: 2,
     },
   },
   {
     label: 'Blueberry',
     value: {
-      name: 'blueberry',
+      name: 'Blueberry',
       id: 3,
     },
   },
