@@ -132,6 +132,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                   onClick={onInputClick}
                   value={value || ''}
                   disabled={disabled}
+                  onDoubleClick={() => {
+                    console.log(`!!!`)
+                  }}
                   ref={ref}
                 />
                 {isLoading && <ThreeDotsSpinner spinnerclassName={s.threeDotsSpinner} />}
@@ -146,7 +149,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
               </div>
             )}
           </div>
-          <ComboboxUI.Options as={'div'} className={classNames.content}>
+          <ComboboxUI.Options as={'div'} className={classNames.content} transition>
             <ScrollAreaComponent>
               <List
                 height={listHeight}
