@@ -94,7 +94,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
 
     function filterOptions() {
       const filtered = value
-        ? options.filter(option => option.label?.toLowerCase().includes(value?.toLowerCase()))
+        ? options.filter(option => option.label?.toLowerCase().startsWith(value?.toLowerCase()))
         : options
       return filtered.sort((a, b) => a.label.localeCompare(b.label))
     }
