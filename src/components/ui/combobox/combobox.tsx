@@ -54,7 +54,6 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       getDataForCombobox,
       onInputClick,
       placeholder,
-      isAsync,
       isLoading,
       errorMessage,
       label,
@@ -76,11 +75,6 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       onChange(null)
     }
 
-    const filteredOptions =
-      value && !isAsync
-        ? options.filter(option => option.label?.toLowerCase().includes(value?.toLowerCase()))
-        : options
-
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.currentTarget.value as string | ''
       setValue(name, newValue || null)
@@ -97,6 +91,15 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       getDataForCombobox(optionResult || null)
       return optionResult?.label || ''
     }
+
+    function filterOptions() {
+      const filtered = value
+        ? options.filter(option => option.label?.toLowerCase().includes(value?.toLowerCase()))
+        : options
+      return filtered.sort((a, b) => a.label.localeCompare(b.label))
+    }
+
+    const filteredOptions = filterOptions()
 
     const classNames = {
       box: s.box,
@@ -137,7 +140,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                   onClick={onInputClick}
                   value={value || ''}
                   disabled={disabled}
-                  //todo поправить
+                  //todo исправить
                   onDoubleClick={e => {
                     const input = e.currentTarget
                     input.select()

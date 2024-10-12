@@ -12,13 +12,6 @@ import { Button } from '../../button/button'
 
 const options1: optionType[] = [
   {
-    label: 'Apple',
-    value: {
-      id: 1,
-      name: 'Apple',
-    },
-  },
-  {
     label: 'Banana',
     value: {
       name: 'Banana',
@@ -30,6 +23,13 @@ const options1: optionType[] = [
     value: {
       name: 'Blueberry',
       id: 3,
+    },
+  },
+  {
+    label: 'Apple',
+    value: {
+      id: 1,
+      name: 'Apple',
     },
   },
 ]
@@ -43,17 +43,17 @@ const options2: optionType[] = [
     },
   },
   {
-    label: 'Banana',
-    value: {
-      name: 'Banana',
-      id: 2,
-    },
-  },
-  {
     label: 'Blueberry',
     value: {
       name: 'Blueberry',
       id: 3,
+    },
+  },
+  {
+    label: 'Banana',
+    value: {
+      name: 'Banana',
+      id: 2,
     },
   },
 ]
