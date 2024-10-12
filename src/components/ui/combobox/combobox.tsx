@@ -1,3 +1,4 @@
+//region imports
 import {
   ChangeEvent,
   Dispatch,
@@ -10,7 +11,6 @@ import {
 import { Combobox as ComboboxUI } from '@headlessui/react'
 import { Close, ArrowIosDownOutline } from '../../../assets/components'
 import { ScrollAreaComponent } from '../../ui/scroll/scrollArea'
-import { Spinner } from '../spinner/spinner'
 import { Label } from '../label'
 import { Float } from '@headlessui-float/react'
 import { clsx } from 'clsx'
@@ -44,7 +44,7 @@ export type ComboboxProps<T, TFieldValues extends FieldValues> = {
   onBlur?: () => void
   requestItemOnKeyDown?: () => void
 }
-
+//endregion imports
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, FieldValues>>(
   (
     {
@@ -70,6 +70,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = !!value
 
+    //region functionality
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
       setValue(name, null)
       onChange(null)
@@ -114,6 +115,8 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
 
     const itemHeight = 40
     const listHeight = Math.min(filteredOptions.length * itemHeight, 200)
+
+    //endregion functionality
 
     return (
       <ComboboxUI
