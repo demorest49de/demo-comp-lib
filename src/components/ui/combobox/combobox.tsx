@@ -117,7 +117,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     }
 
     const itemHeight = 40
-    const listHeight = Math.min(filteredOptions.length * itemHeight, 80)
+    const listHeight = Math.min(filteredOptions.length * itemHeight, 200)
 
     //endregion functionality
 
