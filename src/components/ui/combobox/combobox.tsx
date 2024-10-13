@@ -73,10 +73,16 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       onChange(null)
     }
 
-    const filteredOptions =
-      value && !isAsync
-        ? options.filter(option => option.label?.toLowerCase().includes(value?.toLowerCase()))
-        : options
+    function filterOptions() {
+      const filteredOptions =
+        value && !isAsync
+          ? options.filter(option => option.label?.toLowerCase().includes(value?.toLowerCase()))
+          : options
+
+      return filteredOptions.sort((a, b) => a.label.localeCompare(b.label))
+    }
+
+    const filteredOptions = filterOptions()
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.currentTarget.value as string | ''
