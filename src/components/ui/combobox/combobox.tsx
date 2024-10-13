@@ -1,4 +1,3 @@
-//region imports
 import {
   ChangeEvent,
   Dispatch,
@@ -11,6 +10,7 @@ import {
 import { Combobox as ComboboxUI } from '@headlessui/react'
 import { Close, ArrowIosDownOutline } from '../../../assets/components'
 import { ScrollAreaComponent } from '../../ui/scroll/scrollArea'
+import { Spinner } from '../spinner/spinner'
 import { Label } from '../label'
 import { Float } from '@headlessui-float/react'
 import { clsx } from 'clsx'
@@ -44,7 +44,7 @@ export type ComboboxProps<T, TFieldValues extends FieldValues> = {
   onBlur?: () => void
   requestItemOnKeyDown?: () => void
 }
-//endregion imports
+
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, FieldValues>>(
   (
     {
@@ -54,6 +54,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       getDataForCombobox,
       onInputClick,
       placeholder,
+      isAsync,
       isLoading,
       errorMessage,
       label,
@@ -69,11 +70,15 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = !!value
 
-    //region functionality
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
       setValue(name, null)
       onChange(null)
     }
+
+    const filteredOptions =
+      value && !isAsync
+        ? options.filter(option => option.label?.toLowerCase().includes(value?.toLowerCase()))
+        : options
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.currentTarget.value as string | ''
@@ -92,15 +97,6 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       return optionResult?.label || ''
     }
 
-    function filterOptions() {
-      const filtered = value
-        ? options.filter(option => option.label?.toLowerCase().startsWith(value?.toLowerCase()))
-        : options
-      return filtered.sort((a, b) => a.label.localeCompare(b.label))
-    }
-
-    const filteredOptions = filterOptions()
-
     const classNames = {
       box: s.box,
       button: clsx(s.button),
@@ -118,8 +114,6 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
 
     const itemHeight = 40
     const listHeight = Math.min(filteredOptions.length * itemHeight, 200)
-
-    //endregion functionality
 
     return (
       <ComboboxUI
@@ -140,7 +134,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                   onClick={onInputClick}
                   value={value || ''}
                   disabled={disabled}
-                  //todo исправить
+                  //todo поправить
                   onDoubleClick={e => {
                     const input = e.currentTarget
                     input.select()
