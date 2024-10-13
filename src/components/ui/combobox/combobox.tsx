@@ -149,7 +149,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
             </Label>
             {isClearButtonVisible && (
               <div className={classNames.clearButton} onClick={handleClearButtonClicked}>
-                <Close />
+                <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
+                  <Close />
+                </ComboboxUI.Button>
               </div>
             )}
           </div>
