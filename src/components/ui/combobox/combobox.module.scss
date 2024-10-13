@@ -72,10 +72,14 @@
 
 .button {
   position: absolute;
-  right: 6px;
-  bottom: 9px;
+  right: 0;
+  bottom: 0;
   cursor: pointer;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
 }
 
 .clearButton {
@@ -84,9 +88,11 @@
   right: 29px;
   bottom: 18px;
   transform: translateY(50%);
-
-  width: 18px;
-  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
 
   &[data-headlessui-state='disabled'] {
     cursor: initial;
