@@ -55,7 +55,6 @@ export default {
 //     //     const [valueForCity, setValueForCity]
 //     //         = useState<ComboboxOptionProps<string> | null>(null)
 //     //     const refValue = useRef<HTMLInputElement>(null)
-// //todo поправить типизацию  и сторис в целом поправить
 //
 //         return (
 //             <>
