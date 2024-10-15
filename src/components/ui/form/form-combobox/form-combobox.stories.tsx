@@ -78,8 +78,9 @@ const FakeForm = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {},
   })
-
+  
   const countryValue = watch('country')
+
   useEffect(() => {
     if (!countryValue) {
       setValue('city', '') // Очистка значения city
@@ -87,12 +88,13 @@ const FakeForm = () => {
     }
   }, [countryValue, setValue])
 
+
   useEffect(() => {
     reset({
-      country: '',
-      city: '',
+      country: undefined,
+      city: undefined,
     })
-  }, [reset])
+  }, [])
 
   const handleSubmitHandler = (data: FormValues) => {
     console.log(data)
@@ -146,7 +148,7 @@ const FakeForm = () => {
           disabled={!countryValue}
           isLoading={false}
         />
-        <Button>submit</Button>
+        <Button type={'submit'}>submit</Button>
       </form>
     </>
   )
