@@ -117,8 +117,8 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     }
 
     const itemHeight = 40
-    const listHeight = Math.min(filteredOptions.length * itemHeight, 200)
-
+    const listHeight = Math.min(filteredOptions.length * itemHeight, 120)
+    console.log(' listHeight: ', listHeight)
     return (
       <ComboboxUI
         immediate={true}
@@ -163,7 +163,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
             <ScrollAreaComponent>
               <List
                 height={listHeight}
-                itemCount={filteredOptions.length}
+                itemCount={Math.min(filteredOptions.length, 40)}
                 itemSize={itemHeight}
                 width="100%"
               >

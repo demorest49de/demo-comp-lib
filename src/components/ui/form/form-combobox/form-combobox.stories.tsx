@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { useForm } from 'react-hook-form'
+import { v4 as uuid } from 'uuid'
 
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -95,6 +96,24 @@ const FakeForm = () => {
 
   const handleSubmitHandler = (data: FormValues) => {
     console.log(data)
+  }
+
+  function addRandnomValues() {
+    options1.length = 0
+    options2.length = 0
+    options1.push(...pusharrayhandler())
+    options2.push(...pusharrayhandler())
+  }
+
+  addRandnomValues()
+
+  function pusharrayhandler() {
+    return new Array<optionType>(80)
+      .fill({ label: '', value: { id: 0, name: '' } })
+      .map((_, index) => {
+        const guid = uuid()
+        return { label: guid, value: { id: index, name: guid } }
+      })
   }
 
   const h2Styles: React.CSSProperties = { textAlign: 'center' }

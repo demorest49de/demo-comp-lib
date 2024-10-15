@@ -1,40 +1,44 @@
-import {useRef, useState} from 'react'
-import {Meta} from '@storybook/react'
-import {Combobox, ComboboxOptionProps, ComboboxProps} from "./combobox";
-import {FieldValues} from "react-hook-form";
+// import {useRef, useState} from 'react'
+import { Meta } from '@storybook/react'
+import {
+  Combobox,
+  // ComboboxOptionProps,
+  // ComboboxProps
+} from './combobox'
+// import {FieldValues} from "react-hook-form";
 
 export type optionType = {
-    label: string
-    value: { id: number, name: string }
+  label: string
+  value: { id: number; name: string }
 }
 
-const options: optionType[] = [
-    {
-        label: 'Apple',
-        value: {
-            id: 1,
-            name: 'apple',
-        }
-    },
-    {
-        label: 'Banana',
-        value: {
-            name: 'banana',
-            id: 2
-        }
-    },
-    {
-        label: 'Blueberry',
-        value: {
-            name: 'blueberry',
-            id: 3
-        }
-    },
-]
+// const options: optionType[] = [
+//     {
+//         label: 'Apple',
+//         value: {
+//             id: 1,
+//             name: 'apple',
+//         }
+//     },
+//     {
+//         label: 'Banana',
+//         value: {
+//             name: 'banana',
+//             id: 2
+//         }
+//     },
+//     {
+//         label: 'Blueberry',
+//         value: {
+//             name: 'blueberry',
+//             id: 3
+//         }
+//     },
+// ]
 
 export default {
-    component: Combobox,
-    title: 'Components/Combobox',
+  component: Combobox,
+  title: 'Components/Combobox',
 } satisfies Meta<typeof Combobox>
 //
 // export const Simple = {
