@@ -63,8 +63,8 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
         getDataForCombobox={getDataForCombobox}
         errorMessage={error?.message}
         {...comboboxProps}
-        onBlur={onBlur} // Добавляем onBlur для корректной работы с валидацией
-        ref={ref} // Добавляем ref для интеграции с react-hook-form
+        onBlur={onBlur}
+        ref={ref}
         value={fieldValue}
         disabled={disabled}
         setValue={setValue}
