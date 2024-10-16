@@ -78,7 +78,7 @@ const FakeForm = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {},
   })
-  
+
   const countryValue = watch('country')
 
   useEffect(() => {
@@ -87,7 +87,6 @@ const FakeForm = () => {
       setCitiesValues(null) // Также очищаем список городов, если необходимо
     }
   }, [countryValue, setValue])
-
 
   useEffect(() => {
     reset({
@@ -103,7 +102,11 @@ const FakeForm = () => {
   function addRandnomValues() {
     options1.length = 0
     options2.length = 0
+    // options1.push( { label: '0', value: { id: options1.length + 1, name: `0` } }, ...pusharrayhandler())
     options1.push(...pusharrayhandler())
+    options1.unshift({ label: '0', value: { id: options1.length + 1, name: `0` } })
+    options1.unshift({ label: '0', value: { id: options1.length + 1, name: `0` } })
+    options1.unshift({ label: '0', value: { id: options1.length + 1, name: `0` } })
     options2.push(...pusharrayhandler())
   }
 

@@ -6,6 +6,7 @@ import {
   ReactNode,
   SetStateAction,
   forwardRef,
+  useMemo,
 } from 'react'
 import { Combobox as ComboboxUI } from '@headlessui/react'
 import { Close, ArrowIosDownOutline } from '../../../assets/components'
@@ -73,16 +74,32 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       onChange(null)
     }
 
-    function filterOptions() {
+    const useUniqueItems = (items: ComboboxOptionProps<string>[]) => {
+      return useMemo(() => {
+        const uniqueKeys = new Set()
+        return items.filter(item => {
+          const keyValue = item.label
+          if (!uniqueKeys.has(keyValue)) {
+            uniqueKeys.add(keyValue)
+            return true
+          }
+          return false
+        })
+      }, [items])
+    }
+
+    const uniqueItems = useUniqueItems(options)
+
+    function filterOptions(uniqueItems: ComboboxOptionProps<string>[]) {
       const filteredOptions =
         value && !isAsync
-          ? options.filter(option => option.label?.toLowerCase().includes(value?.toLowerCase()))
-          : options
+          ? uniqueItems.filter(option => option.label?.toLowerCase().includes(value?.toLowerCase()))
+          : uniqueItems
 
       return filteredOptions.sort((a, b) => a.label.localeCompare(b.label))
     }
 
-    const filteredOptions = filterOptions()
+    const filteredOptions = filterOptions(uniqueItems)
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.currentTarget.value as string | ''
@@ -96,7 +113,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     }
 
     const getDisplayingValue = (optionValue: string) => {
-      const optionResult = options?.find(option => option.value.name === optionValue)
+      const optionResult = filteredOptions?.find(option => option.value.name === optionValue)
       getDataForCombobox(optionResult || null)
       return optionResult?.label || ''
     }
@@ -155,7 +172,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
             </Label>
             {isClearButtonVisible && (
               <div className={classNames.clearButton} onClick={handleClearButtonClicked}>
-                <Close />
+                <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
+                  <Close />
+                </ComboboxUI.Button>
               </div>
             )}
           </div>
