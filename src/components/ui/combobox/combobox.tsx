@@ -7,8 +7,7 @@ import {
   SetStateAction,
   forwardRef,
   useMemo,
-  useRef,
-  RefObject,
+  useState,
 } from 'react'
 import { Combobox as ComboboxUI } from '@headlessui/react'
 import { Close, ArrowIosDownOutline } from '../../../assets/components'
@@ -21,6 +20,8 @@ import s from './combobox.module.scss'
 import { FixedSizeList as List } from 'react-window'
 import { FieldValues, Path } from 'react-hook-form'
 import { ThreeDotsSpinner } from '@/components/ui/three-dots-spinner/three-dots-spinner'
+import { css } from '@emotion/react'
+import styled from '@emotion/styled'
 
 export type ComboboxOptionProps<T> = {
   label: T
@@ -65,13 +66,13 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       setValue,
       requestItemOnKeyDown,
       ...comboboxProps
-    }
-    // ref
+    },
+    ref
   ) => {
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = !!value
 
-    const inputRef = useRef<HTMLDivElement>()
+    const [position, setPosition] = useState(false)
 
     const useUniqueItems = (items: ComboboxOptionProps<string>[]) => {
       return useMemo(() => {
@@ -125,7 +126,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     }
 
     const classNames = {
-      box: s.box,
+      box: clsx(s.box),
       button: clsx(s.button),
       clearButton: s.clearButton,
       content: clsx(selectStyle.content, filteredOptions.length === 0 && s.empty),
@@ -138,13 +139,26 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       spinnerParentDiv: s.spinnerParentDiv,
       label: s.label,
     }
+    const buttonStyle = css`
+      width: ${position ? '35px' : '100%'};
+      & div[id*='headlessui-combobox-button'] {
+        //background-color: yellow;
+        width: 100%;
+        display: flex;
+        justify-content: right;
+        padding-right: 10px;
+      }
+    `
+    const StyledButton = styled.div`
+      ${buttonStyle}
+    `
 
     const itemHeight = 40
     const listHeight = Math.min(filteredOptions.length * itemHeight, 120)
 
     return (
       <ComboboxUI
-        immediate={true}
+        // immediate={true}
         {...{ disabled, name, onChange }}
         {...comboboxProps}
         as={'div'}
@@ -158,7 +172,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                 displayValue={getDisplayingValue}
                 onChange={inputChangeHandler}
                 placeholder={placeholder}
-                onClick={onInputClick}
+                onClick={() => {
+                  setPosition(value => !value)
+                  onInputClick
+                }}
                 value={value || ''}
                 disabled={disabled}
                 onKeyDown={e => {
@@ -167,19 +184,20 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                     requestItemOnKeyDown && requestItemOnKeyDown()
                   }
                 }}
+                ref={ref}
               />
               {isLoading && <ThreeDotsSpinner spinnerclassName={s.threeDotsSpinner} />}
-              <div className={classNames.button}>
+              <StyledButton className={classNames.button}>
                 <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
                   <ArrowIosDownOutline className={classNames.icon} />
                 </ComboboxUI.Button>
-              </div>
+              </StyledButton>
             </Label>
             {isClearButtonVisible && (
               <div className={classNames.clearButton} onClick={handleClearButtonClicked}>
-                <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
-                  <Close />
-                </ComboboxUI.Button>
+                {/*<ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>*/}
+                <Close />
+                {/*</ComboboxUI.Button>*/}
               </div>
             )}
           </div>

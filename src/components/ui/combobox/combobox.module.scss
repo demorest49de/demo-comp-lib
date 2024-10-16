@@ -24,8 +24,10 @@
   border-radius: 2px;
   outline: none;
 
-  transition: var(--transtition-duration-basic) background-color,
-  var(--transtition-duration-basic) color, var(--transtition-duration-basic) border-color;
+  transition:
+    var(--transtition-duration-basic) background-color,
+    var(--transtition-duration-basic) color,
+    var(--transtition-duration-basic) border-color;
 
   &::placeholder {
     color: var(--color-light-900);
@@ -64,9 +66,10 @@
 
 .box {
   position: relative;
+  width: inherit;
 }
 
-.box div[id*="headlessui-combobox-button"] {
+.box div[id*='headlessui-combobox-button'] {
   position: relative;
 }
 
@@ -99,7 +102,6 @@
     color: darkmagenta;
   }
 }
-
 
 .spinnerParentDiv {
   position: absolute;
