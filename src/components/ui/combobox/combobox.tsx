@@ -179,12 +179,6 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                 displayValue={getDisplayingValue}
                 onChange={inputChangeHandler}
                 placeholder={placeholder}
-                onClick={() => {
-                  // setPosition(true)
-                }}
-                onBlur={() => {
-                  // setPosition(false)
-                }}
                 value={value || ''}
                 disabled={disabled}
                 onKeyDown={e => {
@@ -206,11 +200,19 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
               <div
                 className={classNames.clearButton}
                 onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-                  console.log(event.currentTarget)
-                  handleClearButtonClicked()
+                  // console.log(`111`);
+                  // console.log(event.currentTarget)
+                  // handleClearButtonClicked()
                 }}
               >
-                <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
+                <ComboboxUI.Button
+                  as={'div'}
+                  onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+                    console.log(`111`);
+                    console.log(event.currentTarget)
+                    handleClearButtonClicked()
+                  }}
+                >
                   <Close />
                 </ComboboxUI.Button>
               </div>
