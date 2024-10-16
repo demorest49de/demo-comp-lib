@@ -110,7 +110,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       const newValue = e.currentTarget.value as string | ''
       setValue(name, newValue || null)
 
-      const optionResult = filteredOptions?.find(option => option.value.name === optionValue)
+      const optionResult = filteredOptions?.find(option => option.value.name === newValue)
       getDataForCombobox(optionResult || null)
 
       if (newValue === '') {
