@@ -66,13 +66,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     },
     ref
   ) => {
+
+
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = !!value
-
-    const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
-      setValue(name, null)
-      onChange(null)
-    }
 
     const useUniqueItems = (items: ComboboxOptionProps<string>[]) => {
       return useMemo(() => {
@@ -86,6 +83,11 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
           return false
         })
       }, [items])
+    }
+
+    const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
+      setValue(name, null)
+      onChange(null)
     }
 
     const uniqueItems = useUniqueItems(options)
