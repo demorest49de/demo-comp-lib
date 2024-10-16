@@ -107,6 +107,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       const newValue = e.currentTarget.value as string | ''
       setValue(name, newValue || null)
 
+      const optionResult = filteredOptions?.find(option => option.value.name === optionValue)
+      getDataForCombobox(optionResult || null)
+
       if (newValue === '') {
         onChange(null)
       } else {
@@ -116,7 +119,6 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
 
     const getDisplayingValue = (optionValue: string) => {
       const optionResult = filteredOptions?.find(option => option.value.name === optionValue)
-      getDataForCombobox(optionResult || null)
       return optionResult?.label || ''
     }
 
