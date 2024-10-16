@@ -93,6 +93,8 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
       setValue(name, null)
       onChange(null)
+      inputRef?.current?.blur()
+      inputRef?.current?.focus()
     }
 
     const uniqueItems = useUniqueItems(options)
@@ -152,7 +154,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
         padding-right: 10px;
       }
     `
-    const StyledButton = styled.div`
+    const UpDownButton = styled.div`
       ${buttonStyle}
     `
 
@@ -195,7 +197,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                 ref={inputRef as RefObject<HTMLInputElement>}
               />
               {isLoading && <ThreeDotsSpinner spinnerclassName={s.threeDotsSpinner} />}
-              <StyledButton className={classNames.button}>
+              <UpDownButton className={classNames.button}>
                 <ComboboxUI.Button
                   as={'div'}
                   className={s.buttonAsDiv}
@@ -205,13 +207,13 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                 >
                   <ArrowIosDownOutline className={classNames.icon} />
                 </ComboboxUI.Button>
-              </StyledButton>
+              </UpDownButton>
             </Label>
             {isClearButtonVisible && (
-              <div className={classNames.clearButton} onClick={handleClearButtonClicked}>
-                {/*<ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>*/}
+              <div className={classNames.clearButton} >
+                <ComboboxUI.Button as={'div'} className={s.buttonAsDiv} onClick={handleClearButtonClicked}>
                 <Close />
-                {/*</ComboboxUI.Button>*/}
+                </ComboboxUI.Button>
               </div>
             )}
           </div>
