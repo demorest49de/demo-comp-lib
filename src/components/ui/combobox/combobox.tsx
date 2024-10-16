@@ -8,6 +8,8 @@ import {
   forwardRef,
   useMemo,
   useState,
+  useRef,
+  RefObject,
 } from 'react'
 import { Combobox as ComboboxUI } from '@headlessui/react'
 import { Close, ArrowIosDownOutline } from '../../../assets/components'
@@ -117,6 +119,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
         onChange(null)
       } else {
         onChange(newValue)
+        setPosition(true)
       }
     }
 
@@ -156,6 +159,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     const itemHeight = 40
     const listHeight = Math.min(filteredOptions.length * itemHeight, 120)
 
+    const inputRef = useRef<HTMLInputElement>()
+    console.log('data-open: ', inputRef?.current?.getAttribute('data-open'))
+    console.log('data-headlessui-state: ', inputRef?.current?.getAttribute('data-headlessui-state'))
     return (
       <ComboboxUI
         // immediate={true}
@@ -173,8 +179,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                 onChange={inputChangeHandler}
                 placeholder={placeholder}
                 onClick={() => {
-                  setPosition(value => !value)
-                  onInputClick
+                  setPosition(true)
+                }}
+                onBlur={() => {
+                  setPosition(false)
                 }}
                 value={value || ''}
                 disabled={disabled}
@@ -184,11 +192,17 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                     requestItemOnKeyDown && requestItemOnKeyDown()
                   }
                 }}
-                ref={ref}
+                ref={inputRef as RefObject<HTMLInputElement>}
               />
               {isLoading && <ThreeDotsSpinner spinnerclassName={s.threeDotsSpinner} />}
               <StyledButton className={classNames.button}>
-                <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
+                <ComboboxUI.Button
+                  as={'div'}
+                  className={s.buttonAsDiv}
+                  onClick={() => {
+                    setPosition(true)
+                  }}
+                >
                   <ArrowIosDownOutline className={classNames.icon} />
                 </ComboboxUI.Button>
               </StyledButton>
