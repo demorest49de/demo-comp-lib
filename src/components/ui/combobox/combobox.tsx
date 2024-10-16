@@ -7,7 +7,8 @@ import {
   SetStateAction,
   forwardRef,
   useMemo,
-  Ref,
+  useRef,
+  RefObject,
 } from 'react'
 import { Combobox as ComboboxUI } from '@headlessui/react'
 import { Close, ArrowIosDownOutline } from '../../../assets/components'
@@ -64,11 +65,13 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       setValue,
       requestItemOnKeyDown,
       ...comboboxProps
-    },
-    ref
+    }
+    // ref
   ) => {
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = !!value
+
+    const inputRef = useRef<HTMLDivElement>()
 
     const useUniqueItems = (items: ComboboxOptionProps<string>[]) => {
       return useMemo(() => {
@@ -87,10 +90,6 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
       setValue(name, null)
       onChange(null)
-      const inputRef = ref as Ref<HTMLInputElement>
-      if (inputRef) {
-        console.log(' inputRef: ', inputRef);
-      }
     }
 
     const uniqueItems = useUniqueItems(options)
@@ -168,15 +167,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                     requestItemOnKeyDown && requestItemOnKeyDown()
                   }
                 }}
-                ref={ref}
               />
               {isLoading && <ThreeDotsSpinner spinnerclassName={s.threeDotsSpinner} />}
               <div className={classNames.button}>
-                <ComboboxUI.Button
-                  as={'div'}
-                  className={s.buttonAsDiv}
-                  ref={ref as Ref<HTMLButtonElement>}
-                >
+                <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
                   <ArrowIosDownOutline className={classNames.icon} />
                 </ComboboxUI.Button>
               </div>
