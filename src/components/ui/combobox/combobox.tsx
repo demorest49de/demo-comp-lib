@@ -94,9 +94,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     const handleClearButtonClicked = () => {
       setValue(name, null)
       onChange(null)
-      console.log(' click: ',)
-      // inputRef?.current?.blur()
-      // inputRef?.current?.focus()
+      console.log(' click: ')
+      inputRef?.current?.blur()
+      inputRef?.current?.focus()
     }
 
     const uniqueItems = useUniqueItems(options)
@@ -146,7 +146,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       spinnerParentDiv: s.spinnerParentDiv,
       label: s.label,
     }
-    console.log(' value: ', value)
+
     const buttonStyle = css`
       width: ${position || value ? '35px' : '100%'};
       & div[id*='headlessui-combobox-button'] {
@@ -211,7 +211,13 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
               </UpDownButton>
             </Label>
             {isClearButtonVisible && (
-              <div className={classNames.clearButton} onClick={handleClearButtonClicked}>
+              <div
+                className={classNames.clearButton}
+                onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+                  console.log(event.currentTarget)
+                  handleClearButtonClicked()
+                }}
+              >
                 <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
                   <Close />
                 </ComboboxUI.Button>
