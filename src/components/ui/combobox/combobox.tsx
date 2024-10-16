@@ -10,6 +10,7 @@ import {
   useState,
   useRef,
   RefObject,
+  FocusEvent,
 } from 'react'
 import { Combobox as ComboboxUI } from '@headlessui/react'
 import { Close, ArrowIosDownOutline } from '../../../assets/components'
@@ -68,8 +69,8 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       setValue,
       requestItemOnKeyDown,
       ...comboboxProps
-    },
-    ref
+    }
+    // ref
   ) => {
     const showError = !!errorMessage && errorMessage.length > 0
     const isClearButtonVisible = !!value
@@ -89,12 +90,13 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
         })
       }, [items])
     }
-
-    const handleClearButtonClicked: MouseEventHandler<HTMLDivElement> = () => {
+    //: MouseEventHandler<HTMLDivElement>
+    const handleClearButtonClicked = () => {
       setValue(name, null)
       onChange(null)
-      inputRef?.current?.blur()
-      inputRef?.current?.focus()
+      console.log(' click: ',)
+      // inputRef?.current?.blur()
+      // inputRef?.current?.focus()
     }
 
     const uniqueItems = useUniqueItems(options)
@@ -144,8 +146,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       spinnerParentDiv: s.spinnerParentDiv,
       label: s.label,
     }
+    console.log(' value: ', value)
     const buttonStyle = css`
-      width: ${position ? '35px' : '100%'};
+      width: ${position || value ? '35px' : '100%'};
       & div[id*='headlessui-combobox-button'] {
         //background-color: yellow;
         width: 100%;
@@ -162,11 +165,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     const listHeight = Math.min(filteredOptions.length * itemHeight, 120)
 
     const inputRef = useRef<HTMLInputElement>()
-    console.log('data-open: ', inputRef?.current?.getAttribute('data-open'))
-    console.log('data-headlessui-state: ', inputRef?.current?.getAttribute('data-headlessui-state'))
+
     return (
       <ComboboxUI
-        // immediate={true}
         {...{ disabled, name, onChange }}
         {...comboboxProps}
         as={'div'}
@@ -181,10 +182,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                 onChange={inputChangeHandler}
                 placeholder={placeholder}
                 onClick={() => {
-                  setPosition(true)
+                  // setPosition(true)
                 }}
                 onBlur={() => {
-                  setPosition(false)
+                  // setPosition(false)
                 }}
                 value={value || ''}
                 disabled={disabled}
@@ -202,7 +203,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                   as={'div'}
                   className={s.buttonAsDiv}
                   onClick={() => {
-                    setPosition(true)
+                    // setPosition(true)
                   }}
                 >
                   <ArrowIosDownOutline className={classNames.icon} />
@@ -210,9 +211,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
               </UpDownButton>
             </Label>
             {isClearButtonVisible && (
-              <div className={classNames.clearButton} >
-                <ComboboxUI.Button as={'div'} className={s.buttonAsDiv} onClick={handleClearButtonClicked}>
-                <Close />
+              <div className={classNames.clearButton} onClick={handleClearButtonClicked}>
+                <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
+                  <Close />
                 </ComboboxUI.Button>
               </div>
             )}
