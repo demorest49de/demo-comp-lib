@@ -100,14 +100,14 @@ const FakeForm = () => {
     console.log(data)
   }
 
-  function addRandnomValues() {
-    options1.length = 0
-    options2.length = 0
-    options1.push(...pusharrayhandler())
-    options2.push(...pusharrayhandler())
-  }
+  // function addRandnomValues() {
+  //   options1.length = 0
+  //   options2.length = 0
+  //   options1.push(...pusharrayhandler())
+  //   options2.push(...pusharrayhandler())
+  // }
 
-  addRandnomValues()
+  // addRandnomValues()
 
   function pusharrayhandler() {
     return new Array<optionType>(80)
