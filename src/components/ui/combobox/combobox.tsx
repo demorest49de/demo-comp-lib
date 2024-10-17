@@ -197,25 +197,19 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
               </UpDownButton>
             </Label>
             {isClearButtonVisible && (
-              <div
-                className={classNames.clearButton}
-                onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-                  // console.log(`111`);
-                  // console.log(event.currentTarget)
-                  // handleClearButtonClicked()
-                }}
-              >
+              // <div >
                 <ComboboxUI.Button
+                    className={classNames.clearButton}
                   as={'div'}
                   onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-                    console.log(`111`);
+                    console.log(`111`)
                     console.log(event.currentTarget)
                     handleClearButtonClicked()
                   }}
                 >
                   <Close />
                 </ComboboxUI.Button>
-              </div>
+              // </div>
             )}
           </div>
           <ComboboxUI.Options as={'div'} className={classNames.content} transition>
