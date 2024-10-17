@@ -113,7 +113,7 @@ const FakeForm = () => {
     options2.unshift({ label: '01jaksdhfk', value: { id: options2.length + 1, name: `01jaksdhfk` } })
   }
 
-  addRandnomValues()
+  // addRandnomValues()
 
   function pusharrayhandler() {
     return new Array<optionType>(80)
@@ -135,15 +135,15 @@ const FakeForm = () => {
     <>
       <h2 style={h2Styles}>Form</h2>
       <form style={formStyles} onSubmit={handleSubmit(handleSubmitHandler)}>
-        <FormCombobox
-          control={control}
-          name={'country'}
-          options={options1}
-          onInputClick={() => {}}
-          getDataForCombobox={setGetDataForCountry}
-          setValue={value => setValue('country', value)}
-          isLoading={false}
-        />
+        {/*<FormCombobox*/}
+        {/*  control={control}*/}
+        {/*  name={'country'}*/}
+        {/*  options={options1}*/}
+        {/*  onInputClick={() => {}}*/}
+        {/*  getDataForCombobox={setGetDataForCountry}*/}
+        {/*  setValue={value => setValue('country', value)}*/}
+        {/*  isLoading={false}*/}
+        {/*/>*/}
         <FormCombobox
           control={control}
           name={'city'}
@@ -151,7 +151,7 @@ const FakeForm = () => {
           onInputClick={() => {}}
           getDataForCombobox={setGetDataForCity}
           setValue={value => setValue('city', value)}
-          disabled={!countryValue}
+          // disabled={!countryValue}
           isLoading={false}
         />
         <Button type={'submit'}>submit</Button>

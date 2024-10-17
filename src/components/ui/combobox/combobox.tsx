@@ -93,7 +93,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       setValue(name, null)
       onChange(null)
       // console.log(' blur: ')
-      // inputRef?.current?.blur()
+      inputRef?.current?.blur()
       // inputRef?.current?.focus()
     }
 
