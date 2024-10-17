@@ -108,9 +108,18 @@ const FakeForm = () => {
     options1.unshift({ label: '0', value: { id: options1.length + 1, name: `0` } })
     options1.unshift({ label: '0', value: { id: options1.length + 1, name: `0` } })
     options2.push(...pusharrayhandler())
-    options2.unshift({ label: '01jaksdhfk', value: { id: options2.length + 1, name: `01jaksdhfk` } })
-    options2.unshift({ label: '01jaksdhfk', value: { id: options2.length + 1, name: `01jaksdhfk` } })
-    options2.unshift({ label: '01jaksdhfk', value: { id: options2.length + 1, name: `01jaksdhfk` } })
+    options2.unshift({
+      label: '01jaksdhfk',
+      value: { id: options2.length + 1, name: `01jaksdhfk` },
+    })
+    options2.unshift({
+      label: '01jaksdhfk',
+      value: { id: options2.length + 1, name: `01jaksdhfk` },
+    })
+    options2.unshift({
+      label: '01jaksdhfk',
+      value: { id: options2.length + 1, name: `01jaksdhfk` },
+    })
   }
 
   // addRandnomValues()
@@ -131,29 +140,36 @@ const FakeForm = () => {
     gap: '10px',
   }
 
+  const fullWidthStyle = { width: '100%' }
+
   return (
     <>
       <h2 style={h2Styles}>Form</h2>
       <form style={formStyles} onSubmit={handleSubmit(handleSubmitHandler)}>
-        {/*<FormCombobox*/}
-        {/*  control={control}*/}
-        {/*  name={'country'}*/}
-        {/*  options={options1}*/}
-        {/*  onInputClick={() => {}}*/}
-        {/*  getDataForCombobox={setGetDataForCountry}*/}
-        {/*  setValue={value => setValue('country', value)}*/}
-        {/*  isLoading={false}*/}
-        {/*/>*/}
-        <FormCombobox
-          control={control}
-          name={'city'}
-          options={options2}
-          onInputClick={() => {}}
-          getDataForCombobox={setGetDataForCity}
-          setValue={value => setValue('city', value)}
-          // disabled={!countryValue}
-          isLoading={false}
-        />
+        {/*<div style={fullWidthStyle ? fullWidthStyle : {}}>*/}
+          {/*<FormCombobox*/}
+          {/*  control={control}*/}
+          {/*  name={'country'}*/}
+          {/*  options={options1}*/}
+          {/*  onInputClick={() => {}}*/}
+          {/*  getDataForCombobox={setGetDataForCountry}*/}
+          {/*  setValue={value => setValue('country', value)}*/}
+          {/*  isLoading={false}*/}
+          {/*/>*/}
+        {/*</div>*/}
+
+        <div style={fullWidthStyle ? fullWidthStyle : {}}>
+          <FormCombobox
+            control={control}
+            name={'city'}
+            options={options2}
+            onInputClick={() => {}}
+            getDataForCombobox={setGetDataForCity}
+            setValue={value => setValue('city', value)}
+            // disabled={!countryValue}
+            isLoading={false}
+          />
+        </div>
         <Button type={'submit'}>submit</Button>
       </form>
     </>

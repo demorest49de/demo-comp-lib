@@ -51,26 +51,22 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
     disabled,
   })
 
-  const fullWidthStyle = { width: '100%' }
-
   return (
-    <div style={fullWidth ? fullWidthStyle : {}}>
-      <Combobox
-        name={name}
-        options={options}
-        onChange={onChange}
-        onInputClick={onInputClick}
-        getDataForCombobox={getDataForCombobox}
-        errorMessage={error?.message}
-        {...comboboxProps}
-        onBlur={onBlur}
-        ref={ref}
-        value={fieldValue}
-        disabled={disabled}
-        setValue={setValue}
-        isLoading={isLoading}
-        requestItemOnKeyDown={requestItemOnKeyDown}
-      />
-    </div>
+    <Combobox
+      name={name}
+      options={options}
+      onChange={onChange}
+      onInputClick={onInputClick}
+      getDataForCombobox={getDataForCombobox}
+      errorMessage={error?.message}
+      {...comboboxProps}
+      onBlur={onBlur}
+      ref={ref}
+      value={fieldValue}
+      disabled={disabled}
+      setValue={setValue}
+      isLoading={isLoading}
+      requestItemOnKeyDown={requestItemOnKeyDown}
+    />
   )
 }

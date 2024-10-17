@@ -150,7 +150,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       & div[id*='headlessui-combobox-button'] {
         //background-color: yellow;
         width: 100%;
+        height: 100%;
         display: flex;
+        align-items: center;
         justify-content: right;
         padding-right: 10px;
       }
