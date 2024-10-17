@@ -146,17 +146,17 @@ const FakeForm = () => {
     <>
       <h2 style={h2Styles}>Form</h2>
       <form style={formStyles} onSubmit={handleSubmit(handleSubmitHandler)}>
-        {/*<div style={fullWidthStyle ? fullWidthStyle : {}}>*/}
-          {/*<FormCombobox*/}
-          {/*  control={control}*/}
-          {/*  name={'country'}*/}
-          {/*  options={options1}*/}
-          {/*  onInputClick={() => {}}*/}
-          {/*  getDataForCombobox={setGetDataForCountry}*/}
-          {/*  setValue={value => setValue('country', value)}*/}
-          {/*  isLoading={false}*/}
-          {/*/>*/}
-        {/*</div>*/}
+        <div style={fullWidthStyle ? fullWidthStyle : {}}>
+          <FormCombobox
+            control={control}
+            name={'country'}
+            options={options1}
+            onInputClick={() => {}}
+            getDataForCombobox={setGetDataForCountry}
+            setValue={value => setValue('country', value)}
+            isLoading={false}
+          />
+        </div>
 
         <div style={fullWidthStyle ? fullWidthStyle : {}}>
           <FormCombobox
@@ -166,7 +166,7 @@ const FakeForm = () => {
             onInputClick={() => {}}
             getDataForCombobox={setGetDataForCity}
             setValue={value => setValue('city', value)}
-            // disabled={!countryValue}
+            disabled={!countryValue}
             isLoading={false}
           />
         </div>

@@ -8,7 +8,6 @@ export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
   options: ComboboxOptionProps<T>[]
   onInputClick: () => void
   getDataForCombobox: Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>
-  fullWidth?: boolean
   inputValue?: string
   onInputChange?: (value: string) => void
   rules?: UseControllerProps<TFieldValues>['rules']
@@ -30,7 +29,6 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
   name,
   options,
   onInputClick,
-  fullWidth = true,
   setValue,
   rules,
   shouldUnregister,

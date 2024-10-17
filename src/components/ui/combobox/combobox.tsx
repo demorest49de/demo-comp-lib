@@ -175,7 +175,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       >
         <Float adaptiveWidth as={'div'} floatingAs={Fragment} placement={'bottom'} portal={portal}>
           <div className={classNames.box}>
-            <Label label={label} className={classNames.label}>
+            <Label
+              label={label}
+              className={classNames.label}
+            >
               <ComboboxUI.Input
                 className={classNames.input}
                 displayValue={getDisplayingValue}
@@ -200,17 +203,18 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
             </Label>
             {isClearButtonVisible && (
               // <div >
-                <ComboboxUI.Button
-                    className={classNames.clearButton}
-                  as={'div'}
-                  onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-                    console.log(`111`)
-                    console.log(event.currentTarget)
-                    handleClearButtonClicked()
-                  }}
-                >
-                  <Close />
-                </ComboboxUI.Button>
+              <ComboboxUI.Button
+                style={{ position: `absolute` }}
+                className={classNames.clearButton}
+                as={'div'}
+                onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+                  console.log(`111`)
+                  console.log(event.currentTarget)
+                  handleClearButtonClicked()
+                }}
+              >
+                <Close />
+              </ComboboxUI.Button>
               // </div>
             )}
           </div>

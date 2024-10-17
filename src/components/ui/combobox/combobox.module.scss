@@ -6,6 +6,8 @@
   line-height: var(--line-height-m);
 
   color: var(--color-light-900);
+  width: 100%;
+  position: absolute;
 }
 
 .input {
@@ -87,7 +89,7 @@
 .clearButton {
   cursor: pointer;
   position: absolute;
-  right: 29px;
+  right: 33px;
   bottom: 18px;
   transform: translateY(50%);
   display: flex;
