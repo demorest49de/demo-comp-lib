@@ -143,6 +143,10 @@ export const ComboBox = forwardRef<HTMLInputElement, ComboboxProps<FieldValues>>
         setFilterRequired(true)
         setOpen(prevValue => !prevValue)
       }
+      if (e.key === 'Escape'){
+        e.preventDefault()
+        open&&setOpen(false)
+      }
     }
     console.log(' selectedIndex: ', selectedIndex)
 
