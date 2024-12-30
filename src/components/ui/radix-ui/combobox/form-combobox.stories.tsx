@@ -13,7 +13,7 @@ const meta = {
 export default meta
 
 type Story = StoryObj<typeof meta>
-const options= ['Apricot', 'Apple', 'Grapes', 'Pineapple', 'Grapefruit']
+const options = ['Apricot', 'Apple', 'Grapes', 'Pineapple', 'Grapefruit']
 
 // const options = [
 //   { label: 'Apricot', value: { name: 'Apricot', id: 1 } },
@@ -87,7 +87,6 @@ const options= ['Apricot', 'Apple', 'Grapes', 'Pineapple', 'Grapefruit']
 //   'Apple',
 // ]
 
-
 const FormSchema = z.object({
   country: z
     .string()
@@ -133,7 +132,27 @@ export const Primary = {
               name={'country'}
               control={control}
               setValue={value => setValue('country', value)}
-              handleListOpen={(value) => handleListOpen(value ?? false)}
+              handleListOpen={value => handleListOpen(value ?? false)}
+
+
+              // onInputClick={() => {}}
+              // getDataForCombobox={setGetDataForCountry}
+              // isLoading={false}
+              // markedAsRequired
+            />
+            <FormCombobox
+              options={options}
+              name={'country'}
+              control={control}
+              setValue={value => setValue('country', value)}
+              handleListOpen={value => handleListOpen(value ?? false)}
+
+
+              // onInputClick={() => {}}
+              // getDataForCombobox={setGetDataForCity}
+              // disabled={!countryValue}
+              // isLoading={false}
+              // markedAsRequired
             />
             <button
               className={cn(
