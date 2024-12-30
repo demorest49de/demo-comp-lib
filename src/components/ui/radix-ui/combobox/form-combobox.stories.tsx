@@ -92,7 +92,7 @@ const FormSchema = z.object({
     .string()
     .nullable()
     .refine(val => val !== null, 'This field is required')
-    .refine(val => options.includes(val as string) || val === '', {
+    .refine(val => options.includes(val as string), {
       message: 'This value must be one of the available options',
     }),
 })
