@@ -14,12 +14,12 @@ export type ComboboxFormFields<T extends FieldValues> = {
   /**
    * If u have button closer to combobox underspace u may wonder
    * why is the button visible through the elems list.
-   * So this useState is used in parent comp to manage z-index of,
-   * for exampe, submit button like this !listOpen ? `z-[1]` : `z-[0]
+   * So handleListOpen useState is used in parent comp to manage z-index of,
+   * for exampe, submit button. You can use tailwind llike this: !listOpen ? `z-[1]` : `z-[0]
    * @param {boolean} value - boolean state from parent element useState .
    * @returns {void} void
    */
-  handleListOpen: (value: boolean) => void
+  handleListOpen?: (value: boolean) => void
 }
 
 export const FormCombobox = <T extends FieldValues>({

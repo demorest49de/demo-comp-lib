@@ -27,7 +27,7 @@ type ComboboxProps<T extends FieldValues> = InputPropsWithoutValue & {
   error: string | undefined
   value: string | null
   onChange: (value: string | null) => void
-  handleListOpen: (value: boolean) => void
+  handleListOpen?: (value: boolean) => void
 }
 
 export const ComboBox = forwardRef<HTMLInputElement, ComboboxProps<FieldValues>>(
@@ -75,7 +75,7 @@ export const ComboBox = forwardRef<HTMLInputElement, ComboboxProps<FieldValues>>
     }, [value])
 
     useEffect(() => {
-      handleListOpen(open)
+      handleListOpen?.(open)
     }, [open])
 
     if (filterRequired) {

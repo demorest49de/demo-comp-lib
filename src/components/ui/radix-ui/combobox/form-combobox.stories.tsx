@@ -123,7 +123,7 @@ export const Primary = {
               name={'country'}
               control={control}
               setValue={value => setValue('country', value)}
-              handleListOpen={handleListOpen}
+              handleListOpen={(value) => handleListOpen(value ?? false)}
             />
             <button
               className={cn(
