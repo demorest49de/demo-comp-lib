@@ -23,6 +23,7 @@ export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
   portal?: boolean
   setValue: (name: keyof TFieldValues, value: T | string | null) => void
   requestItemOnKeyDown?: () => void
+  markedAsRequired?: boolean
 }
 
 export const FormCombobox = <TFieldValues extends FieldValues, T extends string>({
@@ -38,6 +39,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
   getDataForCombobox,
   isLoading,
   requestItemOnKeyDown,
+  markedAsRequired,
   ...comboboxProps
 }: FormComboboxProps<TFieldValues, T>) => {
   const {
@@ -70,6 +72,7 @@ export const FormCombobox = <TFieldValues extends FieldValues, T extends string>
         setValue={setValue}
         isLoading={isLoading}
         requestItemOnKeyDown={requestItemOnKeyDown}
+        markedAsRequired={markedAsRequired}
       />
     </div>
   )

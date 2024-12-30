@@ -7,6 +7,7 @@ export type FormInputProps<TFieldValues extends FieldValues> = Omit<
 > &
   Omit<UseControllerProps<TFieldValues>, 'control'> & {
     control: Control<TFieldValues>
+  markedAsRequired?: boolean
   }
 
 export const FormInput = <TFieldValues extends FieldValues>({
@@ -16,6 +17,7 @@ export const FormInput = <TFieldValues extends FieldValues>({
   shouldUnregister,
   disabled,
   defaultValue,
+    markedAsRequired,
   ...inputProps
 }: FormInputProps<TFieldValues>) => {
   const {
@@ -36,6 +38,7 @@ export const FormInput = <TFieldValues extends FieldValues>({
       errorMsg={error?.message}
       id={name}
       value={field.value ?? ''}
+      markedAsRequired={markedAsRequired}
     />
   )
 }

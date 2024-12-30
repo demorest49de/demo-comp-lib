@@ -6,6 +6,10 @@
   color: var(--color-light-900);
 }
 
+.markedAsRequired{
+  color: var(--color-danger-500)
+}
+
 // Container
 .inputContainer {
   position: relative;

@@ -14,8 +14,10 @@ const Select = ({
   triggerProps = {},
   triggerIcon,
   portal = true,
+  className,
   ...props
 }: ComponentPropsWithoutRef<typeof SelectPrimitive.Root> & {
+  className?: string
   placeholder?: string
   triggerIcon?: ReactNode
   portal?: boolean
@@ -28,7 +30,9 @@ const Select = ({
         <SelectValue placeholder={placeholder} />
       </div>
     </SelectTrigger>
-    <SelectContent portal={portal}>{children}</SelectContent>
+    <SelectContent className={className} portal={portal}>
+      {children}
+    </SelectContent>
   </SelectPrimitive.Root>
 )
 

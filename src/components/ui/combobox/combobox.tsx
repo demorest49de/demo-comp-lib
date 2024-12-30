@@ -9,7 +9,7 @@ import {
 } from 'react'
 import { Combobox as ComboboxUI } from '@headlessui/react'
 import { Close, ArrowIosDownOutline } from '../../../assets/components'
-import { ScrollAreaComponent } from '../../ui/scroll/scrollArea'
+import {ScrollAreaComponent} from "@/components/ui";
 import { Label } from '../label'
 import { Float } from '@headlessui-float/react'
 import { clsx } from 'clsx'
@@ -41,6 +41,7 @@ export type ComboboxProps<T, TFieldValues extends FieldValues> = {
   value: string
   onBlur?: () => void
   requestItemOnKeyDown?: () => void
+  markedAsRequired?: boolean
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, FieldValues>>(
@@ -61,6 +62,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       disabled,
       setValue,
       requestItemOnKeyDown,
+      markedAsRequired = false,
       ...comboboxProps
     },
     ref
@@ -129,7 +131,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       >
         <Float adaptiveWidth as={'div'} floatingAs={Fragment} placement={'bottom'} portal={portal}>
           <div className={classNames.box}>
-            <Label label={label} className={classNames.label}>
+            <Label label={label} className={classNames.label} markedAsRequired={markedAsRequired}>
               <ComboboxUI.Input
                 className={classNames.input}
                 displayValue={getDisplayingValue}

@@ -26,6 +26,7 @@ const FakeForm = () => {
         label={'Pick date'}
         name={'date'}
         rules={{ required: 'Date is required' }}
+        markedAsRequired
       />
       <Button>Submit</Button>
     </form>

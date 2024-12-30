@@ -4,7 +4,6 @@ import { enUS } from 'date-fns/locale'
 import { format, getYear } from 'date-fns'
 import { ArrowIosBack, ArrowIosForward } from '@/assets/components'
 import { capitalizeFirstLetter } from '@/lib/capitalizeFirstLetter'
-import { range } from '@/lib/range'
 import { Select, SelectItem } from '@/components/ui'
 
 export const CustomHeader = ({
@@ -25,6 +24,7 @@ export const CustomHeader = ({
     <div className={classNames.header}>
       <div className={s.headerHeader}>
         <Select
+          className={s.yearsSelect}
           value={getYear(date).toString()}
           portal={false}
           onValueChange={value => {

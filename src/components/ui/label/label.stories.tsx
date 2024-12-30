@@ -27,7 +27,7 @@ export const ControlledInputExample: Story = {
   render: () => {
     const [value, setValue] = useState('')
     return (
-      <Label label={'Controlled input example'}>
+      <Label label={'Controlled input example'} markedAsRequired>
         <input value={value} onChange={e => setValue(e.currentTarget.value)} />
       </Label>
     )

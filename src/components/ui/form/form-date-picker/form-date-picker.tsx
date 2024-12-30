@@ -7,6 +7,7 @@ export type FormDatePickerProps<TFieldValues extends FieldValues> = Omit<
 > &
   Omit<UseControllerProps<TFieldValues>, 'control'> & {
     control: Control<TFieldValues>
+  markedAsRequired?: boolean
   }
 export const FormDatePicker = <TFieldValues extends FieldValues>({
   control,
@@ -15,6 +16,7 @@ export const FormDatePicker = <TFieldValues extends FieldValues>({
   disabled,
   rules,
   defaultValue,
+  markedAsRequired,
   ...rest
 }: FormDatePickerProps<TFieldValues>) => {
   const {
@@ -34,6 +36,7 @@ export const FormDatePicker = <TFieldValues extends FieldValues>({
       setStartDate={onChange}
       startDate={value}
       errorMessage={error?.message}
+      markedAsRequired={markedAsRequired}
       {...restField}
       {...rest}
     />

@@ -100,14 +100,14 @@ const FakeForm = () => {
     console.log(data)
   }
 
-  // function addRandnomValues() {
-  //   options1.length = 0
-  //   options2.length = 0
-  //   options1.push(...pusharrayhandler())
-  //   options2.push(...pusharrayhandler())
-  // }
+  function addRandnomValues() {
+    options1.length = 0
+    options2.length = 0
+    options1.push(...pusharrayhandler())
+    options2.push(...pusharrayhandler())
+  }
 
-  // addRandnomValues()
+  addRandnomValues()
 
   function pusharrayhandler() {
     return new Array<optionType>(80)
@@ -132,21 +132,25 @@ const FakeForm = () => {
         <FormCombobox
           control={control}
           name={'country'}
+          label={'Country'}
           options={options1}
           onInputClick={() => {}}
           getDataForCombobox={setGetDataForCountry}
           setValue={value => setValue('country', value)}
           isLoading={false}
+          markedAsRequired
         />
         <FormCombobox
           control={control}
           name={'city'}
+          label={'City'}
           options={options2}
           onInputClick={() => {}}
           getDataForCombobox={setGetDataForCity}
           setValue={value => setValue('city', value)}
           disabled={!countryValue}
           isLoading={false}
+          markedAsRequired
         />
         <Button type={'submit'}>submit</Button>
       </form>

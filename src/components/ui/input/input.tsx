@@ -11,11 +11,12 @@ export type InputProps = {
   placeholder?: string
   containerClassName?: string
   className?: string
+  markedAsRequired?: boolean
 } & ComponentPropsWithoutRef<'input'>
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { id, errorMsg, type = 'text', label, placeholder, containerClassName, className, ...rest },
+    { id, errorMsg, type = 'text', label, placeholder, containerClassName, className, markedAsRequired = false, ...rest },
     ref
   ) => {
     const generatedId = useId()
@@ -26,8 +27,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={containerClassName}>
         {label && (
-          <label className={styles.label} htmlFor={finalId}>
-            {label}
+          <label className={clsx(styles.label)} htmlFor={finalId}>
+            {label}{markedAsRequired ? (<span className={styles.markedAsRequired}>*</span>) : ('')}
           </label>
         )}
         <div className={clsx(styles.inputContainer, isFocused && styles.active)}>

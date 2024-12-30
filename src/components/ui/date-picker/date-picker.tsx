@@ -21,6 +21,7 @@ export type DatePickerProps = {
   disabled?: boolean
   endDate?: Date | null
   setEndDate?: (date: Date | null) => void
+    markedAsRequired?: boolean
 } & ComponentProps<'div'>
 
 const RDPC = (((RDP.default as any).default as any) ||
@@ -39,6 +40,7 @@ export const DatePicker = forwardRef<FieldValues, DatePickerProps>(
     setEndDate,
     disabled,
     className,
+      markedAsRequired = false,
     ...rest
   }) => {
     const isRange = endDate !== undefined
@@ -90,6 +92,7 @@ export const DatePicker = forwardRef<FieldValues, DatePickerProps>(
               error={errorMessage}
               disabled={disabled}
               label={label}
+              markedAsRequired={markedAsRequired}
             />
           }
           closeOnScroll
@@ -130,17 +133,18 @@ type CustomInputProps = {
   label?: string
   error?: string
   isOpened: boolean
+    markedAsRequired?: boolean
 }
 
 const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
-  ({ label, error, disabled, isOpened, ...rest }, ref) => {
+  ({ label, error, disabled, isOpened, markedAsRequired = false, ...rest }, ref) => {
     const classNames = {
       inputContainer: clsx(s.inputContainer, error && s.error),
       icon: clsx(s.icon, disabled && s.disabled),
     }
 
     return (
-      <Label className={s.label} label={label}>
+      <Label className={s.label} label={label} markedAsRequired={markedAsRequired}>
         <div className={classNames.inputContainer}>
           <input ref={ref} disabled={disabled} {...rest} />
           <div className={clsx(classNames.icon, error && s.errorText)}>

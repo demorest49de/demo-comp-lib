@@ -29,7 +29,7 @@ const FakeForm = () => {
     <>
       <h2 style={{ margin: '10px 180px' }}>Form</h2>
       <form onSubmit={handleSubmit(handleSubmitHandler)}>
-        <FormInput control={control} label={'Email'} name={'email'} />
+        <FormInput control={control} label={'Email'} name={'email'} markedAsRequired />
         <FormInput control={control} label={'Password'} name={'password'} type={'password'} />
         <Button>Submit</Button>
       </form>
