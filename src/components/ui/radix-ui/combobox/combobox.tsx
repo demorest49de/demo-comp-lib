@@ -251,7 +251,7 @@ export const ComboBox = forwardRef<HTMLInputElement, ComboboxProps<FieldValues>>
                 ? `opacity-100 transition-all duration-500 visible `
                 : `opacity-0 transition-all duration-500 invisible`,
               'bg-white border-[1px] border-solid border-[#ccc]',
-              `rounded w-[210px] max-h-[150px] overflow-y-auto relative`,
+              `rounded w-[210px] max-h-[164px] overflow-y-auto relative`,
               open ? `z-[1]` : `z-[0]`,
               `absolute left-[-105px] top-[-16px]`
             )}
@@ -260,10 +260,10 @@ export const ComboBox = forwardRef<HTMLInputElement, ComboboxProps<FieldValues>>
             {currentOptions?.length > 0 ? (
               <List
                 ref={listElRef}
-                height={149}
+                height={162}
                 itemCount={currentOptions.length}
                 itemSize={41}
-                width={208}
+                width={209}
               >
                 {({ index, style }) => (
                   <div
