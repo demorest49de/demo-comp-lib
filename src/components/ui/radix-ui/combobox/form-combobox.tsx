@@ -5,10 +5,15 @@ import {
 } from 'react-hook-form'
 import { ComboBox } from '@/components/ui/radix-ui/combobox/combobox'
 
+export type ListFieldProps = {
+  label: string
+  value: { id: number; name: string }
+}
+
 export type ComboboxFormFields<T extends FieldValues> = {
   control: Control<T>
   name: FieldPath<T>
-  options: string[]
+  options: ListFieldProps[]
   parentClassName?: string
   setValue: (value: string | null) => void
   /**

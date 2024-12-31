@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '../../../../lib/cn'
 import { useState } from 'react'
-import { FormCombobox } from './form-combobox'
+import { FormCombobox, ListFieldProps } from './form-combobox'
 
 const meta = {
   component: FormCombobox,
@@ -13,16 +13,7 @@ const meta = {
 export default meta
 
 type Story = StoryObj<typeof meta>
-const options = ['Apricot', 'Apple', 'Grapes', 'Pineapple', 'Grapefruit']
-
-// const options = [
-//   { label: 'Apricot', value: { name: 'Apricot', id: 1 } },
-//   { label: 'Apple', value: { name: 'Apple', id: 2 } },
-//   { label: 'Grapes', value: { name: 'Grapes', id: 3 } },
-//   { label: 'Pineapple', value: { name: 'Pineapple', id: 4 } },
-//   { label: 'Grapefruit', value: { name: 'Grapefruit', id: 5 } },
-// ]
-
+// const options = ['Apricot', 'Apple', 'Grapes', 'Pineapple', 'Grapefruit']
 // const options = [
 //   'Apricot',
 //   'Apple',
@@ -86,13 +77,22 @@ const options = ['Apricot', 'Apple', 'Grapes', 'Pineapple', 'Grapefruit']
 //   'Apple',
 //   'Apple',
 // ]
+const options: ListFieldProps[] = [
+  { label: 'Apricot', value: { name: 'Apricot', id: 1 } },
+  { label: 'Apple', value: { name: 'Apple', id: 2 } },
+  { label: 'Grapes', value: { name: 'Grapes', id: 3 } },
+  { label: 'Pineapple', value: { name: 'Pineapple', id: 4 } },
+  { label: 'Grapefruit', value: { name: 'Grapefruit', id: 5 } },
+]
+
+
 
 const FormSchema = z.object({
   country: z
     .string()
     .nullable()
     .refine(val => val !== null, 'This field is required')
-    .refine(val => options.includes(val as string), {
+    .refine(val => options.some(value => value.label === (val as string)), {
       message: 'This value must be one of the available options',
     }),
 })
@@ -100,7 +100,8 @@ const FormSchema = z.object({
 export type FormTypes = z.infer<typeof FormSchema>
 
 export const Primary = {
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
   args: {
     options: options,
   },
@@ -134,7 +135,6 @@ export const Primary = {
               setValue={value => setValue('country', value)}
               handleListOpen={value => handleListOpen(value ?? false)}
 
-
               // onInputClick={() => {}}
               // getDataForCombobox={setGetDataForCountry}
               // isLoading={false}
@@ -147,12 +147,19 @@ export const Primary = {
               setValue={value => setValue('country', value)}
               handleListOpen={value => handleListOpen(value ?? false)}
 
-
               // onInputClick={() => {}}
               // getDataForCombobox={setGetDataForCity}
               // disabled={!countryValue}
               // isLoading={false}
               // markedAsRequired
+              /*
+                requestItemOnKeyDown={() => {
+                  if (!arrowDownPressed) {
+                    handleClickInputCity()
+                    setArrowDownPressed(true)
+                  }
+                }}
+                 */
             />
             <button
               className={cn(

@@ -17,10 +17,11 @@ import { FixedSizeList, FixedSizeList as List } from 'react-window'
 import s from './form-combobox.module.scss'
 import { FieldPath, FieldValues } from 'react-hook-form'
 import { cn } from '@/lib/utils'
+import { ListFieldProps } from '@/components/ui/radix-ui/combobox/form-combobox'
 
 type InputPropsWithoutValue = Omit<ComponentPropsWithoutRef<'input'>, 'value'>
 type ComboboxProps<T extends FieldValues> = InputPropsWithoutValue & {
-  options: string[]
+  options: ListFieldProps[]
   parentClassName?: string
   setValue: (value: string | null) => void
   name: FieldPath<T>
@@ -52,7 +53,8 @@ export const ComboBox = forwardRef<
     // region code
     const [open, setOpen] = useState<boolean>(false)
     const [selectedIndex, setSelectedIndex] = useState<number>(-1)
-    const [currentOptions, setCurrentOptions] = useState<string[]>(options)
+    const [currentOptions, setCurrentOptions] =
+      useState<ListFieldProps[]>(options)
     const [filterRequired, setFilterRequired] = useState<boolean>(false)
 
     const inputRef = useRef<HTMLInputElement | null>(null)
@@ -88,7 +90,7 @@ export const ComboBox = forwardRef<
 
     function filterOptions() {
       const filteredOptions = options.filter(item =>
-        item.toLowerCase().includes(value?.toString().toLowerCase() ?? '')
+        item.label?.toLowerCase().includes(value?.toString().toLowerCase() ?? '')
       )
       setCurrentOptions(filteredOptions)
 
@@ -132,15 +134,14 @@ export const ComboBox = forwardRef<
         e.preventDefault()
         const selectedOption = currentOptions[selectedIndex]
         if (selectedOption) {
-          setValue(selectedOption)
-          onChange(selectedOption)
+          setValue(selectedOption.label)
+          onChange(selectedOption.label)
         } else if (
           currentOptions.length > 0 &&
-          currentOptions[0]
-            ?.toLowerCase()
+          currentOptions[0]?.label?.toLowerCase()
             .includes(value?.toString().toLowerCase() as string)
         ) {
-          setValue(currentOptions[0])
+          setValue(currentOptions[0]?.label)
           setSelectedIndex(0)
         }
         setFilterRequired(true)
@@ -260,7 +261,7 @@ export const ComboBox = forwardRef<
               'bg-white border-[1px] border-solid border-[#ccc]',
               `rounded w-[210px] max-h-[164px] overflow-y-auto relative`,
               open ? `z-[1]` : `z-[0]`,
-              `absolute left-[-105px] top-[-16px]`,
+              `absolute left-[-105px] top-[-16px]`
             )}
             onOpenAutoFocus={e => e.preventDefault()}
           >
@@ -277,9 +278,9 @@ export const ComboBox = forwardRef<
                 {({ index, style }) => (
                   <div
                     onClick={() => {
-                      setValue(currentOptions[index]!)
+                      setValue(currentOptions[index]?.label as string)
                       setOpen(false)
-                      onChange(currentOptions[index]!)
+                      onChange(currentOptions[index]?.label as string)
                       setSelectedIndex(0)
                       setFilterRequired(true)
                     }}
@@ -290,7 +291,7 @@ export const ComboBox = forwardRef<
                     )}
                     style={style}
                   >
-                    {currentOptions[index]}
+                    {currentOptions[index]?.label }
                   </div>
                 )}
               </List>
