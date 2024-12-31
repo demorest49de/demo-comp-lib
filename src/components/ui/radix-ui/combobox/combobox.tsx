@@ -15,8 +15,8 @@ import Close from '@/assets/components/Close'
 import ArrowIosDownOutline from '@/assets/components/ArrowIosDownOutline'
 import { FixedSizeList, FixedSizeList as List } from 'react-window'
 import s from './form-combobox.module.scss'
-import {FieldPath, FieldValues} from "react-hook-form";
-import {cn} from "@/lib/utils";
+import { FieldPath, FieldValues } from 'react-hook-form'
+import { cn } from '@/lib/utils'
 
 type InputPropsWithoutValue = Omit<ComponentPropsWithoutRef<'input'>, 'value'>
 type ComboboxProps<T extends FieldValues> = InputPropsWithoutValue & {
@@ -30,7 +30,10 @@ type ComboboxProps<T extends FieldValues> = InputPropsWithoutValue & {
   handleListOpen?: (value: boolean) => void
 }
 
-export const ComboBox = forwardRef<HTMLInputElement, ComboboxProps<FieldValues>>(
+export const ComboBox = forwardRef<
+  HTMLInputElement,
+  ComboboxProps<FieldValues>
+>(
   (
     {
       options,
@@ -257,14 +260,16 @@ export const ComboBox = forwardRef<HTMLInputElement, ComboboxProps<FieldValues>>
               'bg-white border-[1px] border-solid border-[#ccc]',
               `rounded w-[210px] max-h-[164px] overflow-y-auto relative`,
               open ? `z-[1]` : `z-[0]`,
-              `absolute left-[-105px] top-[-16px]`
+              `absolute left-[-105px] top-[-16px]`,
             )}
             onOpenAutoFocus={e => e.preventDefault()}
           >
             {currentOptions?.length > 0 ? (
               <List
                 ref={listElRef}
-                height={162}
+                height={
+                  currentOptions.length < 4 ? 41 * currentOptions.length : 162
+                }
                 itemCount={currentOptions.length}
                 itemSize={41}
                 width={209}
