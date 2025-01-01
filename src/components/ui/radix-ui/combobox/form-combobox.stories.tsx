@@ -110,7 +110,7 @@ export const Primary = {
     const { setValue, handleSubmit, control } = useForm<FormTypes>({
       resolver: zodResolver(FormSchema),
     })
-
+    // eslint-disable-next-line
     const [dataForCountry, setGetDataForCountry] = useState<OptionsType | null>(null)
 
     const onSubmit = handleSubmit(data => {
@@ -139,7 +139,7 @@ export const Primary = {
 
               dataForComboboxHandler={(instance: OptionsType) => setGetDataForCountry(instance)}
               onInputClick={() => {}}
-              // isLoading={false}
+              isLoading={true}
               // markedAsRequired
             />
             {/*<FormCombobox*/}

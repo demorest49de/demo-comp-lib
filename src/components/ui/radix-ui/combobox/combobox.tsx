@@ -18,6 +18,7 @@ import s from './form-combobox.module.scss'
 import { FieldPath, FieldValues } from 'react-hook-form'
 import { cn } from '@/lib/utils'
 import { OptionsType } from '@/components/ui/radix-ui/combobox/form-combobox'
+import { ThreeDotsSpinner } from '@/components/ui/three-dots-spinner/three-dots-spinner'
 
 type InputPropsWithoutValue = Omit<ComponentPropsWithoutRef<'input'>, 'value'>
 type ComboboxProps<T extends FieldValues> = InputPropsWithoutValue & {
@@ -31,6 +32,7 @@ type ComboboxProps<T extends FieldValues> = InputPropsWithoutValue & {
   handleListOpen?: (value: boolean) => void
   dataForComboboxHandler: (instance: OptionsType) => void
   onInputClick: () => void
+  isLoading: boolean
 }
 
 export const ComboBox = forwardRef<
@@ -50,6 +52,7 @@ export const ComboBox = forwardRef<
       handleListOpen,
       dataForComboboxHandler,
       onInputClick,
+      isLoading,
       ...rest
     },
     ref
@@ -207,10 +210,11 @@ export const ComboBox = forwardRef<
               onChange={handleOnChange}
               onKeyDown={handleKeyDown}
               className={cn(
-                `w-[210px] p-2 pr-[48px] rounded cursor-text border-[1px] border-solid border-[#ccc]`
+                `w-[210px] h-[36px] p-2 pr-[48px] rounded cursor-text border-[1px] border-solid border-[#ccc]`
               )}
             />
             {error && <p className={`text-red-500 text-sm`}>{error}</p>}
+            {isLoading && <ThreeDotsSpinner />}
             {
               <Button
                 variant="ghost"
@@ -223,7 +227,8 @@ export const ComboBox = forwardRef<
                     setOpen(value => !value)
                     return
                   }
-                  setValue('')
+                  setValue(null)
+                  onChange(null)
                   setOpen(false)
                   inputRef.current?.focus()
                   onInputClick()
