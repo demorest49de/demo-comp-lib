@@ -9,7 +9,7 @@ import {
 } from 'react'
 import { Combobox as ComboboxUI } from '@headlessui/react'
 import { Close, ArrowIosDownOutline } from '../../../assets/components'
-import {ScrollAreaComponent} from "@/components/ui";
+import { ScrollAreaComponent } from '@/components/ui'
 import { Label } from '../label'
 import { Float } from '@headlessui-float/react'
 import { clsx } from 'clsx'
@@ -30,7 +30,9 @@ export type ComboboxProps<T, TFieldValues extends FieldValues> = {
   onInputClick: () => void
   onChange: (value: T | null) => void
   setValue: (name: Path<TFieldValues>, value: string | null) => void
-  getDataForCombobox: Dispatch<SetStateAction<ComboboxOptionProps<T | any> | null>>
+  getDataForCombobox: Dispatch<
+    SetStateAction<ComboboxOptionProps<T | any> | null>
+  >
   placeholder?: string
   isAsync?: boolean
   isLoading?: boolean
@@ -44,7 +46,10 @@ export type ComboboxProps<T, TFieldValues extends FieldValues> = {
   markedAsRequired?: boolean
 }
 
-export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, FieldValues>>(
+export const Combobox = forwardRef<
+  HTMLInputElement,
+  ComboboxProps<string, FieldValues>
+>(
   (
     {
       name,
@@ -78,7 +83,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     function filterOptions() {
       const filteredOptions =
         value && !isAsync
-          ? options.filter(option => option.label?.toLowerCase().includes(value?.toLowerCase()))
+          ? options.filter(option =>
+              option.label?.toLowerCase().includes(value?.toLowerCase())
+            )
           : options
 
       return filteredOptions.sort((a, b) => a.label.localeCompare(b.label))
@@ -98,7 +105,9 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
     }
 
     const getDisplayingValue = (optionValue: string) => {
-      const optionResult = options?.find(option => option.value.name === optionValue)
+      const optionResult = options?.find(
+        option => option.value.name === optionValue
+      )
       getDataForCombobox(optionResult || null)
       return optionResult?.label || ''
     }
@@ -107,7 +116,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
       box: s.box,
       button: clsx(s.button),
       clearButton: s.clearButton,
-      content: clsx(selectStyle.content, filteredOptions.length === 0 && s.empty),
+      content: clsx(
+        selectStyle.content,
+        filteredOptions.length === 0 && s.empty
+      ),
       icon: clsx(s.icon),
       input: clsx(s.input, showError && s.error),
       errorMessage: clsx(showError && s.errorMessage),
@@ -129,9 +141,19 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
         as={'div'}
         className={classNames.root}
       >
-        <Float adaptiveWidth as={'div'} floatingAs={Fragment} placement={'bottom'} portal={portal}>
+        <Float
+          adaptiveWidth
+          as={'div'}
+          floatingAs={Fragment}
+          placement={'bottom'}
+          portal={portal}
+        >
           <div className={classNames.box}>
-            <Label label={label} className={classNames.label} markedAsRequired={markedAsRequired}>
+            <Label
+              label={label}
+              className={classNames.label}
+              markedAsRequired={markedAsRequired}
+            >
               <ComboboxUI.Input
                 className={classNames.input}
                 displayValue={getDisplayingValue}
@@ -148,7 +170,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
                 }}
                 ref={ref}
               />
-              {isLoading && <ThreeDotsSpinner spinnerclassName={s.threeDotsSpinner} />}
+              {isLoading && <ThreeDotsSpinner top={`20px`} />}
               <div className={classNames.button}>
                 <ComboboxUI.Button as={'div'} className={s.buttonAsDiv}>
                   <ArrowIosDownOutline className={classNames.icon} />
@@ -156,12 +178,19 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps<string, Field
               </div>
             </Label>
             {isClearButtonVisible && (
-              <div className={classNames.clearButton} onClick={handleClearButtonClicked}>
+              <div
+                className={classNames.clearButton}
+                onClick={handleClearButtonClicked}
+              >
                 <Close />
               </div>
             )}
           </div>
-          <ComboboxUI.Options as={'div'} className={classNames.content} transition>
+          <ComboboxUI.Options
+            as={'div'}
+            className={classNames.content}
+            transition
+          >
             <ScrollAreaComponent>
               <List
                 height={listHeight}

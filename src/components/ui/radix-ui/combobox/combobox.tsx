@@ -214,7 +214,7 @@ export const ComboBox = forwardRef<
               )}
             />
             {error && <p className={`text-red-500 text-sm`}>{error}</p>}
-            {isLoading && <ThreeDotsSpinner />}
+            {isLoading && <ThreeDotsSpinner top={"20px"} />}
             {
               <Button
                 variant="ghost"
