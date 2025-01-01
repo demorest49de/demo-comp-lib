@@ -10,7 +10,7 @@ import React, {
 import { ComponentPropsWithoutRef } from 'react'
 
 import * as Popover from '@radix-ui/react-popover'
-import { Button } from '@/components/ui'
+import { Button, Label } from '@/components/ui'
 import Close from '@/assets/components/Close'
 import ArrowIosDownOutline from '@/assets/components/ArrowIosDownOutline'
 import { FixedSizeList, FixedSizeList as List } from 'react-window'
@@ -190,10 +190,14 @@ export const ComboBox = forwardRef<
               parentClassName
             )}
           >
-            <label htmlFor={finalId}>
-              {(name?.charAt(0).toUpperCase() as string) +
-                (name?.slice(1) as string)}
-            </label>
+            <Label
+              htmlFor={finalId}
+              label={
+                (name?.charAt(0).toUpperCase() as string) +
+                (name?.slice(1) as string)
+              } markedAsRequired={true}
+            />
+
             <input
               {...rest}
               id={finalId}
@@ -214,7 +218,7 @@ export const ComboBox = forwardRef<
               )}
             />
             {error && <p className={`text-red-500 text-sm`}>{error}</p>}
-            {isLoading && <ThreeDotsSpinner top={"20px"} />}
+            {isLoading && <ThreeDotsSpinner top={'20px'} />}
             {
               <Button
                 variant="ghost"
