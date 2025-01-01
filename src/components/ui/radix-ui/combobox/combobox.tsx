@@ -17,11 +17,11 @@ import { FixedSizeList, FixedSizeList as List } from 'react-window'
 import s from './form-combobox.module.scss'
 import { FieldPath, FieldValues } from 'react-hook-form'
 import { cn } from '@/lib/utils'
-import { ListFieldProps } from '@/components/ui/radix-ui/combobox/form-combobox'
+import { OptionsType } from '@/components/ui/radix-ui/combobox/form-combobox'
 
 type InputPropsWithoutValue = Omit<ComponentPropsWithoutRef<'input'>, 'value'>
 type ComboboxProps<T extends FieldValues> = InputPropsWithoutValue & {
-  options: ListFieldProps[]
+  options: OptionsType[]
   parentClassName?: string
   setValue: (value: string | null) => void
   name: FieldPath<T>
@@ -29,6 +29,8 @@ type ComboboxProps<T extends FieldValues> = InputPropsWithoutValue & {
   value: string | null
   onChange: (value: string | null) => void
   handleListOpen?: (value: boolean) => void
+  dataForComboboxHandler: (instance: OptionsType) => void
+  onInputClick: () => void
 }
 
 export const ComboBox = forwardRef<
@@ -46,6 +48,8 @@ export const ComboBox = forwardRef<
       setValue,
       id,
       handleListOpen,
+      dataForComboboxHandler,
+      onInputClick,
       ...rest
     },
     ref
@@ -53,8 +57,7 @@ export const ComboBox = forwardRef<
     // region code
     const [open, setOpen] = useState<boolean>(false)
     const [selectedIndex, setSelectedIndex] = useState<number>(-1)
-    const [currentOptions, setCurrentOptions] =
-      useState<ListFieldProps[]>(options)
+    const [currentOptions, setCurrentOptions] = useState<OptionsType[]>(options)
     const [filterRequired, setFilterRequired] = useState<boolean>(false)
 
     const inputRef = useRef<HTMLInputElement | null>(null)
@@ -62,15 +65,12 @@ export const ComboBox = forwardRef<
 
     useEffect(() => {
       if (selectedIndex >= 0) {
-        const selectedOption = currentOptions[selectedIndex]
         listElRef.current?.scrollToItem(selectedIndex)
-        if (selectedOption) {
-          setValue(value)
-        }
-      } else {
-        setValue(null)
       }
     }, [selectedIndex])
+
+    console.log(' value: ', value)
+    console.log(' selectedIndex: ', selectedIndex)
 
     useEffect(() => {
       if (!value) {
@@ -90,7 +90,9 @@ export const ComboBox = forwardRef<
 
     function filterOptions() {
       const filteredOptions = options.filter(item =>
-        item.label?.toLowerCase().includes(value?.toString().toLowerCase() ?? '')
+        item.label
+          ?.toLowerCase()
+          .includes(value?.toString().toLowerCase() ?? '')
       )
       setCurrentOptions(filteredOptions)
 
@@ -135,13 +137,16 @@ export const ComboBox = forwardRef<
         const selectedOption = currentOptions[selectedIndex]
         if (selectedOption) {
           setValue(selectedOption.label)
+          dataForComboboxHandler(selectedOption)
           onChange(selectedOption.label)
         } else if (
           currentOptions.length > 0 &&
-          currentOptions[0]?.label?.toLowerCase()
+          currentOptions[0]?.label
+            ?.toLowerCase()
             .includes(value?.toString().toLowerCase() as string)
         ) {
           setValue(currentOptions[0]?.label)
+          dataForComboboxHandler(currentOptions[0])
           setSelectedIndex(0)
         }
         setFilterRequired(true)
@@ -221,6 +226,7 @@ export const ComboBox = forwardRef<
                   setValue('')
                   setOpen(false)
                   inputRef.current?.focus()
+                  onInputClick()
                 }}
               >
                 <Close
@@ -279,6 +285,7 @@ export const ComboBox = forwardRef<
                   <div
                     onClick={() => {
                       setValue(currentOptions[index]?.label as string)
+                      dataForComboboxHandler(currentOptions[index]!)
                       setOpen(false)
                       onChange(currentOptions[index]?.label as string)
                       setSelectedIndex(0)
@@ -291,7 +298,7 @@ export const ComboBox = forwardRef<
                     )}
                     style={style}
                   >
-                    {currentOptions[index]?.label }
+                    {currentOptions[index]?.label}
                   </div>
                 )}
               </List>

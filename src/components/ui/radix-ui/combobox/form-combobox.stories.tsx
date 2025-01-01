@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '../../../../lib/cn'
 import { useState } from 'react'
-import { FormCombobox, ListFieldProps } from './form-combobox'
+import { FormCombobox, OptionsType } from './form-combobox'
 
 const meta = {
   component: FormCombobox,
@@ -77,7 +77,7 @@ type Story = StoryObj<typeof meta>
 //   'Apple',
 //   'Apple',
 // ]
-const options: ListFieldProps[] = [
+const options: OptionsType[] = [
   { label: 'Apricot', value: { name: 'Apricot', id: 1 } },
   { label: 'Apple', value: { name: 'Apple', id: 2 } },
   { label: 'Grapes', value: { name: 'Grapes', id: 3 } },
@@ -111,6 +111,8 @@ export const Primary = {
       resolver: zodResolver(FormSchema),
     })
 
+    const [dataForCountry, setGetDataForCountry] = useState<OptionsType | null>(null)
+
     const onSubmit = handleSubmit(data => {
       console.log('submit data: ', data)
     })
@@ -135,32 +137,31 @@ export const Primary = {
               setValue={value => setValue('country', value)}
               handleListOpen={value => handleListOpen(value ?? false)}
 
-              // onInputClick={() => {}}
-              // getDataForCombobox={setGetDataForCountry}
+              dataForComboboxHandler={(instance: OptionsType) => setGetDataForCountry(instance)}
+              onInputClick={() => {}}
               // isLoading={false}
               // markedAsRequired
             />
-            <FormCombobox
-              options={options}
-              name={'country'}
-              control={control}
-              setValue={value => setValue('country', value)}
-              handleListOpen={value => handleListOpen(value ?? false)}
+            {/*<FormCombobox*/}
+            {/*  options={options}*/}
+            {/*  name={'country'}*/}
+            {/*  control={control}*/}
+            {/*  setValue={value => setValue('country', value)}*/}
+            {/*  handleListOpen={value => handleListOpen(value ?? false)}*/}
 
-              // onInputClick={() => {}}
-              // getDataForCombobox={setGetDataForCity}
-              // disabled={!countryValue}
-              // isLoading={false}
-              // markedAsRequired
-              /*
-                requestItemOnKeyDown={() => {
-                  if (!arrowDownPressed) {
-                    handleClickInputCity()
-                    setArrowDownPressed(true)
-                  }
-                }}
-                 */
-            />
+            {/*  // onInputClick={() => {}}*/}
+            {/*  // getDataForCombobox={setGetDataForCity}*/}
+            {/*  // disabled={!countryValue}*/}
+            {/*  // isLoading={false}*/}
+            {/*  // markedAsRequired*/}
+            {/*  */}
+            {/*    requestItemOnKeyDown={() => {*/}
+            {/*      if (!arrowDownPressed) {*/}
+            {/*        handleClickInputCity()*/}
+            {/*        setArrowDownPressed(true)*/}
+            {/*      }*/}
+            {/*    }}*/}
+            {/*/>*/}
             <button
               className={cn(
                 `cursor-pointer z-[1] p-1.5 rounded border-solid border-2 focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 `,
