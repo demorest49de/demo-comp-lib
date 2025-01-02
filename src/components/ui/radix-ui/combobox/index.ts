@@ -1,0 +1,1 @@
+export { FormCombobox as RadixFormCombobox } from './form-combobox'
