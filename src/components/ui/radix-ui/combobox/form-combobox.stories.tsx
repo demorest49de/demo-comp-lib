@@ -140,7 +140,7 @@ export const Primary = {
               dataForComboboxHandler={(instance: OptionsType) => setGetDataForCountry(instance)}
               onInputClick={() => {}}
               isLoading={false}
-              // markedAsRequired
+              markedAsRequired
             />
             {/*<FormCombobox*/}
             {/*  options={options}*/}

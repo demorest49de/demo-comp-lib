@@ -33,6 +33,7 @@ type ComboboxProps<T extends FieldValues> = InputPropsWithoutValue & {
   dataForComboboxHandler: (instance: OptionsType) => void
   onInputClick: () => void
   isLoading: boolean
+  markedAsRequired?: boolean
 }
 
 export const ComboBox = forwardRef<
@@ -53,6 +54,7 @@ export const ComboBox = forwardRef<
       dataForComboboxHandler,
       onInputClick,
       isLoading,
+      markedAsRequired,
       ...rest
     },
     ref
@@ -195,7 +197,8 @@ export const ComboBox = forwardRef<
               label={
                 (name?.charAt(0).toUpperCase() as string) +
                 (name?.slice(1) as string)
-              } markedAsRequired={true}
+              }
+              markedAsRequired={markedAsRequired}
             />
 
             <input
