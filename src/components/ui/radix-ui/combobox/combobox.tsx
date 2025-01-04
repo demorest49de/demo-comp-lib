@@ -199,7 +199,7 @@ export const ComboBox = forwardRef<
                 (name?.charAt(0).toUpperCase() as string) +
                 (name?.slice(1) as string)
               }
-              onClick={(e)=>{
+              onClick={e => {
                 e.preventDefault()
                 if (disabled) {
                   return
@@ -212,6 +212,7 @@ export const ComboBox = forwardRef<
 
             <input
               {...rest}
+              onClick={onInputClick}
               id={finalId}
               ref={node => {
                 inputRef.current = node
@@ -250,7 +251,6 @@ export const ComboBox = forwardRef<
                   onChange(null)
                   setOpen(false)
                   inputRef.current?.focus()
-                  onInputClick()
                 }}
                 disabled={disabled}
               >

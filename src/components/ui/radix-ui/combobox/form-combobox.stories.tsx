@@ -98,7 +98,7 @@ export const Primary = {
               dataForComboboxHandler={(instance: OptionsType) =>
                 setSelectedCountry(instance as OptionsType)
               }
-              onInputClick={() => {}}
+              onInputClick={() => {console.log(`country`)}}
               isLoading={false}
               markedAsRequired
             />
@@ -112,7 +112,7 @@ export const Primary = {
               setValue={value => setValue('city', value)}
               handleListOpen={value => handleListOpen(value ?? false)}
               disabled={!countryValue}
-              onInputClick={() => {}}
+              onInputClick={() => {console.log(`city`)}}
               isLoading={false}
               markedAsRequired
               // requestItemOnKeyDown={() => {
