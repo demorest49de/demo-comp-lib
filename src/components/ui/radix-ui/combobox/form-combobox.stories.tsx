@@ -109,7 +109,7 @@ export const Primary = {
               }
               options={options2}
               name={'city'}
-              setValue={value => setValue('country', value)}
+              setValue={value => setValue('city', value)}
               handleListOpen={value => handleListOpen(value ?? false)}
               disabled={!countryValue}
               onInputClick={() => {}}

@@ -75,8 +75,8 @@ export const ComboBox = forwardRef<
       }
     }, [selectedIndex])
 
-    console.log(' value: ', value)
-    console.log(' selectedIndex: ', selectedIndex)
+    // console.log(' value: ', value)
+    // console.log(' selectedIndex: ', selectedIndex)
 
     useEffect(() => {
       if (!value) {
