@@ -70,6 +70,12 @@ export const ComboBox = forwardRef<
     const listElRef = useRef<FixedSizeList | null>(null)
 
     useEffect(() => {
+      if (options) {
+        setCurrentOptions(options)
+      }
+    }, [options])
+
+    useEffect(() => {
       if (selectedIndex >= 0) {
         listElRef.current?.scrollToItem(selectedIndex)
       }
