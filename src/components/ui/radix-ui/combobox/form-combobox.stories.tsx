@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '../../../../lib/cn'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormCombobox, OptionsType } from './form-combobox'
+import { optionType } from '../../combobox/combobox.stories'
 
 const meta = {
   component: FormCombobox,
@@ -13,70 +14,7 @@ const meta = {
 export default meta
 
 type Story = StoryObj<typeof meta>
-// const options = ['Apricot', 'Apple', 'Grapes', 'Pineapple', 'Grapefruit']
-// const options = [
-//   'Apricot',
-//   'Apple',
-//   'Grapes',
-//   'Pineapple',
-//   'Grapefruit',
-//   'Apricot',
-//   'Apple',
-//   'Pineapple',
-//   'Grapefruit',
-//   'Apricot',
-//   'Apple',
-//   'Pineapple',
-//   'Grapefruit',
-//   'Apricot',
-//   'Apple',
-//   'Pineapple',
-//   'Grapefruit',
-//   'Apricot',
-//   'Apple',
-//   'Pineapple',
-//   'Grapefruit',
-//   'Apricot',
-//   'Apple',
-//   'Pineapple',
-//   'Grapefruit',
-//   'Apricot',
-//   'Apple',
-//   'Pineapple',
-//   'Grapefruit',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-//   'Apple',
-// ]
+
 const options: OptionsType[] = [
   { label: 'Apricot', value: { name: 'Apricot', id: 1 } },
   { label: 'Apple', value: { name: 'Apple', id: 2 } },
@@ -85,10 +23,17 @@ const options: OptionsType[] = [
   { label: 'Grapefruit', value: { name: 'Grapefruit', id: 5 } },
 ]
 
-
+const options2 = [...options]
 
 const FormSchema = z.object({
   country: z
+    .string()
+    .nullable()
+    .refine(val => val !== null, 'This field is required')
+    .refine(val => options.some(value => value.label === (val as string)), {
+      message: 'This value must be one of the available options',
+    }),
+  city: z
     .string()
     .nullable()
     .refine(val => val !== null, 'This field is required')
@@ -107,11 +52,25 @@ export const Primary = {
   },
   render: args => {
     const [listOpen, setListOpen] = useState<boolean>(false)
-    const { setValue, handleSubmit, control } = useForm<FormTypes>({
-      resolver: zodResolver(FormSchema),
-    })
+    const { setValue, handleSubmit, control, watch, reset } =
+      useForm<FormTypes>({
+        resolver: zodResolver(FormSchema),
+      })
+
+    const countryValue = watch('country')
     // eslint-disable-next-line
-    const [dataForCountry, setGetDataForCountry] = useState<OptionsType | null>(null)
+    const [selectedCountry, setSelectedCountry] = useState<OptionsType | null>(
+      null
+    )
+    // eslint-disable-next-line
+    const [selectedCity, setSelectedCity] = useState<optionType | null>(null)
+
+    useEffect(() => {
+      if (!countryValue) {
+        setValue('city', '') // Очистка значения city
+        setSelectedCity(null) // Также очищаем список городов, если необходимо
+      }
+    }, [countryValue, setValue])
 
     const onSubmit = handleSubmit(data => {
       console.log('submit data: ', data)
@@ -136,32 +95,33 @@ export const Primary = {
               control={control}
               setValue={value => setValue('country', value)}
               handleListOpen={value => handleListOpen(value ?? false)}
-
-              dataForComboboxHandler={(instance: OptionsType) => setGetDataForCountry(instance)}
+              dataForComboboxHandler={(instance: OptionsType) =>
+                setSelectedCountry(instance as OptionsType)
+              }
               onInputClick={() => {}}
               isLoading={false}
               markedAsRequired
             />
-            {/*<FormCombobox*/}
-            {/*  options={options}*/}
-            {/*  name={'country'}*/}
-            {/*  control={control}*/}
-            {/*  setValue={value => setValue('country', value)}*/}
-            {/*  handleListOpen={value => handleListOpen(value ?? false)}*/}
-
-            {/*  // onInputClick={() => {}}*/}
-            {/*  // getDataForCombobox={setGetDataForCity}*/}
-            {/*  // disabled={!countryValue}*/}
-            {/*  // isLoading={false}*/}
-            {/*  // markedAsRequired*/}
-            {/*  */}
-            {/*    requestItemOnKeyDown={() => {*/}
-            {/*      if (!arrowDownPressed) {*/}
-            {/*        handleClickInputCity()*/}
-            {/*        setArrowDownPressed(true)*/}
-            {/*      }*/}
-            {/*    }}*/}
-            {/*/>*/}
+            <FormCombobox
+              control={control}
+              dataForComboboxHandler={(instance: OptionsType) =>
+                setSelectedCity(instance as OptionsType)
+              }
+              options={options2}
+              name={'city'}
+              setValue={value => setValue('country', value)}
+              handleListOpen={value => handleListOpen(value ?? false)}
+              disabled={!countryValue}
+              onInputClick={() => {}}
+              isLoading={false}
+              markedAsRequired
+              // requestItemOnKeyDown={() => {
+              //   if (!arrowDownPressed) {
+              //     handleClickInputCity()
+              //     setArrowDownPressed(true)
+              //   }
+              // }}
+            />
             <button
               className={cn(
                 `cursor-pointer z-[1] p-1.5 rounded border-solid border-2 focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 `,

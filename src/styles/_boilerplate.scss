@@ -1,0 +1,7 @@
+@layer utilities {
+  .cursor-red-close {
+    cursor:
+      url('/src/assets/components/Red-Close.svg') 12 12,
+      not-allowed !important;
+  }
+}

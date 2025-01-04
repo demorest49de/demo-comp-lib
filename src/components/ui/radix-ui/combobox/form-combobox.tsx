@@ -25,6 +25,7 @@ export type ComboboxFormFields<T extends FieldValues> = {
   onInputClick: () => void
   isLoading: boolean
   markedAsRequired?: boolean
+  disabled?: boolean
 }
 
 export const FormCombobox = <T extends FieldValues>({
@@ -38,6 +39,7 @@ export const FormCombobox = <T extends FieldValues>({
   onInputClick,
   isLoading,
   markedAsRequired,
+  disabled,
 }: ComboboxFormFields<T>) => {
   const {
     formState: { errors },
@@ -62,6 +64,7 @@ export const FormCombobox = <T extends FieldValues>({
       onInputClick={onInputClick}
       isLoading={isLoading}
       markedAsRequired={markedAsRequired}
+      disabled={disabled}
     />
   )
 }
