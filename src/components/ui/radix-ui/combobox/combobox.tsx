@@ -212,7 +212,11 @@ export const ComboBox = forwardRef<
 
             <input
               {...rest}
-              onClick={onInputClick}
+              onClick={() => {
+                onInputClick()
+                setValue(value)
+                onChange(value)
+              }}
               id={finalId}
               ref={node => {
                 inputRef.current = node
