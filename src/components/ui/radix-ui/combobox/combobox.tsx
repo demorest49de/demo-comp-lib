@@ -153,6 +153,10 @@ export const ComboBox = forwardRef<
             .includes(value?.toString().toLowerCase() as string)
         ) {
           setValue(currentOptions[0]?.label)
+          /*/
+          onChange - responsible for activating validation
+           */
+          onChange(currentOptions[0]?.label)
           dataForComboboxHandler(currentOptions[0])
           setSelectedIndex(0)
         }
@@ -164,6 +168,7 @@ export const ComboBox = forwardRef<
         open && setOpen(false)
       }
     }
+    console.log(' selectedIndex: ', selectedIndex)
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value
