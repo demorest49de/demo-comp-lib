@@ -110,13 +110,13 @@ export const ComboBox = forwardRef<
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'ArrowDown') {
+        onInputClick()
         e.preventDefault()
 
         if (!open) {
           setOpen(true)
           return
         }
-        onInputClick()
         setSelectedIndex(prevIndex => {
           if (prevIndex + 1 >= currentOptions.length) {
             return 0
@@ -140,8 +140,11 @@ export const ComboBox = forwardRef<
         })
       }
       if (e.key === 'Enter') {
+        if (!open) {
+          // get countries by pressing enter
+          onInputClick()
+        }
         e.preventDefault()
-        onInputClick()
         const selectedOption = currentOptions[selectedIndex]
         if (selectedOption) {
           setValue(selectedOption.label)
