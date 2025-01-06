@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '../../../../lib/cn'
 import { useEffect, useState } from 'react'
 import { FormCombobox, OptionsType } from './form-combobox'
-import { optionType } from '../../combobox/combobox.stories'
 
 const meta = {
   component: FormCombobox,
@@ -15,29 +14,41 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const options: OptionsType[] = [
-  { label: 'Apricot', value: { name: 'Apricot', id: 1 } },
-  { label: 'Apple', value: { name: 'Apple', id: 2 } },
-  { label: 'Grapes', value: { name: 'Grapes', id: 3 } },
-  { label: 'Pineapple', value: { name: 'Pineapple', id: 4 } },
-  { label: 'Grapefruit', value: { name: 'Grapefruit', id: 5 } },
+const countries: OptionsType[] = [
+  { label: 'USA', value: { name: 'USA', id: 1 } },
+  { label: 'Canada', value: { name: 'Canada', id: 2 } },
+  { label: 'Australia', value: { name: 'Australia', id: 3 } },
+  { label: 'Germany', value: { name: 'Germany', id: 4 } },
+  { label: 'France', value: { name: 'France', id: 5 } },
+  { label: 'Ukraine', value: { name: 'Ukraine', id: 6 } },
 ]
 
-const options2 = [...options]
+const cities: OptionsType[] = [
+  { label: 'New York', value: { name: 'New York', id: 1 } },
+  { label: 'Los Angeles', value: { name: 'Los Angeles', id: 1 } },
+  { label: 'Toronto', value: { name: 'Toronto', id: 2 } },
+  { label: 'Vancouver', value: { name: 'Vancouver', id: 2 } },
+  { label: 'Sydney', value: { name: 'Sydney', id: 3 } },
+  { label: 'Melbourne', value: { name: 'Melbourne', id: 3 } },
+  { label: 'Berlin', value: { name: 'Berlin', id: 4 } },
+  { label: 'Munich', value: { name: 'Munich', id: 4 } },
+  { label: 'Paris', value: { name: 'Paris', id: 5 } },
+  { label: 'Lyon', value: { name: 'Lyon', id: 5 } },
+]
 
 const FormSchema = z.object({
   country: z
     .string()
     .nullable()
     .refine(val => val !== null, 'This field is required')
-    .refine(val => options.some(value => value.label === (val as string)), {
+    .refine(val => countries.some(value => value.label === (val as string)), {
       message: 'This value must be one of the available options',
     }),
   city: z
     .string()
     .nullable()
-    .refine(val => val !== null, 'This field is required')
-    .refine(val => options.some(value => value.label === (val as string)), {
+    .refine(val => val !== null, 'This field is required' )
+    .refine(val => cities.some(value => value.label === (val as string)), {
       message: 'This value must be one of the available options',
     }),
 })
@@ -47,15 +58,12 @@ export type FormTypes = z.infer<typeof FormSchema>
 export const Primary = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-expect-error
-  args: {
-    options: options,
-  },
-  render: args => {
+  args: {},
+  render: () => {
     const [listOpen, setListOpen] = useState<boolean>(false)
-    const { setValue, handleSubmit, control, watch, reset } =
-      useForm<FormTypes>({
-        resolver: zodResolver(FormSchema),
-      })
+    const { setValue, handleSubmit, control, watch, reset } = useForm<FormTypes>({
+      resolver: zodResolver(FormSchema),
+    })
 
     const countryValue = watch('country')
     // eslint-disable-next-line
@@ -63,14 +71,34 @@ export const Primary = {
       null
     )
     // eslint-disable-next-line
-    const [selectedCity, setSelectedCity] = useState<optionType | null>(null)
+    const [selectedCity, setSelectedCity] = useState<OptionsType | null>(null)
+
+    const [currCities, setCurrCities] = useState<OptionsType[] | null>(null)
+    const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
       if (!countryValue) {
-        setValue('city', '') // Очистка значения city
-        setSelectedCity(null) // Также очищаем список городов, если необходимо
+        setDisabled(true)
+        setCurrCities(null)
+        setValue('city', null)
+      } else if (countryValue === selectedCountry?.label) {
+        const values = cities.filter(
+          item => item.value.id === selectedCountry?.value.id
+        )
+        setCurrCities(values)
+        setDisabled(false)
       }
-    }, [countryValue, setValue])
+    }, [countryValue, selectedCountry])
+
+    useEffect(() => {
+      reset({
+        country: null,
+        city: null,
+      })
+    }, [])
+
+    // console.log(' selectedCountry: ', selectedCountry)
+    // console.log(' selectedCity: ', selectedCity)
 
     const onSubmit = handleSubmit(data => {
       console.log('submit data: ', data)
@@ -80,7 +108,6 @@ export const Primary = {
       setListOpen(isOpen)
     }
 
-    const { options } = args
     return (
       <div className={`h-screen grid place-items-center `}>
         <div className={`text-center`}>
@@ -90,7 +117,7 @@ export const Primary = {
             className={`flex flex-col text-center items-center`}
           >
             <FormCombobox
-              options={options}
+              options={countries}
               name={'country'}
               control={control}
               setValue={value => setValue('country', value)}
@@ -98,7 +125,7 @@ export const Primary = {
               dataForComboboxHandler={(instance: OptionsType) =>
                 setSelectedCountry(instance as OptionsType)
               }
-              onInputClick={() => {console.log(`country`)}}
+              onInputClick={() => {}}
               isLoading={false}
               markedAsRequired
             />
@@ -107,20 +134,14 @@ export const Primary = {
               dataForComboboxHandler={(instance: OptionsType) =>
                 setSelectedCity(instance as OptionsType)
               }
-              options={options2}
+              options={currCities as OptionsType[]}
               name={'city'}
               setValue={value => setValue('city', value)}
               handleListOpen={value => handleListOpen(value ?? false)}
-              disabled={!countryValue}
-              onInputClick={() => {console.log(`city`)}}
+              disabled={disabled}
+              onInputClick={() => {}}
               isLoading={false}
               markedAsRequired
-              // requestItemOnKeyDown={() => {
-              //   if (!arrowDownPressed) {
-              //     handleClickInputCity()
-              //     setArrowDownPressed(true)
-              //   }
-              // }}
             />
             <button
               className={cn(

@@ -70,9 +70,7 @@ export const ComboBox = forwardRef<
     const listElRef = useRef<FixedSizeList | null>(null)
 
     useEffect(() => {
-      if (options) {
-        setCurrentOptions(options)
-      }
+      setCurrentOptions(options)
     }, [options])
 
     useEffect(() => {
@@ -80,9 +78,6 @@ export const ComboBox = forwardRef<
         listElRef.current?.scrollToItem(selectedIndex)
       }
     }, [selectedIndex])
-
-    // console.log(' value: ', value)
-    // console.log(' selectedIndex: ', selectedIndex)
 
     useEffect(() => {
       if (!value) {
@@ -169,10 +164,10 @@ export const ComboBox = forwardRef<
         open && setOpen(false)
       }
     }
-    // console.log(' selectedIndex: ', selectedIndex)
-    // console.log(' value: ', value);
+
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value
+
       setValue(value)
 
       if (value === '') {
@@ -212,7 +207,9 @@ export const ComboBox = forwardRef<
                 }
                 setOpen(!open)
               }}
-              className={cn(disabled ? `!disabled: cursor-red-close` : '')}
+              className={cn()
+              // disabled && `!disabled: cursor-red-close`
+              }
               markedAsRequired={markedAsRequired}
             />
 
@@ -220,8 +217,6 @@ export const ComboBox = forwardRef<
               {...rest}
               onClick={() => {
                 onInputClick()
-                setValue(value)
-                onChange(value)
               }}
               id={finalId}
               ref={node => {
@@ -237,19 +232,26 @@ export const ComboBox = forwardRef<
               onChange={handleOnChange}
               onKeyDown={handleKeyDown}
               className={cn(
-                `w-[210px] h-[36px] p-2 pr-[48px] rounded cursor-text border-[1px] border-solid border-[#ccc]`,
-                disabled ? `disabled: cursor-red-close` : ''
+                `w-[210px] h-[36px] p-2 pr-[48px] rounded cursor-text border-[1px] border-solid border-[#ccc]`
+                // disabled && `disabled: cursor-red-close z-[1]`
               )}
               disabled={disabled}
             />
-            {error && <p className={`text-red-500 text-sm`}>{error}</p>}
+            <p
+              className={cn(
+                `text-red-500 text-sm`
+                // disabled && `disabled: cursor-red-close`
+              )}
+            >
+              {error}
+            </p>
             {isLoading && <ThreeDotsSpinner top={'20px'} />}
             {
               <Button
                 variant="ghost"
                 className={cn(
-                  `!top-[35px] !right-[25px] !absolute !p-[1px] group !text-danger-100 hover:!text-danger-500`,
-                  disabled ? '!hidden' : ''
+                  `!top-[35px] !right-[25px] !absolute !p-[1px] group !text-danger-100 hover:!text-danger-500`
+                  // disabled && `disabled: cursor-red-close`
                 )}
                 onClick={e => {
                   e.preventDefault()
@@ -281,8 +283,8 @@ export const ComboBox = forwardRef<
               }}
               variant="ghost"
               className={cn(
-                `!top-[35px] !right-[5px] !absolute !p-[1px] group !text-danger-100 hover:!text-danger-500`,
-                disabled ? '!hidden' : ''
+                `!top-[35px] !right-[5px] !absolute !p-[1px] group !text-danger-100 hover:!text-danger-500`
+                // disabled && `hidden`
               )}
               disabled={disabled}
             >
