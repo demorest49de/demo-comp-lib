@@ -193,6 +193,11 @@ export const ComboBox = forwardRef<
               `relative w-[210px] h-[82px] mb-[51px] text-start`,
               parentClassName
             )}
+            onClick={e => {
+              if (disabled) {
+                e.preventDefault()
+              }
+            }}
           >
             <Label
               htmlFor={finalId}
@@ -207,9 +212,7 @@ export const ComboBox = forwardRef<
                 }
                 setOpen(!open)
               }}
-              className={cn()
-              // disabled && `!disabled: cursor-red-close`
-              }
+              className={cn(disabled && `disabled: cursor-red-close`)}
               markedAsRequired={markedAsRequired}
             />
 
@@ -232,26 +235,19 @@ export const ComboBox = forwardRef<
               onChange={handleOnChange}
               onKeyDown={handleKeyDown}
               className={cn(
-                `w-[210px] h-[36px] p-2 pr-[48px] rounded cursor-text border-[1px] border-solid border-[#ccc]`
-                // disabled && `disabled: cursor-red-close z-[1]`
+                `w-[210px] h-[36px] p-2 pr-[48px] rounded cursor-text border-[1px] border-solid border-[#ccc]`,
+                disabled && `disabled: cursor-red-close`
               )}
               disabled={disabled}
             />
-            <p
-              className={cn(
-                `text-red-500 text-sm`
-                // disabled && `disabled: cursor-red-close`
-              )}
-            >
-              {error}
-            </p>
+            <p className={cn(`text-red-500 text-sm`)}>{error}</p>
             {isLoading && <ThreeDotsSpinner top={'20px'} />}
             {
               <Button
                 variant="ghost"
                 className={cn(
-                  `!top-[35px] !right-[25px] !absolute !p-[1px] group !text-danger-100 hover:!text-danger-500`
-                  // disabled && `disabled: cursor-red-close`
+                  `!top-[35px] !right-[25px] !absolute !p-[1px] group !text-danger-100 hover:!text-danger-500`,
+                  disabled && `!hidden`
                 )}
                 onClick={e => {
                   e.preventDefault()
@@ -283,8 +279,8 @@ export const ComboBox = forwardRef<
               }}
               variant="ghost"
               className={cn(
-                `!top-[35px] !right-[5px] !absolute !p-[1px] group !text-danger-100 hover:!text-danger-500`
-                // disabled && `hidden`
+                `!top-[35px] !right-[5px] !absolute !p-[1px] group !text-danger-100 hover:!text-danger-500`,
+                disabled && `disabled: cursor-red-close`
               )}
               disabled={disabled}
             >
