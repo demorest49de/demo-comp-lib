@@ -168,7 +168,7 @@ export const ComboBox = forwardRef<
         open && setOpen(false)
       }
     }
-    console.log(' selectedIndex: ', selectedIndex)
+    // console.log(' selectedIndex: ', selectedIndex)
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value
