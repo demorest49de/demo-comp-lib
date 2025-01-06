@@ -47,7 +47,7 @@ const FormSchema = z.object({
   city: z
     .string()
     .nullable()
-    .refine(val => val !== null, 'This field is required' )
+    .refine(val => val !== null, 'This field is required')
     .refine(val => cities.some(value => value.label === (val as string)), {
       message: 'This value must be one of the available options',
     }),
@@ -61,9 +61,10 @@ export const Primary = {
   args: {},
   render: () => {
     const [listOpen, setListOpen] = useState<boolean>(false)
-    const { setValue, handleSubmit, control, watch, reset } = useForm<FormTypes>({
-      resolver: zodResolver(FormSchema),
-    })
+    const { setValue, handleSubmit, control, watch, reset } =
+      useForm<FormTypes>({
+        resolver: zodResolver(FormSchema),
+      })
 
     const countryValue = watch('country')
     // eslint-disable-next-line
