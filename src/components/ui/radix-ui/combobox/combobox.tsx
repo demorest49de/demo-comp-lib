@@ -116,7 +116,7 @@ export const ComboBox = forwardRef<
           setOpen(true)
           return
         }
-
+        onInputClick()
         setSelectedIndex(prevIndex => {
           if (prevIndex + 1 >= currentOptions.length) {
             return 0
@@ -141,6 +141,7 @@ export const ComboBox = forwardRef<
       }
       if (e.key === 'Enter') {
         e.preventDefault()
+        onInputClick()
         const selectedOption = currentOptions[selectedIndex]
         if (selectedOption) {
           setValue(selectedOption.label)
