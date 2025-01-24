@@ -26,4 +26,3 @@ dist-ssr
 *storybook.log
 src/assets/svg
 /storybook-static
-pnpm-lock.yaml
