@@ -1,172 +1,162 @@
-import type { Meta, StoryObj } from '@storybook/react'
-
+import { Meta, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
-import { v4 as uuid } from 'uuid'
-
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FormCombobox } from './form-combobox'
+import { cn } from '../../../../lib/cn'
 import { useEffect, useState } from 'react'
-import { optionType } from '../../combobox/combobox.stories'
-import { ComboboxOptionProps } from '../../combobox'
-import { Button } from '../../button/button'
-
-const options1: optionType[] = [
-  {
-    label: 'Apple',
-    value: {
-      id: 1,
-      name: 'Apple',
-    },
-  },
-  {
-    label: 'Banana',
-    value: {
-      name: 'Banana',
-      id: 2,
-    },
-  },
-  {
-    label: 'Blueberry',
-    value: {
-      name: 'Blueberry',
-      id: 3,
-    },
-  },
-]
-
-const options2: optionType[] = [
-  {
-    label: 'Banana',
-    value: {
-      name: 'Banana',
-      id: 2,
-    },
-  },
-  {
-    label: 'Blueberry',
-    value: {
-      name: 'Blueberry',
-      id: 3,
-    },
-  },
-  {
-    label: 'Apple',
-    value: {
-      id: 1,
-      name: 'Apple',
-    },
-  },
-]
-
-const FakeForm = () => {
-  const [countriesValues, setCountriesValues] = useState<optionType[]>(options1)
-
-  const [citiesValues, setCitiesValues] = useState<optionType[] | null>(options2)
-
-  const [dataForCountry, setGetDataForCountry] = useState<ComboboxOptionProps<string> | null>(null)
-
-  const [dataForCity, setGetDataForCity] = useState<ComboboxOptionProps<string> | null>(null)
-
-  const FormSchema = z.object({
-    country: z.string({ message: 'This field is required' }),
-    city: z.string({ message: 'This field is required' }),
-  })
-  type FormValues = z.infer<typeof FormSchema>
-
-  const { reset, setValue, control, handleSubmit, watch } = useForm<FormValues>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {},
-  })
-  
-  const countryValue = watch('country')
-
-  useEffect(() => {
-    if (!countryValue) {
-      setValue('city', '') // Очистка значения city
-      setCitiesValues(null) // Также очищаем список городов, если необходимо
-    }
-  }, [countryValue, setValue])
-
-
-  useEffect(() => {
-    reset({
-      country: undefined,
-      city: undefined,
-    })
-  }, [])
-
-  const handleSubmitHandler = (data: FormValues) => {
-    console.log(data)
-  }
-
-  function addRandnomValues() {
-    options1.length = 0
-    options2.length = 0
-    options1.push(...pusharrayhandler())
-    options2.push(...pusharrayhandler())
-  }
-
-  addRandnomValues()
-
-  function pusharrayhandler() {
-    return new Array<optionType>(80)
-      .fill({ label: '', value: { id: 0, name: '' } })
-      .map((_, index) => {
-        const guid = uuid()
-        return { label: guid, value: { id: index, name: guid } }
-      })
-  }
-
-  const h2Styles: React.CSSProperties = { textAlign: 'center' }
-  const formStyles = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    gap: '10px',
-  }
-
-  return (
-    <>
-      <h2 style={h2Styles}>Form</h2>
-      <form style={formStyles} onSubmit={handleSubmit(handleSubmitHandler)}>
-        <FormCombobox
-          control={control}
-          name={'country'}
-          label={'Country'}
-          options={options1}
-          onInputClick={() => {}}
-          getDataForCombobox={setGetDataForCountry}
-          setValue={value => setValue('country', value)}
-          isLoading={false}
-          markedAsRequired
-        />
-        <FormCombobox
-          control={control}
-          name={'city'}
-          label={'City'}
-          options={options2}
-          onInputClick={() => {}}
-          getDataForCombobox={setGetDataForCity}
-          setValue={value => setValue('city', value)}
-          disabled={!countryValue}
-          isLoading={false}
-          markedAsRequired
-        />
-        <Button type={'submit'}>submit</Button>
-      </form>
-    </>
-  )
-}
+import { FormCombobox, OptionsType } from './form-combobox'
 
 const meta = {
-  component: FakeForm,
+  component: FormCombobox,
   tags: ['autodocs'],
   title: 'Form/FormCombobox',
-} satisfies Meta<typeof FakeForm>
+} satisfies Meta<typeof FormCombobox>
 
 export default meta
+
 type Story = StoryObj<typeof meta>
 
-export const Form: Story = {
+const countries: OptionsType[] = [
+  { label: 'USA', value: { name: 'USA', id: 1 } },
+  { label: 'Canada', value: { name: 'Canada', id: 2 } },
+  { label: 'Australia', value: { name: 'Australia', id: 3 } },
+  { label: 'Germany', value: { name: 'Germany', id: 4 } },
+  { label: 'France', value: { name: 'France', id: 5 } },
+  { label: 'Ukraine', value: { name: 'Ukraine', id: 6 } },
+]
+
+const cities: OptionsType[] = [
+  { label: 'New York', value: { name: 'New York', id: 1 } },
+  { label: 'Los Angeles', value: { name: 'Los Angeles', id: 1 } },
+  { label: 'Toronto', value: { name: 'Toronto', id: 2 } },
+  { label: 'Vancouver', value: { name: 'Vancouver', id: 2 } },
+  { label: 'Sydney', value: { name: 'Sydney', id: 3 } },
+  { label: 'Melbourne', value: { name: 'Melbourne', id: 3 } },
+  { label: 'Berlin', value: { name: 'Berlin', id: 4 } },
+  { label: 'Munich', value: { name: 'Munich', id: 4 } },
+  { label: 'Paris', value: { name: 'Paris', id: 5 } },
+  { label: 'Lyon', value: { name: 'Lyon', id: 5 } },
+]
+
+const FormSchema = z.object({
+  country: z
+    .string()
+    .nullable()
+    .refine(val => val !== null, 'This field is required')
+    .refine(val => countries.some(value => value.label === (val as string)), {
+      message: 'This value must be one of the available options',
+    }),
+  city: z
+    .string()
+    .nullable()
+    .refine(val => val !== null, 'This field is required')
+    .refine(val => cities.some(value => value.label === (val as string)), {
+      message: 'This value must be one of the available options',
+    }),
+})
+
+export type FormTypes = z.infer<typeof FormSchema>
+
+export const Primary = {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
   args: {},
-}
+  render: () => {
+    const [listOpen, setListOpen] = useState<boolean>(false)
+    const { setValue, handleSubmit, control, watch, reset } =
+      useForm<FormTypes>({
+        resolver: zodResolver(FormSchema),
+      })
+
+    const countryValue = watch('country')
+    // eslint-disable-next-line
+    const [selectedCountry, setSelectedCountry] = useState<OptionsType | null>(
+      null
+    )
+    // eslint-disable-next-line
+    const [selectedCity, setSelectedCity] = useState<OptionsType | null>(null)
+
+    const [currCities, setCurrCities] = useState<OptionsType[] | null>(null)
+    const [disabled, setDisabled] = useState(true)
+
+    useEffect(() => {
+      if (!countryValue) {
+        setDisabled(true)
+        setCurrCities(null)
+        setValue('city', null)
+      } else if (countryValue === selectedCountry?.label) {
+        const values = cities.filter(
+          item => item.value.id === selectedCountry?.value.id
+        )
+        setCurrCities(values)
+        setDisabled(false)
+      }
+    }, [countryValue, selectedCountry])
+
+    useEffect(() => {
+      reset({
+        country: null,
+        city: null,
+      })
+    }, [])
+
+    // console.log(' selectedCountry: ', selectedCountry)
+    // console.log(' selectedCity: ', selectedCity)
+
+    const onSubmit = handleSubmit(data => {
+      console.log('submit data: ', data)
+    })
+
+    const handleListOpen = (isOpen: boolean) => {
+      setListOpen(isOpen)
+    }
+
+    return (
+      <div className={`h-screen grid place-items-center `}>
+        <div className={`text-center`}>
+          <div className={`p-2`}>select element 1 and element 2</div>
+          <form
+            onSubmit={onSubmit}
+            className={`flex flex-col text-center items-center`}
+          >
+            <FormCombobox
+              options={countries}
+              name={'country'}
+              control={control}
+              setValue={value => setValue('country', value)}
+              handleListOpen={value => handleListOpen(value ?? false)}
+              dataForComboboxHandler={(instance: OptionsType) =>
+                setSelectedCountry(instance as OptionsType)
+              }
+              onInputClick={() => {}}
+              isLoading={false}
+              markedAsRequired
+            />
+            <FormCombobox
+              control={control}
+              dataForComboboxHandler={(instance: OptionsType) =>
+                setSelectedCity(instance as OptionsType)
+              }
+              options={currCities as OptionsType[]}
+              name={'city'}
+              setValue={value => setValue('city', value)}
+              handleListOpen={value => handleListOpen(value ?? false)}
+              disabled={disabled}
+              onInputClick={() => {}}
+              isLoading={false}
+              markedAsRequired
+            />
+            <button
+              className={cn(
+                `cursor-pointer z-[1] p-1.5 rounded border-solid border-2 focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 `,
+                !listOpen ? `z-[1]` : `z-[0]`
+              )}
+            >
+              submit
+            </button>
+          </form>
+        </div>
+      </div>
+    )
+  },
+} satisfies Story

@@ -1,79 +1,70 @@
-import { Control, FieldValues, Path, useController, UseControllerProps } from 'react-hook-form'
-import { Dispatch, ReactNode, SetStateAction } from 'react'
-import { Combobox, ComboboxOptionProps } from '@/components/ui/combobox'
+import { Control, FieldPath, FieldValues, useController } from 'react-hook-form'
+import {ComboBox} from "@/components/ui";
 
-export type FormComboboxProps<TFieldValues extends FieldValues, T> = {
-  control: Control<TFieldValues>
-  name: Path<TFieldValues>
-  options: ComboboxOptionProps<T>[]
-  onInputClick: () => void
-  getDataForCombobox: Dispatch<SetStateAction<ComboboxOptionProps<T> | null>>
-  fullWidth?: boolean
-  inputValue?: string
-  onInputChange?: (value: string) => void
-  rules?: UseControllerProps<TFieldValues>['rules']
-  shouldUnregister?: boolean
-  onClear?: () => void
-  placeholder?: string
-  isAsync?: boolean
-  isLoading?: boolean
-  disabled?: boolean
-  errorMessage?: string
-  label?: ReactNode
-  portal?: boolean
-  setValue: (name: keyof TFieldValues, value: T | string | null) => void
-  requestItemOnKeyDown?: () => void
-  markedAsRequired?: boolean
+export type OptionsType = {
+  label: string
+  value: { id: number; name: string }
 }
 
-export const FormCombobox = <TFieldValues extends FieldValues, T extends string>({
+export type ComboboxFormFields<T extends FieldValues> = {
+  control: Control<T>
+  name: FieldPath<T>
+  options: OptionsType[]
+  parentClassName?: string
+  setValue: (value: string | null) => void
+  /**
+   * If u have button closer to combobox underspace u may wonder
+   * why is the button visible through the elems list.
+   * So handleListOpen useState is used in parent comp to manage z-index of,
+   * for exampe, submit button. You can use tailwind llike this: !listOpen ? `z-[1]` : `z-[0]`
+   * @param {boolean} value - boolean state from parent element useState .
+   * @returns {void} void
+   */
+  handleListOpen?: (value: boolean) => void
+  dataForComboboxHandler: (instance: OptionsType) => void
+  onInputClick: () => void
+  isLoading: boolean
+  markedAsRequired?: boolean
+  disabled?: boolean
+}
+
+export const FormCombobox = <T extends FieldValues>({
   control,
   name,
   options,
-  onInputClick,
-  fullWidth = true,
+  parentClassName,
   setValue,
-  rules,
-  shouldUnregister,
-  disabled,
-  getDataForCombobox,
+  handleListOpen,
+  dataForComboboxHandler,
+  onInputClick,
   isLoading,
-  requestItemOnKeyDown,
   markedAsRequired,
-  ...comboboxProps
-}: FormComboboxProps<TFieldValues, T>) => {
+  disabled,
+}: ComboboxFormFields<T>) => {
   const {
-    field: { onChange, onBlur, ref, value: fieldValue },
-    fieldState: { error },
+    formState: { errors },
+    field: { ref, name: fieldName, onChange, value },
   } = useController({
     control,
     name,
-    rules,
-    shouldUnregister,
-    disabled,
   })
 
-  const fullWidthStyle = { width: '100%' }
-
   return (
-    <div style={fullWidth ? fullWidthStyle : {}}>
-      <Combobox
-        name={name}
-        options={options}
-        onChange={onChange}
-        onInputClick={onInputClick}
-        getDataForCombobox={getDataForCombobox}
-        errorMessage={error?.message}
-        {...comboboxProps}
-        onBlur={onBlur} // Добавляем onBlur для корректной работы с валидацией
-        ref={ref} // Добавляем ref для интеграции с react-hook-form
-        value={fieldValue}
-        disabled={disabled}
-        setValue={setValue}
-        isLoading={isLoading}
-        requestItemOnKeyDown={requestItemOnKeyDown}
-        markedAsRequired={markedAsRequired}
-      />
-    </div>
+    <ComboBox
+      options={options}
+      parentClassName={parentClassName}
+      name={fieldName}
+      error={errors?.[fieldName]?.message?.toString()}
+      ref={ref}
+      value={value}
+      onChange={onChange}
+      setValue={setValue}
+      handleListOpen={handleListOpen}
+      dataForComboboxHandler={dataForComboboxHandler}
+      onInputClick={onInputClick}
+      isLoading={isLoading}
+      markedAsRequired={markedAsRequired}
+      disabled={disabled}
+    />
   )
 }
