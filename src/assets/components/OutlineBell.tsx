@@ -1,9 +1,7 @@
-import type { Ref, SVGProps } from 'react'
-import { forwardRef } from 'react'
-const SvgOutlineBell = (
-  props: SVGProps<SVGSVGElement>,
-  ref: Ref<SVGSVGElement>
-) => (
+'use client'
+import type { SVGProps } from 'react'
+import { Ref, forwardRef, memo } from 'react'
+const SvgOutlineBell = (props: SVGProps<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="1em"
@@ -26,6 +24,6 @@ const SvgOutlineBell = (
     />
   </svg>
 )
-
 const ForwardRef = forwardRef(SvgOutlineBell)
-export default ForwardRef
+const Memo = memo(ForwardRef)
+export default Memo
