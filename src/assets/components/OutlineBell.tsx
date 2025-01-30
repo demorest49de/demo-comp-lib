@@ -1,5 +1,5 @@
 import type { SVGProps } from 'react'
-import { forwardRef, memo } from 'react'
+import { forwardRef } from 'react'
 const SvgOutlineBell = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
   (props, ref) => (
     <svg
@@ -25,5 +25,4 @@ const SvgOutlineBell = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
     </svg>
   )
 )
-const Memo = memo(SvgOutlineBell)
-export default Memo
+export default SvgOutlineBell
