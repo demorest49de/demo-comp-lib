@@ -1,3 +1,4 @@
+'use client'
 import { SVGProps, forwardRef, memo } from 'react'
 const SvgOutlineBell = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
   (props, ref) => {
@@ -33,5 +34,5 @@ const SvgOutlineBell = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
     )
   }
 )
-const OutlineBell = memo(SvgOutlineBell)
-export default OutlineBell
+// const OutlineBell = memo(SvgOutlineBell)
+export default SvgOutlineBell
