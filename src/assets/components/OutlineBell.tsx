@@ -33,5 +33,5 @@ const SvgOutlineBell = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
     )
   }
 )
-// const OutlineBell = memo(SvgOutlineBell)
-export default SvgOutlineBell
+const OutlineBell = memo(SvgOutlineBell)
+export default OutlineBell
