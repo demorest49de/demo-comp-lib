@@ -10,7 +10,6 @@ import s from './date-picker.module.scss'
 import { CustomHeader } from './custom-header/custom-header'
 import { formatWeekDay } from '@/lib/formatWeekDay'
 import { Label } from '@/components/ui/label'
-
 export type DatePickerProps = {
   years: number[]
   placeholder?: string
@@ -28,6 +27,7 @@ const RDPC = (((RDP.default as any).default as any) ||
   (RDP.default as any) ||
   (RDP as any)) as typeof RDP.default
 
+// date picker  component
 export const DatePicker = forwardRef<FieldValues, DatePickerProps>(
   ({
     years,
