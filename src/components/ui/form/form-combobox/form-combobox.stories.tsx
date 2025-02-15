@@ -40,19 +40,19 @@ const cities: OptionsType[] = [
 
 const FormSchema = z.object({
   country: z
-    .string()
-    .nullable()
-    .refine(val => val !== null, 'This field is required')
-    .refine(val => countries.some(value => value.label === (val as string)), {
-      message: 'This value must be one of the available options',
-    }),
+      .string()
+      .nullable()
+      .refine(val => val !== null, 'This field is required')
+      .refine(val => countries.some(value => value.label === (val as string)), {
+        message: 'This value must be one of the available options',
+      }),
   city: z
-    .string()
-    .nullable()
-    .refine(val => val !== null, 'This field is required')
-    .refine(val => cities.some(value => value.label === (val as string)), {
-      message: 'This value must be one of the available options',
-    }),
+      .string()
+      .nullable()
+      .refine(val => val !== null, 'This field is required')
+      .refine(val => cities.some(value => value.label === (val as string)), {
+        message: 'This value must be one of the available options',
+      }),
 })
 
 export type FormTypes = z.infer<typeof FormSchema>
@@ -64,14 +64,14 @@ export const Primary = {
   render: () => {
     const [listOpen, setListOpen] = useState<boolean>(false)
     const { setValue, handleSubmit, control, watch, reset } =
-      useForm<FormTypes>({
-        resolver: zodResolver(FormSchema),
-      })
+        useForm<FormTypes>({
+          resolver: zodResolver(FormSchema),
+        })
 
     const countryValue = watch('country')
     // eslint-disable-next-line
     const [selectedCountry, setSelectedCountry] = useState<OptionsType | null>(
-      null
+        null
     )
     // eslint-disable-next-line
     const [selectedCity, setSelectedCity] = useState<OptionsType | null>(null)
@@ -86,7 +86,7 @@ export const Primary = {
         setValue('city', null)
       } else if (countryValue === selectedCountry?.label) {
         const values = cities.filter(
-          item => item.value.id === selectedCountry?.value.id
+            item => item.value.id === selectedCountry?.value.id
         )
         setCurrCities(values)
         setDisabled(false)
@@ -112,51 +112,51 @@ export const Primary = {
     }
 
     return (
-      <div className={`h-screen grid place-items-center `}>
-        <div className={`text-center`}>
-          <div className={`p-2`}>select element 1 and element 2</div>
-          <form
-            onSubmit={onSubmit}
-            className={`flex flex-col text-center items-center`}
-          >
-            <FormCombobox
-              options={countries}
-              name={'country'}
-              control={control}
-              setValue={value => setValue('country', value)}
-              handleListOpen={value => handleListOpen(value ?? false)}
-              dataForComboboxHandler={(instance: OptionsType) =>
-                setSelectedCountry(instance as OptionsType)
-              }
-              onInputClick={() => {}}
-              isLoading={false}
-              markedAsRequired
-            />
-            <FormCombobox
-              control={control}
-              dataForComboboxHandler={(instance: OptionsType) =>
-                setSelectedCity(instance as OptionsType)
-              }
-              options={currCities as OptionsType[]}
-              name={'city'}
-              setValue={value => setValue('city', value)}
-              handleListOpen={value => handleListOpen(value ?? false)}
-              disabled={disabled}
-              onInputClick={() => {}}
-              isLoading={false}
-              markedAsRequired
-            />
-            <button
-              className={cn(
-                `cursor-pointer z-[1] p-1.5 rounded border-solid border-2 focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 `,
-                !listOpen ? `z-[1]` : `z-[0]`
-              )}
+        <div className={`h-screen grid place-items-center `}>
+          <div className={`text-center`}>
+            <div className={`p-2`}>select element 1 and element 2</div>
+            <form
+                onSubmit={onSubmit}
+                className={`flex flex-col text-center items-center`}
             >
-              submit
-            </button>
-          </form>
+              <FormCombobox
+                  options={countries}
+                  name={'country'}
+                  control={control}
+                  setValue={value => setValue('country', value)}
+                  handleListOpen={value => handleListOpen(value ?? false)}
+                  dataForComboboxHandler={(instance: OptionsType) =>
+                      setSelectedCountry(instance as OptionsType)
+                  }
+                  onInputClick={() => {}}
+                  isLoading={false}
+                  markedAsRequired
+              />
+              <FormCombobox
+                  control={control}
+                  dataForComboboxHandler={(instance: OptionsType) =>
+                      setSelectedCity(instance as OptionsType)
+                  }
+                  options={currCities as OptionsType[]}
+                  name={'city'}
+                  setValue={value => setValue('city', value)}
+                  handleListOpen={value => handleListOpen(value ?? false)}
+                  disabled={disabled}
+                  onInputClick={() => {}}
+                  isLoading={false}
+                  markedAsRequired
+              />
+              <button
+                  className={cn(
+                      `cursor-pointer z-[1] p-1.5 rounded border-solid border-2 focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 `,
+                      !listOpen ? `z-[1]` : `z-[0]`
+                  )}
+              >
+                submit
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
     )
   },
 } satisfies Story

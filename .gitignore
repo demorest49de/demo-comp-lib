@@ -24,5 +24,4 @@ dist-ssr
 *.sw?
 
 *storybook.log
-src/assets/svg
 /storybook-static

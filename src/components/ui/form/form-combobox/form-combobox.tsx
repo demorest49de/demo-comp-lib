@@ -29,18 +29,18 @@ export type ComboboxFormFields<T extends FieldValues> = {
 }
 
 export const FormCombobox = <T extends FieldValues>({
-  control,
-  name,
-  options,
-  parentClassName,
-  setValue,
-  handleListOpen,
-  dataForComboboxHandler,
-  onInputClick,
-  isLoading,
-  markedAsRequired,
-  disabled,
-}: ComboboxFormFields<T>) => {
+                                                      control,
+                                                      name,
+                                                      options,
+                                                      parentClassName,
+                                                      setValue,
+                                                      handleListOpen,
+                                                      dataForComboboxHandler,
+                                                      onInputClick,
+                                                      isLoading,
+                                                      markedAsRequired,
+                                                      disabled,
+                                                    }: ComboboxFormFields<T>) => {
   const {
     formState: { errors },
     field: { ref, name: fieldName, onChange, value },
@@ -50,21 +50,21 @@ export const FormCombobox = <T extends FieldValues>({
   })
 
   return (
-    <ComboBox
-      options={options}
-      parentClassName={parentClassName}
-      name={fieldName}
-      error={errors?.[fieldName]?.message?.toString()}
-      ref={ref}
-      value={value}
-      onChange={onChange}
-      setValue={setValue}
-      handleListOpen={handleListOpen}
-      dataForComboboxHandler={dataForComboboxHandler}
-      onInputClick={onInputClick}
-      isLoading={isLoading}
-      markedAsRequired={markedAsRequired}
-      disabled={disabled}
-    />
+      <ComboBox
+          options={options}
+          parentClassName={parentClassName}
+          name={fieldName}
+          error={errors?.[fieldName]?.message?.toString()}
+          ref={ref}
+          value={value}
+          onChange={onChange}
+          setValue={setValue}
+          handleListOpen={handleListOpen}
+          dataForComboboxHandler={dataForComboboxHandler}
+          onInputClick={onInputClick}
+          isLoading={isLoading}
+          markedAsRequired={markedAsRequired}
+          disabled={disabled}
+      />
   )
 }

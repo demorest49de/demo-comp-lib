@@ -1,7 +1,14 @@
 @layer utilities {
   .cursor-red-close {
     cursor:
-      url('/src/assets/components/Red-Close.svg') 12 12,
+      url('/src/assets/svg/Red-Close.svg') 12 12,
       not-allowed !important;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    background-color: var(--color-dark-500);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-dark-100);
   }
 }

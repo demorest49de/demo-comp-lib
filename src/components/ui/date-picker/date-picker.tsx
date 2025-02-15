@@ -42,9 +42,7 @@ export const DatePicker = forwardRef<FieldValues, DatePickerProps>(
     className,
       markedAsRequired = false,
     ...rest
-  },
-   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-   ref) => {
+  }) => {
     const isRange = endDate !== undefined
     const showError = !!errorMessage && errorMessage.length > 0
 
